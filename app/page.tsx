@@ -17,7 +17,7 @@ export default function Home() {
         {/* 背景画像 */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/street.jpg"
+            src="/images/street.jpeg"
             alt="名張の街道"
             fill
             className="object-cover"
