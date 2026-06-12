@@ -1,0 +1,105 @@
+const generations = [
+  {
+    number: "一",
+    year: "明治27年（1894年）",
+    name: "横山よしへ",
+    role: "乱歩を取り上げた人",
+    story: `乱歩の父・平井繁男は、名張で横山文圭の借家に住んでいた。横山よしへは、その家主の妻だった。\n\n明治27年、母・きくのお産で近所は大騒ぎになった。予定していた産婆が他のお産で間に合わなかった。よしへが、産婆の代わりに乱歩を取り上げた。\n\n乱歩は生後半年余りで、父の転勤とともに名張を離れた。乱歩に、名張の記憶はない。\n\nそれでも、この土地は乱歩が最初に息を吸った場所だ。よしへだけが、その瞬間を知っていた。`,
+  },
+  {
+    number: "二",
+    year: "昭和27年（1952年）",
+    name: "辻　せき",
+    role: "乱歩と対面した人",
+    story: `昭和27年9月27日。\n\n江戸川乱歩が、生まれ故郷・名張へ帰ってきた。その里帰りの場に立ち会ったのが、辻せきだった。\n\n乱歩は晩年、自分が生まれた土地のことを語るとき、いつも静かな表情になったという。せきはその眼差しを、生涯忘れなかった。`,
+  },
+  {
+    number: "三",
+    year: "昭和30年（1955年）",
+    name: "辻　安茂",
+    role: "碑を建てた人",
+    story: `昭和30年11月3日、除幕。\n\n辻安茂は、乱歩生誕地に碑を建てることを発起した。「この場所を、形として残さなければならない」という確信のもとに。\n\n碑は言葉ではなく、石だ。嵐が来ても、時代が変わっても、その場所に立ち続ける。安茂が選んだのは、そういう形の継承だった。`,
+  },
+  {
+    number: "四",
+    year: "平成——",
+    name: "辻　敬治",
+    role: "信頼を渡した人",
+    story: `乱歩の息子、平井隆太郎先生のもとを訪ねた。\n\n辻敬治は、先代から受け継いだものの重さを知っていた。だからこそ、それを次へ渡す前に、源流へ戻った。隆太郎先生と交わした言葉は記録されていないが、その訪問が「信頼の受け渡し」だったことは確かだ。\n\n継承とは、ただ物を引き継ぐことではない。関係を、引き継ぐことだ。`,
+  },
+  {
+    number: "五",
+    year: "現在",
+    name: "辻（五代目）",
+    role: "解体危機から再生した人",
+    story: `土地と建物が売りに出された。このまま何もしなければ、130年の記憶は消える。\n\n辻は買い取ることを決めた。\n\n簡単な決断ではなかった。それでも「ここで終わらせるわけにはいかない」という思いが、すべてに勝った。\n\n解体の危機を乗り越え、ミュージアムとして再生したこの場所に、今あなたは立っている。`,
+  },
+];
+
+export default function StoryPage() {
+  return (
+    <main className="min-h-screen">
+      {/* ヘッダー */}
+      <div className="py-20 px-8 text-center border-b border-[#d4c9b0]">
+        <a href="/" className="text-xs tracking-[0.3em] text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">
+          ← 戻る
+        </a>
+        <h1 className="mt-8 text-2xl font-light tracking-widest text-[var(--foreground)]">
+          五代の継承
+        </h1>
+        <p className="mt-6 text-sm text-[var(--muted)] leading-relaxed">
+          明治27年から現在まで。<br />
+          130年間、この記憶を守り続けた人々の物語。
+        </p>
+      </div>
+
+      {/* 五代の物語 */}
+      <div className="max-w-2xl mx-auto px-8 py-20 space-y-32">
+        {generations.map((gen, i) => (
+          <article key={i}>
+            <div className="flex items-baseline gap-6 mb-8">
+              <span className="text-4xl font-light text-[#d4c9b0]">{gen.number}</span>
+              <div>
+                <p className="text-xs tracking-[0.2em] text-[var(--muted)]">{gen.year}</p>
+                <h2 className="text-xl tracking-wider text-[var(--foreground)] mt-1">{gen.name}</h2>
+                <p className="text-sm text-[var(--muted)] mt-1">{gen.role}</p>
+              </div>
+            </div>
+            <div className="pl-14 border-l border-[#d4c9b0]">
+              {gen.story.split("\n\n").map((para, j) => (
+                <p key={j} className="text-base leading-[2.2] text-[var(--foreground)] mb-6 last:mb-0">
+                  {para}
+                </p>
+              ))}
+            </div>
+            {i < generations.length - 1 && (
+              <div className="mt-16 flex justify-center">
+                <div className="w-px h-12 bg-[#d4c9b0]" />
+              </div>
+            )}
+          </article>
+        ))}
+      </div>
+
+      {/* 締めくくり */}
+      <div className="border-t border-[#d4c9b0] py-24 px-8 text-center">
+        <p className="text-base text-[var(--muted)] leading-relaxed mb-16">
+          記憶は、特別な誰かによって守られるのではない。<br />
+          このサイトを訪れたあなたも、その連鎖の中にいる。
+        </p>
+        <a
+          href="/reserve"
+          className="inline-block bg-[var(--accent)] text-[var(--background)] px-12 py-4 text-sm tracking-[0.2em] hover:opacity-80 transition-opacity duration-300"
+        >
+          来館を予約する
+        </a>
+      </div>
+
+      <footer className="py-8 px-8 border-t border-[#d4c9b0] text-center">
+        <p className="text-xs text-[var(--muted)] tracking-widest">
+          江戸川乱歩生誕地ミュージアム ― 名張
+        </p>
+      </footer>
+    </main>
+  );
+}

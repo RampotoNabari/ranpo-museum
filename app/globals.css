@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f5f0e8;
+  --foreground: #1a1a1a;
+  --accent: #8b7355;
+  --muted: #9a8f7a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", "游明朝", Georgia, serif;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 1.8s ease-out forwards;
+}
+
+.fade-in-delay-1 {
+  opacity: 0;
+  animation: fadeIn 1.8s ease-out 0.8s forwards;
+}
+
+.fade-in-delay-2 {
+  opacity: 0;
+  animation: fadeIn 1.8s ease-out 1.6s forwards;
+}
+
+.fade-in-delay-3 {
+  opacity: 0;
+  animation: fadeIn 1.8s ease-out 2.4s forwards;
+}
