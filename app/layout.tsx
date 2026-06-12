@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Header from "./components/Header";
 
 export const metadata: Metadata = {
   title: "江戸川乱歩生誕地ミュージアム",
@@ -14,6 +15,7 @@ export default function RootLayout({
   return (
     <html lang="ja" className="h-full">
       <body className="min-h-full flex flex-col bg-[var(--background)] text-[var(--foreground)]">
+        <Header />
         {children}
       </body>
     </html>
