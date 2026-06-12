@@ -4,7 +4,7 @@ import { useState } from "react";
 import { schedule, prefectures } from "./schedule";
 
 // ここにFormspreeのIDを入れてください（設定後に更新します）
-const FORMSPREE_ID = "YOUR_FORM_ID";
+const FORMSPREE_ID = "mdavwbwa";
 
 export default function ReservePage() {
   const [submitted, setSubmitted] = useState(false);
