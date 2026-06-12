@@ -44,6 +44,7 @@ export default function ReservePage() {
     setSubmitting(true);
 
     const payload = {
+      "_subject": "【来館予約】" + form.name + "様 " + form.date + " " + selectedTime,
       "【お名前】": form.name,
       "【メールアドレス】": form.email,
       "【希望日】": form.date,
