@@ -55,12 +55,12 @@ export default function RampoPage() {
         </section>
 
         {/* 五十七年後 */}
-        <section className="mb-24">
+        <section className="mb-16">
           <p className="text-xs tracking-[0.4em] text-[var(--muted)] mb-8">昭和二十七年（一九五二年）九月</p>
           <h2 className="text-xl font-light tracking-wider text-[var(--foreground)] mb-10">
             五十七年ぶりの帰還
           </h2>
-          <div className="border-l-2 border-[#d4c9b0] pl-8 space-y-6">
+          <div className="border-l-2 border-[#d4c9b0] pl-8 space-y-6 mb-12">
             <p className="text-base leading-[2.4] text-[var(--foreground)]">
               乱歩が名張へ帰ってきたのは、生まれてから五十七年後のことだった。
               すでに日本ミステリー文学の父として名を馳せた乱歩が、
@@ -69,30 +69,36 @@ export default function RampoPage() {
             <p className="text-base leading-[2.4] text-[var(--foreground)]">
               名張の人々は乱歩を温かく迎えた。
               町を歩き、旧い家並みを眺め、桝田医院の跡地に立った。
-              乱歩はそこで初めて、自分が生まれた場所を「発見」した。
-            </p>
-            <p className="text-base leading-[2.4] text-[var(--foreground)]">
-              この訪問の記録を、乱歩は「ふるさと発見記」として後に記している。
               辻家も訪問し、辻せきと対面した。
             </p>
           </div>
+          <div className="grid grid-cols-2 gap-2 mb-2">
+            <div className="relative w-full aspect-[3/4] overflow-hidden">
+              <Image src="/images/rampo-alley.jpg" alt="路地に立つ乱歩" fill className="object-cover" />
+            </div>
+            <div className="relative w-full aspect-[3/4] overflow-hidden">
+              <Image src="/images/rampo-roof.jpg" alt="屋根を見上げる乱歩" fill className="object-cover" />
+            </div>
+            <div className="relative w-full aspect-[4/3] overflow-hidden">
+              <Image src="/images/rampo-clinic.jpg" alt="桝田医院前の乱歩" fill className="object-cover" />
+            </div>
+            <div className="relative w-full aspect-[4/3] overflow-hidden">
+              <Image src="/images/rampo-river.jpg" alt="名張川のほとりの乱歩" fill className="object-cover" />
+            </div>
+          </div>
+          <p className="text-xs text-[var(--muted)] text-center mb-24">昭和二十七年九月、五十七年ぶりの名張</p>
         </section>
 
         {/* 碑の建立 */}
-        <section className="mb-24">
+        <section className="mb-16">
           <p className="text-xs tracking-[0.4em] text-[var(--muted)] mb-8">昭和三十年（一九五五年）十一月三日</p>
           <h2 className="text-xl font-light tracking-wider text-[var(--foreground)] mb-10">
             生誕地碑、除幕
           </h2>
-          <div className="relative w-full aspect-[4/3] mb-10">
-            <Image
-              src="/images/monument.png"
-              alt="江戸川乱歩生誕地碑"
-              fill
-              className="object-contain"
-            />
+          <div className="relative w-full aspect-[4/3] mb-10 overflow-hidden">
+            <Image src="/images/monument.png" alt="江戸川乱歩生誕地碑" fill className="object-contain" />
           </div>
-          <div className="border-l-2 border-[#d4c9b0] pl-8 space-y-6">
+          <div className="border-l-2 border-[#d4c9b0] pl-8 space-y-6 mb-12">
             <p className="text-base leading-[2.4] text-[var(--foreground)]">
               乱歩の名張訪問のことを知った町の人々が動いた。
               発起人は書店主・岡村繁次郎を筆頭に、自転車販売店、造り酒屋、旅館の主人、
@@ -100,15 +106,27 @@ export default function RampoPage() {
               名張市で生業を営む人々が、自発的に碑の建立を計画した。
             </p>
             <p className="text-base leading-[2.4] text-[var(--foreground)]">
-              乱歩は最初、「医院の邸内に碑を建てるなんてご迷惑な話」と辞退した。
-              しかし医院の主も発起人であり、少しも迷惑ではないということで、結局承諾した。
-            </p>
-            <p className="text-base leading-[2.4] text-[var(--foreground)]">
               碑石は名張川の川上から運んだ御影石の自然石。
               表面には「江戸川乱歩生誕地」と縦に彫られ、
               上部には乱歩自身が揮毫した「幻影城」の文字。
               裏面には乱歩が選んだ句が刻まれた。
             </p>
+          </div>
+          <div className="relative w-full aspect-[4/3] overflow-hidden mb-2">
+            <Image src="/images/ceremony-wide.jpg" alt="除幕式の全景" fill className="object-cover" />
+          </div>
+          <p className="text-xs text-[var(--muted)] text-center mb-4">除幕式全景。日本探偵作家クラブ、東京作家クラブから花輪が届いた</p>
+          <div className="grid grid-cols-2 gap-2 mb-2">
+            <div className="relative w-full aspect-[3/4] overflow-hidden">
+              <Image src="/images/ceremony-group.jpeg" alt="除幕式の集合写真" fill className="object-cover" />
+            </div>
+            <div className="relative w-full aspect-[3/4] overflow-hidden">
+              <Image src="/images/rampo-laughing.jpg" alt="除幕式で笑う乱歩" fill className="object-cover" />
+            </div>
+          </div>
+          <p className="text-xs text-[var(--muted)] text-center mb-4">碑の前で。右は宴席で大笑いする乱歩</p>
+          <div className="relative w-full aspect-[3/4] overflow-hidden mb-12">
+            <Image src="/images/rampo-meal.jpg" alt="宴席の乱歩" fill className="object-cover" />
           </div>
         </section>
 
@@ -122,23 +140,6 @@ export default function RampoPage() {
           <p className="text-xs text-[var(--muted)] mt-6">― 江戸川乱歩</p>
         </section>
 
-        {/* 除幕式 */}
-        <section className="mb-24">
-          <div className="border-l-2 border-[#d4c9b0] pl-8 space-y-6">
-            <p className="text-base leading-[2.4] text-[var(--foreground)]">
-              昭和三十年十一月三日、除幕式が行われた。
-              除幕の綱は市長のお嬢さんによって引かれ、
-              桝田医師のお嬢さんが乱歩に花束を贈った。
-              祝電は九十余通。三重県知事、川崎厚生大臣、
-              探偵作家クラブの仲間たちから届いた。
-            </p>
-            <p className="text-base leading-[2.4] text-[var(--foreground)]">
-              翌日、乱歩は地元の中学校、警察署、高等学校で探偵小説の講演を行った。
-              大講堂一杯の生徒が熱心に聞いた。
-            </p>
-          </div>
-        </section>
-
         {/* 乱歩の言葉 */}
         <section className="py-16 px-8 bg-[#1a1a1a] text-center mb-24 -mx-8">
           <p className="text-xs tracking-[0.4em] text-white/30 mb-10">
@@ -150,10 +151,59 @@ export default function RampoPage() {
             こういう好意を見せて下さったのは、<br className="hidden md:block" />
             実にありがたいことだと思っている。」
           </blockquote>
-          <p className="text-xs text-white/40 leading-loose">
-            市の企画でも、個人の金持の企画でもなく、<br />
-            町の人々が、自発的に。
-          </p>
+        </section>
+
+        {/* 講演 */}
+        <section className="mb-16">
+          <p className="text-xs tracking-[0.4em] text-[var(--muted)] mb-8">昭和三十年十一月四日</p>
+          <h2 className="text-xl font-light tracking-wider text-[var(--foreground)] mb-10">
+            名張の子どもたちへ
+          </h2>
+          <div className="border-l-2 border-[#d4c9b0] pl-8 space-y-6 mb-12">
+            <p className="text-base leading-[2.4] text-[var(--foreground)]">
+              翌日、乱歩は地元の中学校、警察署、高等学校で探偵小説の講演を行った。
+              大講堂一杯の生徒が熱心に聞いた。
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-2 mb-2">
+            <div className="relative w-full aspect-[3/4] overflow-hidden">
+              <Image src="/images/rampo-lecture.jpeg" alt="講演する乱歩" fill className="object-cover" />
+            </div>
+            <div className="relative w-full aspect-[3/4] overflow-hidden">
+              <Image src="/images/rampo-kids.jpeg" alt="子どもたちへの講演" fill className="object-cover" />
+            </div>
+          </div>
+          <p className="text-xs text-[var(--muted)] text-center mb-24">名張の学校での講演めぐり</p>
+        </section>
+
+        {/* 香落渓 */}
+        <section className="mb-16">
+          <p className="text-xs tracking-[0.4em] text-[var(--muted)] mb-8">昭和三十年十一月五日</p>
+          <h2 className="text-xl font-light tracking-wider text-[var(--foreground)] mb-10">
+            香落渓、そして帰路へ
+          </h2>
+          <div className="border-l-2 border-[#d4c9b0] pl-8 space-y-6 mb-12">
+            <p className="text-base leading-[2.4] text-[var(--foreground)]">
+              最終日、乱歩夫妻は香落渓を訪れた。
+              16ミリカメラを手に、名張の山と渓谷を記録した。
+              これが乱歩の名張最後の記憶となった。
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-2 mb-2">
+            <div className="relative w-full aspect-[3/4] overflow-hidden">
+              <Image src="/images/rampo-kaouchi-1.jpeg" alt="香落渓の乱歩" fill className="object-cover" />
+            </div>
+            <div className="relative w-full aspect-[3/4] overflow-hidden">
+              <Image src="/images/rampo-kaouchi-2.jpeg" alt="香落渓の乱歩" fill className="object-cover" />
+            </div>
+            <div className="relative w-full aspect-[3/4] overflow-hidden">
+              <Image src="/images/rampo-filming.jpg" alt="16ミリカメラで撮影する乱歩" fill className="object-cover" />
+            </div>
+            <div className="relative w-full aspect-[3/4] overflow-hidden">
+              <Image src="/images/rampo-kaouchi-color.jpeg" alt="香落渓にて" fill className="object-cover" />
+            </div>
+          </div>
+          <p className="text-xs text-[var(--muted)] text-center mb-8">香落渓にて。このあと乱歩夫妻は帰路についた</p>
         </section>
 
         {/* 現在へ */}
