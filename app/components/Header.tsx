@@ -17,6 +17,12 @@ export default function Header() {
 
       {/* デスクトップナビ */}
       <nav className="hidden md:flex gap-10">
+        <Link href="/museum" className={`text-xs tracking-[0.25em] hover:opacity-60 transition-opacity ${isHome ? "text-white/70" : "text-[var(--muted)]"}`}>
+          ミュージアム
+        </Link>
+        <Link href="/rampo" className={`text-xs tracking-[0.25em] hover:opacity-60 transition-opacity ${isHome ? "text-white/70" : "text-[var(--muted)]"}`}>
+          乱歩
+        </Link>
         <Link href="/story" className={`text-xs tracking-[0.25em] hover:opacity-60 transition-opacity ${isHome ? "text-white/70" : "text-[var(--muted)]"}`}>
           物語
         </Link>
@@ -36,6 +42,12 @@ export default function Header() {
       {/* モバイルメニュー */}
       {menuOpen && (
         <div className="absolute top-full left-0 right-0 bg-[var(--background)] border-b border-[#d4c9b0] py-8 flex flex-col items-center gap-8 md:hidden">
+          <Link href="/museum" className="text-xs tracking-[0.3em] text-[var(--muted)] hover:text-[var(--foreground)] transition-colors" onClick={() => setMenuOpen(false)}>
+            ミュージアム
+          </Link>
+          <Link href="/rampo" className="text-xs tracking-[0.3em] text-[var(--muted)] hover:text-[var(--foreground)] transition-colors" onClick={() => setMenuOpen(false)}>
+            乱歩
+          </Link>
           <Link href="/story" className="text-xs tracking-[0.3em] text-[var(--muted)] hover:text-[var(--foreground)] transition-colors" onClick={() => setMenuOpen(false)}>
             物語
           </Link>
