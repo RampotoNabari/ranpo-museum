@@ -2,6 +2,7 @@ const rooms = [
   {
     name: "乱歩サロン「二銭銅貨」",
     description: "乱歩の世界観を体感するエントランスサロン。乱歩の代表作「二銭銅貨」から名をとった。",
+    note: "（命名：マフィア梶田氏）",
     image: "/images/room-tatami.jpeg",
   },
   {
@@ -80,7 +81,7 @@ export default function MuseumPage() {
           <p className="text-xs tracking-[0.4em] text-[var(--muted)] mb-8">来館体験について</p>
           <div className="border-l-2 border-[#d4c9b0] pl-8 space-y-6">
             <p className="text-base leading-[2.4] text-[var(--foreground)]">
-              完全予約制。少人数。約九十分。
+              完全予約制。少人数。約六十分。
             </p>
             <p className="text-base leading-[2.4] text-[var(--foreground)]">
               予約の瞬間から、展示は始まっています。
@@ -116,6 +117,9 @@ export default function MuseumPage() {
                 <p className="text-sm leading-[2.2] text-[var(--muted)]">
                   {room.description}
                 </p>
+                {"note" in room && room.note && (
+                  <p className="text-xs text-[var(--muted)] opacity-60 mt-2">{room.note}</p>
+                )}
               </div>
             ))}
           </div>
