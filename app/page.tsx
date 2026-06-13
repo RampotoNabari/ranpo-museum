@@ -28,7 +28,7 @@ export default function Home() {
 
         {/* テキスト */}
         <div className="relative z-10 flex flex-col items-center">
-          <p className="fade-in text-xs tracking-[0.4em] text-white/50 mb-20">
+          <p className="fade-in text-sm tracking-[0.3em] text-white/80 mb-20">
             明治二十七年　名張　― 百三十年の記憶
           </p>
 
