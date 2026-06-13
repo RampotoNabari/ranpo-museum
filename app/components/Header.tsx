@@ -26,6 +26,9 @@ export default function Header() {
         <Link href="/story" className={`text-xs tracking-[0.25em] hover:opacity-60 transition-opacity ${isHome ? "text-white/70" : "text-[var(--muted)]"}`}>
           物語
         </Link>
+        <Link href="/access" className={`text-xs tracking-[0.25em] hover:opacity-60 transition-opacity ${isHome ? "text-white/70" : "text-[var(--muted)]"}`}>
+          アクセス
+        </Link>
         <Link href="/reserve" className={`text-xs tracking-[0.25em] hover:opacity-60 transition-opacity ${isHome ? "text-white/70" : "text-[var(--muted)]"}`}>
           予約
         </Link>
@@ -50,6 +53,9 @@ export default function Header() {
           </Link>
           <Link href="/story" className="text-xs tracking-[0.3em] text-[var(--muted)] hover:text-[var(--foreground)] transition-colors" onClick={() => setMenuOpen(false)}>
             物語
+          </Link>
+          <Link href="/access" className="text-xs tracking-[0.3em] text-[var(--muted)] hover:text-[var(--foreground)] transition-colors" onClick={() => setMenuOpen(false)}>
+            アクセス
           </Link>
           <Link href="/reserve" className="text-xs tracking-[0.3em] text-[var(--muted)] hover:text-[var(--foreground)] transition-colors" onClick={() => setMenuOpen(false)}>
             予約

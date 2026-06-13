@@ -2,28 +2,36 @@ const rooms = [
   {
     name: "乱歩サロン「二銭銅貨」",
     description: "乱歩の世界観を体感するエントランスサロン。乱歩の代表作「二銭銅貨」から名をとった。",
+    image: "/images/room-tatami.jpeg",
   },
   {
     name: "赤い部屋",
     description: "乱歩の短編小説「赤い部屋」の世界を体感する空間。名張の廃病院という環境を最大に生かした展示。",
+    image: "/images/room-red.jpeg",
   },
   {
     name: "明智探偵事務所",
     description: "名探偵・明智小五郎の事務所を再現。乱歩作品の世界に没入できる展示室。",
+    image: "/images/room-akachi-office.jpeg",
   },
   {
     name: "明智小五郎の部屋",
     description: "乱歩が生み出した日本最初の名探偵、明智小五郎の生活空間を再現した部屋。",
+    image: "/images/room-akachi.jpeg",
   },
   {
     name: "手術室",
     description: "昔の医療器具がそのまま残る旧桝田医院の手術室。時間が止まったような空間に、乱歩の世界観が重なる。",
+    image: null,
   },
   {
     name: "X線室（映写室）",
     description: "旧X線室を改装した映写室。乱歩自身が持参した16ミリカメラで撮影した、70年前の名張の映像を上映。立教大学大衆文化研究センターより借用。",
+    image: null,
   },
 ];
+
+import Image from "next/image";
 
 export default function MuseumPage() {
   return (
@@ -89,9 +97,19 @@ export default function MuseumPage() {
         {/* 展示室 */}
         <section className="mb-24">
           <p className="text-xs tracking-[0.4em] text-[var(--muted)] mb-12 text-center">展示室</p>
-          <div className="space-y-10">
+          <div className="space-y-16">
             {rooms.map((room, i) => (
-              <div key={i} className="border-b border-[#e8e0d0] pb-10 last:border-0">
+              <div key={i} className="border-b border-[#e8e0d0] pb-16 last:border-0">
+                {room.image && (
+                  <div className="relative w-full aspect-[4/3] mb-8 overflow-hidden">
+                    <Image
+                      src={room.image}
+                      alt={room.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                )}
                 <h3 className="text-base tracking-wider text-[var(--foreground)] mb-3">
                   {room.name}
                 </h3>
