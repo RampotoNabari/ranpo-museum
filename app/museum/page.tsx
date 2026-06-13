@@ -23,7 +23,8 @@ const rooms = [
   {
     name: "手術室",
     description: "昔の医療器具がそのまま残る旧桝田医院の手術室。時間が止まったような空間に、乱歩の世界観が重なる。",
-    image: null,
+    image: "/images/room-surgery-1.jpeg",
+    extraImages: ["/images/room-surgery-2.jpeg", "/images/room-surgery-3.jpeg"],
   },
   {
     name: "X線室（映写室）",
@@ -102,13 +103,19 @@ export default function MuseumPage() {
             {rooms.map((room, i) => (
               <div key={i} className="border-b border-[#e8e0d0] pb-16 last:border-0">
                 {room.image && (
-                  <div className="relative w-full aspect-[4/3] mb-8 overflow-hidden">
-                    <Image
-                      src={room.image}
-                      alt={room.name}
-                      fill
-                      className="object-cover"
-                    />
+                  <div className="mb-8 space-y-2">
+                    <div className="relative w-full aspect-[4/3] overflow-hidden">
+                      <Image src={room.image} alt={room.name} fill className="object-cover" />
+                    </div>
+                    {"extraImages" in room && room.extraImages && (
+                      <div className="grid grid-cols-2 gap-2">
+                        {(room.extraImages as string[]).map((src, j) => (
+                          <div key={j} className="relative w-full aspect-[4/3] overflow-hidden">
+                            <Image src={src} alt={`${room.name} ${j + 2}`} fill className="object-cover" />
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )}
                 <h3 className="text-base tracking-wider text-[var(--foreground)] mb-3">
