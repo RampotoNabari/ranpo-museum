@@ -216,7 +216,7 @@ export default function Home() {
           予約の瞬間から、展示は始まっている
         </p>
         <p className="text-sm leading-[2.4] text-[var(--muted)] max-w-sm mx-auto mb-16">
-          完全予約制。少人数。約九十分。
+          完全予約制。少人数。約六十分。
           <br />
           この場所に宿る記憶の連鎖に、
           <br />
