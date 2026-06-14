@@ -7,6 +7,7 @@ const CREDITS_DURATION = 40000; // 40秒（1.5倍速）
 export default function NabariPage() {
   const dawnBgRef = useRef<HTMLDivElement>(null);
   const alleyBgRef = useRef<HTMLDivElement>(null);
+  const seifuteiBgRef = useRef<HTMLDivElement>(null);
   const snapContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -15,6 +16,16 @@ export default function NabariPage() {
 
     // パララックス：スナップコンテナのスクロールで背景が動く
     const handleParallax = () => {
+      const scrollTop = container.scrollTop;
+      const vh = window.innerHeight;
+
+      // 2枚目背景：1→2遷移時に下からせり上がる
+      if (seifuteiBgRef.current) {
+        const progress = Math.min(1, scrollTop / vh); // 0〜1
+        const offset = (1 - progress) * 80;
+        seifuteiBgRef.current.style.transform = `scale(1.08) translateY(${offset}px)`;
+      }
+
       if (dawnBgRef.current) {
         const rect = dawnBgRef.current.parentElement!.getBoundingClientRect();
         const offset = rect.top * 0.35;
@@ -215,12 +226,18 @@ export default function NabariPage() {
       {/* 清風亭の夜 */}
       <div id="next-section" className="relative snap-start flex-shrink-0">
         <div className="absolute inset-0 overflow-hidden">
+          <div
+            ref={seifuteiBgRef}
+            className="absolute inset-0"
+            style={{ transform: "scale(1.08) translateY(80px)", willChange: "transform" }}
+          >
           <Image
             src="/images/seifutei-lantern.jpeg"
             alt="清風亭の行燈"
             fill
             className="object-cover object-center"
           />
+          </div>
           <div className="absolute inset-0 bg-black/60" />
           <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
           <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 50% 45% at 50% 50%, transparent 0%, rgba(0,0,0,0.85) 100%)" }} />
