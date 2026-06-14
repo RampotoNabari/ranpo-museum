@@ -121,10 +121,10 @@ export default function NabariPage() {
           if (entry.isIntersecting) {
             document.querySelectorAll<HTMLElement>(".hiawai-fade").forEach((el, i) => {
               setTimeout(() => {
-                el.style.transition = "opacity 3s cubic-bezier(0.25, 0, 0.5, 1), transform 3s cubic-bezier(0.25, 0, 0.5, 1)";
+                el.style.transition = "opacity 3s cubic-bezier(0.25, 0, 0.5, 1), transform 3.5s cubic-bezier(0.25, 0, 0.5, 1)";
                 el.style.opacity = "1";
                 el.style.transform = "translateY(0)";
-              }, i * 1000);
+              }, i * 1200);
             });
             hiawaiObserver.disconnect();
           }
@@ -318,23 +318,23 @@ export default function NabariPage() {
         </div>
         <div className="relative h-screen overflow-hidden flex flex-col items-center justify-center px-8 text-center">
           <div className="text-xl leading-[2.4] tracking-wider text-white/60 mb-2 text-center">
-            <span className="block">ただの「生まれた町」が、</span>
-            <span className="block">この日、</span>
-            <span className="block">切っても切れない</span>
+            <span className="hiawai-fade block" style={{ opacity: 0, transform: 'translateY(20px)' }}>ただの「生まれた町」が、</span>
+            <span className="hiawai-fade block" style={{ opacity: 0, transform: 'translateY(20px)' }}>この日、</span>
+            <span className="hiawai-fade block" style={{ opacity: 0, transform: 'translateY(20px)' }}>切っても切れない</span>
           </div>
-          <p className="text-2xl md:text-3xl font-light tracking-widest text-white mb-8">
+          <p className="hiawai-fade text-2xl md:text-3xl font-light tracking-widest text-white mb-8" style={{ opacity: 0, transform: 'translateY(20px)' }}>
             「故郷」になった。
           </p>
           <div className="text-xl leading-[2.4] tracking-wider text-white/60 mb-6 text-center">
-            <span className="block">生誕の地をひっそりと守り続け、</span>
-            <span className="block">熱を込めて自分を迎えてくれる</span>
-            <span className="block">名張の人々の眼差し。</span>
+            <span className="hiawai-fade block" style={{ opacity: 0, transform: 'translateY(20px)' }}>生誕の地をひっそりと守り続け、</span>
+            <span className="hiawai-fade block" style={{ opacity: 0, transform: 'translateY(20px)' }}>熱を込めて自分を迎えてくれる</span>
+            <span className="hiawai-fade block" style={{ opacity: 0, transform: 'translateY(20px)' }}>名張の人々の眼差し。</span>
           </div>
           <div className="text-xl leading-[2.4] tracking-wider text-white/60 text-center">
-            <span className="block">彼らの存在こそが、</span>
-            <span className="block">乱歩の心に</span>
-            <span className="block">本当の「ふるさと」を</span>
-            <span className="block">創り出したのだ。</span>
+            <span className="hiawai-fade block" style={{ opacity: 0, transform: 'translateY(20px)' }}>彼らの存在こそが、</span>
+            <span className="hiawai-fade block" style={{ opacity: 0, transform: 'translateY(20px)' }}>乱歩の心に</span>
+            <span className="hiawai-fade block" style={{ opacity: 0, transform: 'translateY(20px)' }}>本当の「ふるさと」を</span>
+            <span className="hiawai-fade block" style={{ opacity: 0, transform: 'translateY(20px)' }}>創り出したのだ。</span>
           </div>
 
         </div>
