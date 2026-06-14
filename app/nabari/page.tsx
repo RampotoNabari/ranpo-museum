@@ -12,16 +12,39 @@ export default function NabariPage() {
     const container = snapRef.current;
     if (!container) return;
 
-    // ─── 1枚目→2枚目：背景上昇＋スクロールを同時起動（40秒後） ───
+    // ─── 1枚目→2枚目：スナップ解除→JS同期スクロール＋背景上昇（40秒後） ───
+    const TRANSITION_DURATION = 2000; // 2秒（背景上昇とスクロールを完全同期）
+
     const timer = setTimeout(() => {
-      // 背景を2秒かけてゆっくり競り上げる（ページ遷移と完全同期）
-      if (seifuteiBgRef.current) {
-        seifuteiBgRef.current.style.transition = "transform 2s linear";
-        seifuteiBgRef.current.style.transform = "scale(1.12) translateY(0px)";
-      }
-      // 同時に smooth scroll でページを2枚目へ移動
       const s2 = document.getElementById("section-2");
-      if (s2) container.scrollTo({ top: s2.offsetTop, behavior: "smooth" });
+      if (!s2 || !seifuteiBgRef.current) return;
+
+      // ① スナップを一時解除（この間はJS制御で滑らかに動く）
+      container.style.scrollSnapType = "none";
+
+      // ② 背景を同じ2秒で上昇
+      seifuteiBgRef.current.style.transition = `transform ${TRANSITION_DURATION}ms cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
+      seifuteiBgRef.current.style.transform = "scale(1.12) translateY(0px)";
+
+      // ③ JSカスタムスクロール（easeInOut 2秒）
+      const startTop = container.scrollTop;
+      const endTop = s2.offsetTop;
+      const startTime = performance.now();
+
+      const animateScroll = (now: number) => {
+        const elapsed = now - startTime;
+        const t = Math.min(elapsed / TRANSITION_DURATION, 1);
+        // easeInOutCubic
+        const ease = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        container.scrollTop = startTop + (endTop - startTop) * ease;
+        if (t < 1) {
+          requestAnimationFrame(animateScroll);
+        } else {
+          // ④ スクロール完了後にスナップを再有効化
+          container.style.scrollSnapType = "y mandatory";
+        }
+      };
+      requestAnimationFrame(animateScroll);
     }, CREDITS_DURATION);
 
     const observerOpts = { root: container, threshold: 0.1 };
