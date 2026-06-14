@@ -58,6 +58,13 @@ export default function NabariPage() {
                   l2.style.opacity = "1";
                 }
               }, 2000);
+              // フィナーレから5秒後に3枚目へ自動移動
+              setTimeout(() => {
+                const dawn = document.getElementById("dawn-section");
+                if (dawn && container) {
+                  container.scrollTo({ top: dawn.offsetTop, behavior: "smooth" });
+                }
+              }, 6000);
             }, 37000);
             observer.disconnect();
           }
