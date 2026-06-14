@@ -317,10 +317,12 @@ export default function NabariPage() {
           <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 50% 45% at 50% 50%, transparent 0%, rgba(0,0,0,0.85) 100%)" }} />
         </div>
         <div className="relative h-screen overflow-hidden flex flex-col items-center justify-center px-8 text-center">
-          <p className="text-xl leading-[2.8] tracking-wider text-white/90 mb-6">
+          <p className="text-xl leading-[2.8] tracking-wider text-white/60 mb-2">
             <span className="inline-block">ただの「生まれた町」が、</span>
             <span className="inline-block">この日、切っても切れない</span>
-            <span className="inline-block">「故郷」になった。</span>
+          </p>
+          <p className="text-4xl md:text-6xl font-light tracking-widest text-white mb-8">
+            「故郷」になった。
           </p>
           <p className="text-xl leading-[2.8] tracking-wider text-white/60 mb-6">
             <span className="inline-block">生誕の地をひっそりと守り続け、</span>
