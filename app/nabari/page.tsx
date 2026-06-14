@@ -71,25 +71,36 @@ export default function NabariPage() {
       </div>
 
       {/* 清風亭の夜 */}
-      <div id="next-section" className="bg-[#1a1a1a] py-32 px-8">
+      <div id="next-section" className="relative">
+        <div className="absolute inset-0 overflow-hidden">
+          <Image
+            src="/images/seifutei-lantern.jpeg"
+            alt="清風亭の行燈"
+            fill
+            className="object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-black/80" />
+        </div>
+        <div className="relative py-40 px-8">
         <div className="max-w-lg mx-auto text-center">
-          <p className="text-xs tracking-[0.4em] text-white/30 mb-16">九月二十六日　夜　清風亭</p>
-          <p className="text-sm leading-[3] text-white/60 mb-16">
+          <p className="text-sm tracking-[0.5em] text-white/30 mb-16">九月二十六日　夜　清風亭</p>
+          <p className="text-base leading-[3] tracking-wider text-white/60 mb-16">
             名張川に面した旅館の欄干にもたれかかり、<br />
             川の瀬音を聞きながら、乱歩はぼんやりと夜空を見上げていた。
           </p>
-          <p className="text-base leading-[3] tracking-wider text-white/40 mb-8">そこに、客があった。</p>
-          <blockquote className="text-xl font-light tracking-widest text-white/90 leading-[2.2]">
+          <p className="text-lg leading-[3] tracking-wider text-white/40 mb-10">そこに、客があった。</p>
+          <blockquote className="text-2xl font-light tracking-widest text-white/90 leading-[2.4]">
             「先生の生まれた家を、<br />
             私が知っているのです」
           </blockquote>
-          <p className="text-xs text-white/30 mt-10 tracking-wider">
+          <p className="text-sm text-white/30 mt-12 tracking-wider">
             本町の書店主　岡村繁次郎
           </p>
-          <div className="mt-16 text-sm leading-[2.8] text-white/50 text-left">
+          <div className="mt-20 text-base leading-[3] text-white/50 text-left">
             <p>乱歩の顔に、一瞬、ただごとでない色がはしった。</p>
-            <p className="mt-6">昭和十二年、旅の途中に名張駅で降りて、生家を求めてさまよったことがある。そのときは見つけられなかった。幻のように脳裡につきまとっていた生家が、翌朝ついに姿を現そうとしていた。</p>
+            <p className="mt-8">昭和十二年、旅の途中に名張駅で降りて、生家を求めてさまよったことがある。そのときは見つけられなかった。幻のように脳裡につきまとっていた生家が、翌朝ついに姿を現そうとしていた。</p>
           </div>
+        </div>
         </div>
       </div>
 
