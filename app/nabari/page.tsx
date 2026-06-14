@@ -241,113 +241,62 @@ export default function NabariPage() {
         </div>
       </div>
 
-      {/* ① 夜明け前の沈黙 ― パララックス＋ヴィネット＋劇的フェードイン */}
-      <div id="dawn-section" className="relative h-screen snap-start overflow-hidden flex-shrink-0">
-        {/* パララックス背景 */}
-        <div
-          ref={dawnBgRef}
-          className="absolute inset-0"
-          style={{ transform: "scale(1.15) translateY(0px)", willChange: "transform" }}
-        >
+      {/* 3枚目：夜明け */}
+      <div id="dawn-section" className="relative snap-start flex-shrink-0">
+        <div className="absolute inset-0 overflow-hidden">
           <Image
             src="/images/seifutei-exterior.jpeg"
             alt="清風亭の外観"
             fill
             className="object-cover object-center"
           />
+          <div className="absolute inset-0 bg-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
+          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 50% 45% at 50% 50%, transparent 0%, rgba(0,0,0,0.85) 100%)" }} />
         </div>
-
-        {/* 多層ヴィネット：上下を完全な闇に、中心は明るめ */}
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
-        <div
-          className="absolute inset-0"
-          style={{
-            background: "radial-gradient(ellipse 55% 45% at 50% 50%, transparent 0%, rgba(0,0,0,0.55) 100%)"
-          }}
-        />
-
-        {/* テキスト：闇の底から浮かび上がる */}
-        <div className="relative h-full flex flex-col items-center justify-center px-8 text-center">
-          <p
-            className="dawn-fade text-xs tracking-[0.6em] mb-10"
-            style={{ color: '#c04444', opacity: 0, transform: 'translateY(24px) scale(0.97)' }}
-          >
-            昭和二十七年　九月二十七日　暁
-          </p>
-          <p
-            className="dawn-fade text-lg md:text-2xl font-light tracking-widest text-[#f0ebe0] leading-[2.6] mb-10"
-            style={{ opacity: 0, transform: 'translateY(28px) scale(0.97)' }}
-          >
+        <div className="relative h-screen overflow-hidden flex flex-col items-center justify-center px-8 text-center">
+          <p className="text-base tracking-[0.4em] mb-8" style={{ color: '#c04444' }}>昭和二十七年　九月二十七日　暁</p>
+          <p className="text-xl leading-[2.8] tracking-wider text-white/90 mb-6">
             <span className="inline-block">清風亭の夜が明け、</span>
             <span className="inline-block">名張の町が動き出す。</span>
           </p>
-          <p
-            className="dawn-fade text-base md:text-lg font-light tracking-wider text-[#f0ebe0]/80 leading-[2.8] mb-10"
-            style={{ opacity: 0, transform: 'translateY(24px) scale(0.97)' }}
-          >
+          <p className="text-xl leading-[2.8] tracking-wider text-white/60 mb-6">
             <span className="inline-block">五十七年の歳月を経て、</span>
             <span className="inline-block">ひっそりと守られてきた</span>
             <span className="inline-block">生誕の地へ。</span>
           </p>
-          <p
-            className="dawn-fade text-base md:text-lg font-light tracking-wider text-[#f0ebe0] leading-[2.8]"
-            style={{ opacity: 0, transform: 'translateY(24px) scale(0.97)' }}
-          >
-            <span className="inline-block">乱歩にとっては</span>
+          <p className="text-xl leading-[2.8] tracking-wider text-white/60">
+            <span className="inline-block">Rampoにとっては</span>
             <span className="inline-block">『ふるさと発見』の朝であった。</span>
           </p>
         </div>
       </div>
 
-      {/* ④ ふるさとの創造 */}
-      <div id="hiawai-section" className="relative h-screen snap-start overflow-hidden flex-shrink-0">
-        {/* 背景：ひあわいの路地 */}
-        <div
-          ref={null}
-          className="absolute inset-0"
-          style={{ willChange: "transform" }}
-        >
+      {/* 4枚目：ふるさとの創造 */}
+      <div id="hiawai-section" className="relative snap-start flex-shrink-0">
+        <div className="absolute inset-0 overflow-hidden">
           <Image
             src="/images/nabari-hiawai.jpeg"
             alt="生誕地に続く路地（ひあわい）"
             fill
             className="object-cover object-center"
           />
+          <div className="absolute inset-0 bg-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
+          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 50% 45% at 50% 50%, transparent 0%, rgba(0,0,0,0.85) 100%)" }} />
         </div>
-
-        {/* 多層ヴィネット */}
-        <div className="absolute inset-0 bg-black/70" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
-        <div
-          className="absolute inset-0"
-          style={{
-            background: "radial-gradient(ellipse 65% 55% at 50% 50%, transparent 0%, rgba(0,0,0,0.65) 100%)"
-          }}
-        />
-
-        {/* テキスト */}
-        <div className="relative h-full flex flex-col items-center justify-center px-8 text-center">
-          <p
-            className="hiawai-fade text-xl md:text-3xl font-light tracking-widest text-[#f0ebe0] leading-[2.6] mb-10"
-            style={{ opacity: 0, transform: 'translateY(28px)' }}
-          >
+        <div className="relative h-screen overflow-hidden flex flex-col items-center justify-center px-8 text-center">
+          <p className="text-xl leading-[2.8] tracking-wider text-white/90 mb-6">
             <span className="inline-block">ただの「生まれた町」が、</span>
             <span className="inline-block">この日、切っても切れない</span>
             <span className="inline-block">「故郷」になった。</span>
           </p>
-          <p
-            className="hiawai-fade text-sm md:text-base font-light tracking-wider text-[#f0ebe0]/75 leading-[2.8] mb-10 max-w-sm md:max-w-lg"
-            style={{ opacity: 0, transform: 'translateY(24px)' }}
-          >
+          <p className="text-xl leading-[2.8] tracking-wider text-white/60 mb-6">
             <span className="inline-block">生誕の地をひっそりと守り続け、</span>
             <span className="inline-block">熱を込めて自分を迎えてくれる</span>
             <span className="inline-block">名張の人々の眼差し。</span>
           </p>
-          <p
-            className="hiawai-fade text-sm md:text-base font-light tracking-wider text-[#f0ebe0]/75 leading-[2.8] max-w-sm md:max-w-lg"
-            style={{ opacity: 0, transform: 'translateY(24px)' }}
-          >
+          <p className="text-xl leading-[2.8] tracking-wider text-white/60">
             <span className="inline-block">彼らの存在こそが、乱歩の心に</span>
             <span className="inline-block">本当の「ふるさと」を創り出したのだ。</span>
           </p>
