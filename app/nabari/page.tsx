@@ -13,7 +13,7 @@ export default function NabariPage() {
     if (!container) return;
 
     // ─── 1枚目→2枚目：スナップ解除→JS同期スクロール＋背景上昇（40秒後） ───
-    const TRANSITION_DURATION = 2000; // 2秒（背景上昇とスクロールを完全同期）
+    const TRANSITION_DURATION = 1200; // 1.2秒（背景上昇とスクロールを完全同期）
 
     const timer = setTimeout(() => {
       const s2 = document.getElementById("section-2");
@@ -23,7 +23,7 @@ export default function NabariPage() {
       container.style.scrollSnapType = "none";
 
       // ② 背景を同じ2秒で上昇
-      seifuteiBgRef.current.style.transition = `transform ${TRANSITION_DURATION}ms cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
+      seifuteiBgRef.current.style.transition = `transform ${TRANSITION_DURATION}ms ease-out`;
       seifuteiBgRef.current.style.transform = "scale(1.12) translateY(0px)";
 
       // ③ JSカスタムスクロール（easeInOut 2秒）
