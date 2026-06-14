@@ -20,6 +20,15 @@ body {
   font-family: "Hiragino Mincho ProN", "Yu Mincho", "游明朝", Georgia, serif;
 }
 
+@keyframes scrollUp {
+  from { transform: translateY(100vh); }
+  to { transform: translateY(-100%); }
+}
+
+.scroll-credits {
+  animation: scrollUp 60s linear forwards;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
