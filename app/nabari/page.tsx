@@ -21,10 +21,10 @@ export default function NabariPage() {
             setTimeout(() => {
               const finale = document.getElementById("seifutei-finale");
               if (finale) {
-                finale.style.transition = "opacity 2s ease-in";
+                finale.style.transition = "opacity 1.5s ease-in";
                 finale.style.opacity = "1";
               }
-            }, 40000);
+            }, 35000);
             observer.disconnect();
           }
         });
