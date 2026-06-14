@@ -113,20 +113,20 @@ export default function NabariPage() {
           <p id="seifutei-finale" className="absolute inset-0 flex items-center justify-center text-lg font-light tracking-widest text-white/90 text-center px-8" style={{ opacity: 0, display: 'flex' }}>ここから乱歩と名張の物語は再び動き始める</p>
           <div id="seifutei-credits" style={{ transform: "translateY(100vh)" }} className="absolute left-0 right-0 px-8 text-white text-center">
             <div className="max-w-lg mx-auto space-y-16 py-8">
-              <p className="text-sm tracking-[0.5em]" style={{ color: '#c04444' }}>九月二十六日　夜　清風亭</p>
-              <p className="text-base leading-[3] tracking-wider text-white/60">
+              <p className="text-base tracking-[0.4em]" style={{ color: '#c04444' }}>九月二十六日　夜　清風亭</p>
+              <p className="text-xl leading-[2.8] tracking-wider text-white/60">
                 名張川に面した旅館の欄干にもたれかかり、<br />
                 川の瀬音を聞きながら、乱歩はぼんやりと夜空を見上げていた。
               </p>
-              <p className="text-lg leading-[3] tracking-wider text-white/40">そこに、客があった。</p>
-              <blockquote className="text-2xl font-light tracking-widest text-white/90 leading-[2.4]">
+              <p className="text-2xl leading-[2.8] tracking-wider text-white/40">そこに、客があった。</p>
+              <blockquote className="text-3xl font-light tracking-widest text-white/90 leading-[2.4]">
                 「先生の生まれた家を、<br />
                 私が知っているのです」
               </blockquote>
-              <p className="text-sm tracking-wider" style={{ color: '#c04444' }}>
+              <p className="text-base tracking-wider" style={{ color: '#c04444' }}>
                 本町の書店主　岡村繁次郎
               </p>
-              <div className="text-base leading-[3] text-white/50 text-left space-y-8">
+              <div className="text-lg leading-[2.8] text-white/50 text-left space-y-8">
                 <p>乱歩の顔に、一瞬、ただごとでない色がはしった。</p>
                 <p>昭和十二年、旅の途中に名張駅で降りて、生家を求めてさまよったことがある。そのときは見つけられなかった。幻のように脳裡につきまとっていた生家が、翌朝ついに姿を現そうとしていた。</p>
               </div>
