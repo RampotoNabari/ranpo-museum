@@ -317,24 +317,26 @@ export default function NabariPage() {
           <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 50% 45% at 50% 50%, transparent 0%, rgba(0,0,0,0.85) 100%)" }} />
         </div>
         <div className="relative h-screen overflow-hidden flex flex-col items-center justify-center px-8 text-center">
-          <p className="text-xl leading-[2.8] tracking-wider text-white/60 mb-2">
-            <span className="inline-block">ただの「生まれた町」が、</span>
-            <span className="inline-block">この日、切っても切れない</span>
-          </p>
+          <div className="text-xl leading-[2.4] tracking-wider text-white/60 mb-2 text-center">
+            <span className="block">ただの「生まれた町」が、</span>
+            <span className="block">この日、</span>
+            <span className="block">切っても切れない</span>
+          </div>
           <p className="text-2xl md:text-3xl font-light tracking-widest text-white mb-8">
             「故郷」になった。
           </p>
-          <p className="text-xl leading-[2.8] tracking-wider text-white/60 mb-6">
-            <span className="inline-block">生誕の地をひっそりと守り続け、</span>
-            <span className="inline-block">熱を込めて自分を迎えてくれる</span>
-            <span className="inline-block">名張の人々の眼差し。</span>
-          </p>
-          <p className="text-xl leading-[2.8] tracking-wider text-white/60">
-            <span className="inline-block">彼らの存在こそが、</span>
-            <span className="inline-block">乱歩の心に</span>
-            <span className="inline-block">本当の「ふるさと」を</span>
-            <span className="inline-block">創り出したのだ。</span>
-          </p>
+          <div className="text-xl leading-[2.4] tracking-wider text-white/60 mb-6 text-center">
+            <span className="block">生誕の地をひっそりと守り続け、</span>
+            <span className="block">熱を込めて自分を迎えてくれる</span>
+            <span className="block">名張の人々の眼差し。</span>
+          </div>
+          <div className="text-xl leading-[2.4] tracking-wider text-white/60 text-center">
+            <span className="block">彼らの存在こそが、</span>
+            <span className="block">乱歩の心に</span>
+            <span className="block">本当の「ふるさと」を</span>
+            <span className="block">創り出したのだ。</span>
+          </div>
+
         </div>
       </div>
 
