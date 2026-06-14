@@ -116,7 +116,6 @@ export default function NabariPage() {
 
     return () => {
       clearTimeout(timer);
-      container.removeEventListener("scroll", handleScroll);
       s2Observer.disconnect();
       s3Observer.disconnect();
       s4Observer.disconnect();
