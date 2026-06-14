@@ -96,7 +96,7 @@ export default function NabariPage() {
                 el.style.transition = "opacity 3s cubic-bezier(0.25, 0, 0.5, 1), transform 3.5s cubic-bezier(0.25, 0, 0.5, 1)";
                 el.style.opacity = "1";
                 el.style.transform = "translateY(0) scale(1)";
-              }, i * 1200);
+              }, i * 1000);
             });
             // 全文字出現（約6.6秒）+ 5秒後に4枚目へ自動移動
             setTimeout(() => {
@@ -287,19 +287,19 @@ export default function NabariPage() {
         </div>
         <div className="relative h-screen overflow-hidden flex flex-col items-center justify-center px-8 text-center">
           <p className="dawn-fade text-base tracking-[0.4em] mb-8" style={{ color: '#c04444', opacity: 0, transform: 'translateY(20px)' }}>昭和二十七年　九月二十七日　暁</p>
-          <p className="dawn-fade text-xl leading-[2.8] tracking-wider text-white/90 mb-6" style={{ opacity: 0, transform: 'translateY(20px)' }}>
-            <span className="inline-block">清風亭の夜が明け、</span>
-            <span className="inline-block">名張の町が動き出す。</span>
-          </p>
-          <p className="dawn-fade text-xl leading-[2.8] tracking-wider text-white/60 mb-6" style={{ opacity: 0, transform: 'translateY(20px)' }}>
-            <span className="inline-block">五十七年の歳月を経て、</span>
-            <span className="inline-block">ひっそりと守られてきた</span>
-            <span className="inline-block">生誕の地へ。</span>
-          </p>
-          <p className="dawn-fade text-xl leading-[2.8] tracking-wider text-white/60" style={{ opacity: 0, transform: 'translateY(20px)' }}>
-            <span className="inline-block">Rampoにとっては</span>
-            <span className="inline-block">『ふるさと発見』の朝であった。</span>
-          </p>
+          <div className="text-xl leading-[2.4] tracking-wider text-white/90 mb-6 text-center">
+            <span className="dawn-fade block" style={{ opacity: 0, transform: 'translateY(20px)' }}>清風亭の夜が明け、</span>
+            <span className="dawn-fade block" style={{ opacity: 0, transform: 'translateY(20px)' }}>名張の町が動き出す。</span>
+          </div>
+          <div className="text-xl leading-[2.4] tracking-wider text-white/60 mb-6 text-center">
+            <span className="dawn-fade block" style={{ opacity: 0, transform: 'translateY(20px)' }}>五十七年の歳月を経て、</span>
+            <span className="dawn-fade block" style={{ opacity: 0, transform: 'translateY(20px)' }}>ひっそりと守られてきた</span>
+            <span className="dawn-fade block" style={{ opacity: 0, transform: 'translateY(20px)' }}>生誕の地へ。</span>
+          </div>
+          <div className="text-xl leading-[2.4] tracking-wider text-white/60 text-center">
+            <span className="dawn-fade block" style={{ opacity: 0, transform: 'translateY(20px)' }}>乱歩にとっては</span>
+            <span className="dawn-fade block" style={{ opacity: 0, transform: 'translateY(20px)' }}>『ふるさと発見』の朝であった。</span>
+          </div>
         </div>
       </div>
 
