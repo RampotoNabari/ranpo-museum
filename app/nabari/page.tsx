@@ -262,17 +262,17 @@ export default function NabariPage() {
           <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 50% 45% at 50% 50%, transparent 0%, rgba(0,0,0,0.85) 100%)" }} />
         </div>
         <div className="relative h-screen overflow-hidden flex flex-col items-center justify-center px-8 text-center">
-          <p className="text-base tracking-[0.4em] mb-8" style={{ color: '#c04444' }}>昭和二十七年　九月二十七日　暁</p>
-          <p className="text-xl leading-[2.8] tracking-wider text-white/90 mb-6">
+          <p className="dawn-fade text-base tracking-[0.4em] mb-8" style={{ color: '#c04444', opacity: 0, transform: 'translateY(20px)' }}>昭和二十七年　九月二十七日　暁</p>
+          <p className="dawn-fade text-xl leading-[2.8] tracking-wider text-white/90 mb-6" style={{ opacity: 0, transform: 'translateY(20px)' }}>
             <span className="inline-block">清風亭の夜が明け、</span>
             <span className="inline-block">名張の町が動き出す。</span>
           </p>
-          <p className="text-xl leading-[2.8] tracking-wider text-white/60 mb-6">
+          <p className="dawn-fade text-xl leading-[2.8] tracking-wider text-white/60 mb-6" style={{ opacity: 0, transform: 'translateY(20px)' }}>
             <span className="inline-block">五十七年の歳月を経て、</span>
             <span className="inline-block">ひっそりと守られてきた</span>
             <span className="inline-block">生誕の地へ。</span>
           </p>
-          <p className="text-xl leading-[2.8] tracking-wider text-white/60">
+          <p className="dawn-fade text-xl leading-[2.8] tracking-wider text-white/60" style={{ opacity: 0, transform: 'translateY(20px)' }}>
             <span className="inline-block">Rampoにとっては</span>
             <span className="inline-block">『ふるさと発見』の朝であった。</span>
           </p>
