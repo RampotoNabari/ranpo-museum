@@ -12,19 +12,14 @@ export default function NabariPage() {
     const container = snapRef.current;
     if (!container) return;
 
-    // ─── 1→2 パララックス：smooth scroll 中に scroll event で背景を追従 ───
-    const handleScroll = () => {
-      if (!seifuteiBgRef.current) return;
-      const scrollTop = container.scrollTop;
-      const vh = window.innerHeight;
-      const progress = Math.max(0, Math.min(1, scrollTop / vh));
-      const offset = (1 - progress) * 140;
-      seifuteiBgRef.current.style.transform = `scale(1.12) translateY(${offset}px)`;
-    };
-    container.addEventListener("scroll", handleScroll, { passive: true });
-
-    // ─── 1枚目→2枚目 自動スクロール（40秒後） ───
+    // ─── 1枚目→2枚目：背景上昇＋スクロールを同時起動（40秒後） ───
     const timer = setTimeout(() => {
+      // 背景を2秒かけてゆっくり競り上げる（ページ遷移と完全同期）
+      if (seifuteiBgRef.current) {
+        seifuteiBgRef.current.style.transition = "transform 2s linear";
+        seifuteiBgRef.current.style.transform = "scale(1.12) translateY(0px)";
+      }
+      // 同時に smooth scroll でページを2枚目へ移動
       const s2 = document.getElementById("section-2");
       if (s2) container.scrollTo({ top: s2.offsetTop, behavior: "smooth" });
     }, CREDITS_DURATION);
