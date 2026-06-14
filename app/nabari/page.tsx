@@ -40,11 +40,13 @@ export default function NabariPage() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // 背景を下からせり上げる
-            if (seifuteiBgRef.current) {
-              seifuteiBgRef.current.style.transition = "transform 2s cubic-bezier(0.16, 1, 0.3, 1)";
-              seifuteiBgRef.current.style.transform = "scale(1.12) translateY(0px)";
-            }
+            // 最後の文字から2秒後に背景を下からせり上げる（同じ2秒スピード）
+            setTimeout(() => {
+              if (seifuteiBgRef.current) {
+                seifuteiBgRef.current.style.transition = "transform 2s cubic-bezier(0.16, 1, 0.3, 1)";
+                seifuteiBgRef.current.style.transform = "scale(1.12) translateY(0px)";
+              }
+            }, 2000);
             const seifuteiText = document.getElementById("seifutei-credits");
             if (seifuteiText) {
               seifuteiText.style.animation = "scrollUp 40s linear forwards";
