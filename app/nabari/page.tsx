@@ -18,6 +18,13 @@ export default function NabariPage() {
             if (seifuteiText) {
               seifuteiText.style.animation = "scrollUp 40s linear forwards";
             }
+            setTimeout(() => {
+              const finale = document.getElementById("seifutei-finale");
+              if (finale) {
+                finale.style.transition = "opacity 2s ease-in";
+                finale.style.opacity = "1";
+              }
+            }, 40000);
             observer.disconnect();
           }
         });
@@ -103,6 +110,7 @@ export default function NabariPage() {
           <div className="absolute inset-0 bg-black/80" />
         </div>
         <div className="relative h-screen overflow-hidden">
+          <p id="seifutei-finale" className="absolute inset-0 flex items-center justify-center text-lg font-light tracking-widest text-white/90 text-center px-8" style={{ opacity: 0, display: 'flex' }}>ここから乱歩と名張の物語は再び動き始める</p>
           <div id="seifutei-credits" style={{ transform: "translateY(100vh)" }} className="absolute left-0 right-0 px-8 text-white text-center">
             <div className="max-w-lg mx-auto space-y-16 py-8">
               <p className="text-sm tracking-[0.5em]" style={{ color: '#c04444' }}>九月二十六日　夜　清風亭</p>
@@ -121,7 +129,6 @@ export default function NabariPage() {
               <div className="text-base leading-[3] text-white/50 text-left space-y-8">
                 <p>乱歩の顔に、一瞬、ただごとでない色がはしった。</p>
                 <p>昭和十二年、旅の途中に名張駅で降りて、生家を求めてさまよったことがある。そのときは見つけられなかった。幻のように脳裡につきまとっていた生家が、翌朝ついに姿を現そうとしていた。</p>
-                <p className="text-lg font-light tracking-widest text-white/80 text-center mt-24">ここから乱歩と名張の物語は再び動き始める</p>
               </div>
             </div>
           </div>
