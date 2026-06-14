@@ -10,13 +10,14 @@ export default function NabariPage() {
       document.getElementById("next-section")?.scrollIntoView({ behavior: "smooth" });
     }, CREDITS_DURATION + 3000);
 
-    const seifuteiText = document.getElementById("seifutei-credits");
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && seifuteiText) {
-            seifuteiText.classList.remove("scroll-credits-paused");
-            seifuteiText.classList.add("scroll-credits-playing");
+          if (entry.isIntersecting) {
+            const seifuteiText = document.getElementById("seifutei-credits");
+            if (seifuteiText) {
+              seifuteiText.style.animation = "scrollUp 60s linear forwards";
+            }
             observer.disconnect();
           }
         });
@@ -102,7 +103,7 @@ export default function NabariPage() {
           <div className="absolute inset-0 bg-black/80" />
         </div>
         <div className="relative h-screen overflow-hidden">
-          <div id="seifutei-credits" className="scroll-credits-paused absolute left-0 right-0 px-8 text-white text-center">
+          <div id="seifutei-credits" style={{ transform: "translateY(100vh)" }} className="absolute left-0 right-0 px-8 text-white text-center">
             <div className="max-w-lg mx-auto space-y-16 py-8">
               <p className="text-sm tracking-[0.5em] text-white/30">九月二十六日　夜　清風亭</p>
               <p className="text-base leading-[3] tracking-wider text-white/60">
