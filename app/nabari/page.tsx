@@ -87,6 +87,13 @@ export default function NabariPage() {
                 el.style.transform = "translateY(0) scale(1)";
               }, i * 1200);
             });
+            // 全文字出現（約6.6秒）+ 5秒後に4枚目へ自動移動
+            setTimeout(() => {
+              const hiawai = document.getElementById("hiawai-section");
+              if (hiawai && container) {
+                container.scrollTo({ top: hiawai.offsetTop, behavior: "smooth" });
+              }
+            }, 11600);
             dawnObserver.disconnect();
           }
         });
