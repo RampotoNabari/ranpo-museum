@@ -244,7 +244,7 @@ export default function NabariPage() {
         </div>
         <div className="relative h-screen overflow-hidden">
           <div id="seifutei-finale" className="absolute inset-0 flex flex-col items-center justify-center text-center px-8" style={{ opacity: 0 }}>
-            <p id="seifutei-finale-1" className="text-2xl tracking-[0.3em] text-white/70" style={{ opacity: 0 }}>ここから名張の物語は</p>
+            <p id="seifutei-finale-1" className="text-2xl tracking-[0.3em] text-white/70" style={{ opacity: 0 }}>ここから乱歩と名張の物語は</p>
             <div className="h-28" />
             <p id="seifutei-finale-2" className="text-3xl font-light tracking-widest text-white/75" style={{ opacity: 0 }}>再び動き始める</p>
           </div>
