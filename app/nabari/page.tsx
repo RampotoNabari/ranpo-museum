@@ -1,14 +1,39 @@
 "use client";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 const CREDITS_DURATION = 40000; // 40秒（1.5倍速）
 
 export default function NabariPage() {
+  const dawnBgRef = useRef<HTMLDivElement>(null);
+  const alleyBgRef = useRef<HTMLDivElement>(null);
+  const snapContainerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
+    const container = snapContainerRef.current;
+    if (!container) return;
+
+    // パララックス：スナップコンテナのスクロールで背景が動く
+    const handleParallax = () => {
+      if (dawnBgRef.current) {
+        const rect = dawnBgRef.current.parentElement!.getBoundingClientRect();
+        const offset = rect.top * 0.35;
+        dawnBgRef.current.style.transform = `scale(1.15) translateY(${offset}px)`;
+      }
+      if (alleyBgRef.current) {
+        const rect = alleyBgRef.current.parentElement!.getBoundingClientRect();
+        const offset = rect.top * 0.35;
+        alleyBgRef.current.style.transform = `scale(1.15) translateY(${offset}px)`;
+      }
+    };
+    container.addEventListener("scroll", handleParallax, { passive: true });
+
+    // 清風亭：自動スクロール
     const timer = setTimeout(() => {
       document.getElementById("next-section")?.scrollIntoView({ behavior: "smooth" });
     }, CREDITS_DURATION);
+
+    const observerOptions = { root: container, threshold: 0.1 };
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -20,32 +45,114 @@ export default function NabariPage() {
             }
             setTimeout(() => {
               const finale = document.getElementById("seifutei-finale");
-              if (finale) {
-                finale.style.transition = "opacity 3s ease-in";
-                finale.style.opacity = "1";
+              if (finale) finale.style.opacity = "1";
+              const l1 = document.getElementById("seifutei-finale-1");
+              if (l1) {
+                l1.style.transition = "opacity 2.5s ease-in";
+                l1.style.opacity = "1";
               }
+              setTimeout(() => {
+                const l2 = document.getElementById("seifutei-finale-2");
+                if (l2) {
+                  l2.style.transition = "opacity 2.5s ease-in";
+                  l2.style.opacity = "1";
+                }
+              }, 2000);
             }, 37000);
             observer.disconnect();
           }
         });
       },
-      { threshold: 0.1 }
+      observerOptions
     );
     const seifuteiSection = document.getElementById("next-section");
     if (seifuteiSection) observer.observe(seifuteiSection);
 
+    // 夜明けセクション：闇の底からじわぁっと浮かび上がる
+    const dawnObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            document.querySelectorAll<HTMLElement>(".dawn-fade").forEach((el, i) => {
+              setTimeout(() => {
+                el.style.transition = "opacity 3s cubic-bezier(0.25, 0, 0.5, 1), transform 3.5s cubic-bezier(0.25, 0, 0.5, 1)";
+                el.style.opacity = "1";
+                el.style.transform = "translateY(0) scale(1)";
+              }, i * 1200);
+            });
+            dawnObserver.disconnect();
+          }
+        });
+      },
+      { root: container, threshold: 0.1 }
+    );
+    const dawnSection = document.getElementById("dawn-section");
+    if (dawnSection) dawnObserver.observe(dawnSection);
+
+    // ひあわいセクション：段落ごとに浮かび上がる
+    const hiawaiObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            document.querySelectorAll<HTMLElement>(".hiawai-fade").forEach((el, i) => {
+              setTimeout(() => {
+                el.style.transition = "opacity 3s cubic-bezier(0.25, 0, 0.5, 1), transform 3s cubic-bezier(0.25, 0, 0.5, 1)";
+                el.style.opacity = "1";
+                el.style.transform = "translateY(0)";
+              }, i * 1000);
+            });
+            hiawaiObserver.disconnect();
+          }
+        });
+      },
+      { root: container, threshold: 0.1 }
+    );
+    const hiawaiSection = document.getElementById("hiawai-section");
+    if (hiawaiSection) hiawaiObserver.observe(hiawaiSection);
+
+    // 路地セクション：行ごとに深い闇から滲み出る
+    const alleyObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            document.querySelectorAll<HTMLElement>(".alley-line").forEach((el, i) => {
+              setTimeout(() => {
+                el.style.transition = "opacity 2.5s cubic-bezier(0.25, 0, 0.5, 1), transform 2.5s cubic-bezier(0.25, 0, 0.5, 1)";
+                el.style.opacity = "1";
+                el.style.transform = "translateX(0)";
+              }, i * 700);
+            });
+            alleyObserver.disconnect();
+          }
+        });
+      },
+      { root: container, threshold: 0.1 }
+    );
+    const alleySection = document.getElementById("alley-section");
+    if (alleySection) alleyObserver.observe(alleySection);
+
     return () => {
       clearTimeout(timer);
       observer.disconnect();
+      dawnObserver.disconnect();
+      hiawaiObserver.disconnect();
+      alleyObserver.disconnect();
+      container.removeEventListener("scroll", handleParallax);
     };
   }, []);
 
   return (
     <main className="min-h-screen">
 
+      {/* ===== スナップ専用コンテナ（5枚の全画面セクション） ===== */}
+      <div
+        ref={snapContainerRef}
+        className="h-screen overflow-y-scroll snap-y snap-mandatory snap-hide-scrollbar"
+        style={{ scrollbarWidth: "none" }}
+      >
+
       {/* 冒頭 — 動画＋映画クレジット演出 */}
-      <div className="relative h-screen overflow-hidden">
-        {/* 動画背景（最初から再生） */}
+      <div className="relative h-screen snap-start overflow-hidden flex-shrink-0">
         <video
           src="/videos/nabari-shrine.mp4"
           autoPlay
@@ -56,18 +163,14 @@ export default function NabariPage() {
         />
         <div className="absolute inset-0 bg-black/65" />
 
-        {/* 自動スクロールするクレジットテキスト */}
         <div className="scroll-credits absolute left-0 right-0 px-8 text-white text-center">
           <div className="max-w-md mx-auto space-y-20 py-8">
-            {/* タイトル */}
             <div className="space-y-6">
               <p className="text-base tracking-[0.5em]" style={{ color: '#c04444' }}>昭和二十七年（一九五二年）九月</p>
               <h1 className="text-5xl font-light tracking-[0.3em] text-white/90 leading-[2]">
                 名張という町
               </h1>
             </div>
-
-            {/* 導入 */}
             <div className="space-y-8">
               <p className="text-xl leading-[2.8] tracking-wider text-white/60">
                 江戸川乱歩は、生まれてから一度も名張へ帰ったことがなかった。
@@ -76,13 +179,10 @@ export default function NabariPage() {
                 それが、五十七年間。
               </p>
             </div>
-
-            {/* 神社 */}
             <div className="space-y-3">
               <p className="text-base tracking-[0.4em]" style={{ color: '#c04444' }}>九月二十六日</p>
               <p className="text-3xl font-light tracking-widest text-white/90">宇流冨志禰神社</p>
             </div>
-
             <p className="text-2xl leading-[2.8]">
               きっかけは、選挙応援だった。
             </p>
@@ -99,7 +199,7 @@ export default function NabariPage() {
       </div>
 
       {/* 清風亭の夜 */}
-      <div id="next-section" className="relative">
+      <div id="next-section" className="relative snap-start flex-shrink-0">
         <div className="absolute inset-0 overflow-hidden">
           <Image
             src="/images/seifutei-lantern.jpeg"
@@ -107,10 +207,16 @@ export default function NabariPage() {
             fill
             className="object-cover object-center"
           />
-          <div className="absolute inset-0 bg-black/80" />
+          <div className="absolute inset-0 bg-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
+          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 50% 45% at 50% 50%, transparent 0%, rgba(0,0,0,0.85) 100%)" }} />
         </div>
         <div className="relative h-screen overflow-hidden">
-          <p id="seifutei-finale" className="absolute inset-0 flex items-center justify-center text-lg font-light tracking-widest text-white/90 text-center px-8" style={{ opacity: 0, display: 'flex' }}>ここから乱歩と名張の物語は再び動き始める</p>
+          <div id="seifutei-finale" className="absolute inset-0 flex flex-col items-center justify-center text-center px-8" style={{ opacity: 0 }}>
+            <p id="seifutei-finale-1" className="text-2xl tracking-[0.3em] text-white/70" style={{ opacity: 0 }}>ここから名張の物語は</p>
+            <div className="h-28" />
+            <p id="seifutei-finale-2" className="text-3xl font-light tracking-widest text-white/75" style={{ opacity: 0 }}>再び動き始める</p>
+          </div>
           <div id="seifutei-credits" style={{ transform: "translateY(100vh)" }} className="absolute left-0 right-0 px-8 text-white text-center">
             <div className="max-w-lg mx-auto space-y-16 py-8">
               <p className="text-base tracking-[0.4em]" style={{ color: '#c04444' }}>九月二十六日　夜　清風亭</p>
@@ -134,6 +240,175 @@ export default function NabariPage() {
           </div>
         </div>
       </div>
+
+      {/* ① 夜明け前の沈黙 ― パララックス＋ヴィネット＋劇的フェードイン */}
+      <div id="dawn-section" className="relative h-screen snap-start overflow-hidden flex-shrink-0">
+        {/* パララックス背景 */}
+        <div
+          ref={dawnBgRef}
+          className="absolute inset-0"
+          style={{ transform: "scale(1.15) translateY(0px)", willChange: "transform" }}
+        >
+          <Image
+            src="/images/seifutei-exterior.jpeg"
+            alt="清風亭の外観"
+            fill
+            className="object-cover object-center"
+          />
+        </div>
+
+        {/* 多層ヴィネット：上下を完全な闇に、中心は明るめ */}
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: "radial-gradient(ellipse 55% 45% at 50% 50%, transparent 0%, rgba(0,0,0,0.55) 100%)"
+          }}
+        />
+
+        {/* テキスト：闇の底から浮かび上がる */}
+        <div className="relative h-full flex flex-col items-center justify-center px-8 text-center">
+          <p
+            className="dawn-fade text-xs tracking-[0.6em] mb-10"
+            style={{ color: '#c04444', opacity: 0, transform: 'translateY(24px) scale(0.97)' }}
+          >
+            昭和二十七年　九月二十七日　暁
+          </p>
+          <p
+            className="dawn-fade text-lg md:text-2xl font-light tracking-widest text-[#f0ebe0] leading-[2.6] mb-10"
+            style={{ opacity: 0, transform: 'translateY(28px) scale(0.97)' }}
+          >
+            <span className="inline-block">清風亭の夜が明け、</span>
+            <span className="inline-block">名張の町が動き出す。</span>
+          </p>
+          <p
+            className="dawn-fade text-base md:text-lg font-light tracking-wider text-[#f0ebe0]/80 leading-[2.8] mb-10"
+            style={{ opacity: 0, transform: 'translateY(24px) scale(0.97)' }}
+          >
+            <span className="inline-block">五十七年の歳月を経て、</span>
+            <span className="inline-block">ひっそりと守られてきた</span>
+            <span className="inline-block">生誕の地へ。</span>
+          </p>
+          <p
+            className="dawn-fade text-base md:text-lg font-light tracking-wider text-[#f0ebe0] leading-[2.8]"
+            style={{ opacity: 0, transform: 'translateY(24px) scale(0.97)' }}
+          >
+            <span className="inline-block">乱歩にとっては</span>
+            <span className="inline-block">『ふるさと発見』の朝であった。</span>
+          </p>
+        </div>
+      </div>
+
+      {/* ④ ふるさとの創造 */}
+      <div id="hiawai-section" className="relative h-screen snap-start overflow-hidden flex-shrink-0">
+        {/* 背景：ひあわいの路地 */}
+        <div
+          ref={null}
+          className="absolute inset-0"
+          style={{ willChange: "transform" }}
+        >
+          <Image
+            src="/images/nabari-hiawai.jpeg"
+            alt="生誕地に続く路地（ひあわい）"
+            fill
+            className="object-cover object-center"
+          />
+        </div>
+
+        {/* 多層ヴィネット */}
+        <div className="absolute inset-0 bg-black/70" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: "radial-gradient(ellipse 65% 55% at 50% 50%, transparent 0%, rgba(0,0,0,0.65) 100%)"
+          }}
+        />
+
+        {/* テキスト */}
+        <div className="relative h-full flex flex-col items-center justify-center px-8 text-center">
+          <p
+            className="hiawai-fade text-xl md:text-3xl font-light tracking-widest text-[#f0ebe0] leading-[2.6] mb-10"
+            style={{ opacity: 0, transform: 'translateY(28px)' }}
+          >
+            <span className="inline-block">ただの「生まれた町」が、</span>
+            <span className="inline-block">この日、切っても切れない</span>
+            <span className="inline-block">「故郷」になった。</span>
+          </p>
+          <p
+            className="hiawai-fade text-sm md:text-base font-light tracking-wider text-[#f0ebe0]/75 leading-[2.8] mb-10 max-w-sm md:max-w-lg"
+            style={{ opacity: 0, transform: 'translateY(24px)' }}
+          >
+            <span className="inline-block">生誕の地をひっそりと守り続け、</span>
+            <span className="inline-block">熱を込めて自分を迎えてくれる</span>
+            <span className="inline-block">名張の人々の眼差し。</span>
+          </p>
+          <p
+            className="hiawai-fade text-sm md:text-base font-light tracking-wider text-[#f0ebe0]/75 leading-[2.8] max-w-sm md:max-w-lg"
+            style={{ opacity: 0, transform: 'translateY(24px)' }}
+          >
+            <span className="inline-block">彼らの存在こそが、乱歩の心に</span>
+            <span className="inline-block">本当の「ふるさと」を創り出したのだ。</span>
+          </p>
+        </div>
+      </div>
+
+      {/* ③ 朝、辻酒店へ続く道 ― パララックス＋ヴィネット＋行ごとフェードイン */}
+      <div id="alley-section" className="relative h-screen snap-start overflow-hidden flex-shrink-0">
+        {/* パララックス背景 */}
+        <div
+          ref={alleyBgRef}
+          className="absolute inset-0"
+          style={{ transform: "scale(1.15) translateY(0px)", willChange: "transform" }}
+        >
+          <Image
+            src="/images/rampo-alley.jpg"
+            alt="名張の路地"
+            fill
+            className="object-cover object-center"
+          />
+        </div>
+
+        {/* 多層ヴィネット */}
+        <div className="absolute inset-0 bg-black/65" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: "radial-gradient(ellipse 55% 60% at 70% 50%, transparent 0%, rgba(0,0,0,0.75) 100%)"
+          }}
+        />
+
+        {/* テキスト：右寄せ、行ごとに右の闇から滲み出る */}
+        <div className="relative h-full flex flex-col justify-center px-8 sm:px-16 md:px-24 text-right">
+          {[
+            { text: "名張の人たちは、", size: "text-base md:text-xl" },
+            { text: "特別なことをしていなかった。", size: "text-base md:text-xl" },
+            { text: "", size: "" },
+            { text: "酒屋に酒があり、", size: "text-sm md:text-lg" },
+            { text: "書店に本があり、", size: "text-sm md:text-lg" },
+            { text: "川に水があった。", size: "text-sm md:text-lg" },
+            { text: "", size: "" },
+            { text: "乱歩が生まれた頃と、", size: "text-sm md:text-base" },
+            { text: "たぶん、それほど変わらない午後が", size: "text-sm md:text-base" },
+            { text: "そこにあった。", size: "text-sm md:text-base" },
+          ].map((line, i) =>
+            line.text === "" ? (
+              <div key={i} className="h-4 md:h-5" />
+            ) : (
+              <p
+                key={i}
+                className={`alley-line ${line.size} font-light tracking-widest text-[#f5f0e8] leading-[2.4]`}
+                style={{ opacity: 0, transform: "translateX(24px)" }}
+              >
+                <span className="inline-block">{line.text}</span>
+              </p>
+            )
+          )}
+        </div>
+      </div>
+      </div>{/* /snap container */}
 
       {/* 桝田医院 */}
       <div className="max-w-xl mx-auto px-8 py-24">
