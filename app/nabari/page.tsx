@@ -321,7 +321,7 @@ export default function NabariPage() {
             <span className="inline-block">ただの「生まれた町」が、</span>
             <span className="inline-block">この日、切っても切れない</span>
           </p>
-          <p className="text-4xl md:text-6xl font-light tracking-widest text-white mb-8">
+          <p className="text-2xl md:text-3xl font-light tracking-widest text-white mb-8">
             「故郷」になった。
           </p>
           <p className="text-xl leading-[2.8] tracking-wider text-white/60 mb-6">
@@ -330,8 +330,10 @@ export default function NabariPage() {
             <span className="inline-block">名張の人々の眼差し。</span>
           </p>
           <p className="text-xl leading-[2.8] tracking-wider text-white/60">
-            <span className="inline-block">彼らの存在こそが、乱歩の心に</span>
-            <span className="inline-block">本当の「ふるさと」を創り出したのだ。</span>
+            <span className="inline-block">彼らの存在こそが、</span>
+            <span className="inline-block">乱歩の心に</span>
+            <span className="inline-block">本当の「ふるさと」を</span>
+            <span className="inline-block">創り出したのだ。</span>
           </p>
         </div>
       </div>
