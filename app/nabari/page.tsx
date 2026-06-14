@@ -121,6 +121,7 @@ export default function NabariPage() {
               <div className="text-base leading-[3] text-white/50 text-left space-y-8">
                 <p>乱歩の顔に、一瞬、ただごとでない色がはしった。</p>
                 <p>昭和十二年、旅の途中に名張駅で降りて、生家を求めてさまよったことがある。そのときは見つけられなかった。幻のように脳裡につきまとっていた生家が、翌朝ついに姿を現そうとしていた。</p>
+                <p className="text-lg font-light tracking-widest text-white/80 text-center mt-8">ここから乱歩と名張の物語は再び動き始める</p>
               </div>
             </div>
           </div>
