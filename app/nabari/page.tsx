@@ -2,13 +2,13 @@
 import Image from "next/image";
 import { useEffect } from "react";
 
-const CREDITS_DURATION = 60000; // 60秒
+const CREDITS_DURATION = 40000; // 40秒（1.5倍速）
 
 export default function NabariPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       document.getElementById("next-section")?.scrollIntoView({ behavior: "smooth" });
-    }, CREDITS_DURATION + 3000);
+    }, CREDITS_DURATION);
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -16,7 +16,7 @@ export default function NabariPage() {
           if (entry.isIntersecting) {
             const seifuteiText = document.getElementById("seifutei-credits");
             if (seifuteiText) {
-              seifuteiText.style.animation = "scrollUp 60s linear forwards";
+              seifuteiText.style.animation = "scrollUp 40s linear forwards";
             }
             observer.disconnect();
           }
