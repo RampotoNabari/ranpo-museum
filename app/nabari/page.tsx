@@ -96,7 +96,7 @@ export default function NabariPage() {
                 el.style.transition = "opacity 3s cubic-bezier(0.25, 0, 0.5, 1), transform 3.5s cubic-bezier(0.25, 0, 0.5, 1)";
                 el.style.opacity = "1";
                 el.style.transform = "translateY(0) scale(1)";
-              }, i * 1200);
+              }, i * 800);
             });
             // 全文字出現（8行×1.2秒+3秒fade）+ 5秒後に4枚目へ自動移動
             setTimeout(() => {
@@ -104,7 +104,7 @@ export default function NabariPage() {
               if (hiawai && container) {
                 container.scrollTo({ top: hiawai.offsetTop, behavior: "smooth" });
               }
-            }, 17600);
+            }, 14400);
             dawnObserver.disconnect();
           }
         });
@@ -124,7 +124,7 @@ export default function NabariPage() {
                 el.style.transition = "opacity 3s cubic-bezier(0.25, 0, 0.5, 1), transform 3.5s cubic-bezier(0.25, 0, 0.5, 1)";
                 el.style.opacity = "1";
                 el.style.transform = "translateY(0)";
-              }, i * 1200);
+              }, i * 800);
             });
             hiawaiObserver.disconnect();
           }
