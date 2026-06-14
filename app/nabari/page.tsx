@@ -96,15 +96,15 @@ export default function NabariPage() {
                 el.style.transition = "opacity 3s cubic-bezier(0.25, 0, 0.5, 1), transform 3.5s cubic-bezier(0.25, 0, 0.5, 1)";
                 el.style.opacity = "1";
                 el.style.transform = "translateY(0) scale(1)";
-              }, i * 1000);
+              }, i * 1200);
             });
-            // 全文字出現（約6.6秒）+ 5秒後に4枚目へ自動移動
+            // 全文字出現（8行×1.2秒+3秒fade）+ 5秒後に4枚目へ自動移動
             setTimeout(() => {
               const hiawai = document.getElementById("hiawai-section");
               if (hiawai && container) {
                 container.scrollTo({ top: hiawai.offsetTop, behavior: "smooth" });
               }
-            }, 11600);
+            }, 17600);
             dawnObserver.disconnect();
           }
         });
