@@ -54,7 +54,7 @@ export default function NabariPage() {
           <div className="max-w-md mx-auto space-y-20 py-8">
             {/* タイトル */}
             <div className="space-y-6">
-              <p className="text-base tracking-[0.5em] text-white/30">昭和二十七年（一九五二年）九月</p>
+              <p className="text-base tracking-[0.5em]" style={{ color: '#c04444' }}>昭和二十七年（一九五二年）九月</p>
               <h1 className="text-5xl font-light tracking-[0.3em] text-white/90 leading-[2]">
                 名張という町
               </h1>
@@ -72,7 +72,7 @@ export default function NabariPage() {
 
             {/* 神社 */}
             <div className="space-y-3">
-              <p className="text-base tracking-[0.4em] text-white/30">九月二十六日</p>
+              <p className="text-base tracking-[0.4em]" style={{ color: '#c04444' }}>九月二十六日</p>
               <p className="text-3xl font-light tracking-widest text-white/90">宇流冨志禰神社</p>
             </div>
 
@@ -105,7 +105,7 @@ export default function NabariPage() {
         <div className="relative h-screen overflow-hidden">
           <div id="seifutei-credits" style={{ transform: "translateY(100vh)" }} className="absolute left-0 right-0 px-8 text-white text-center">
             <div className="max-w-lg mx-auto space-y-16 py-8">
-              <p className="text-sm tracking-[0.5em] text-white/30">九月二十六日　夜　清風亭</p>
+              <p className="text-sm tracking-[0.5em]" style={{ color: '#c04444' }}>九月二十六日　夜　清風亭</p>
               <p className="text-base leading-[3] tracking-wider text-white/60">
                 名張川に面した旅館の欄干にもたれかかり、<br />
                 川の瀬音を聞きながら、乱歩はぼんやりと夜空を見上げていた。
@@ -115,7 +115,7 @@ export default function NabariPage() {
                 「先生の生まれた家を、<br />
                 私が知っているのです」
               </blockquote>
-              <p className="text-sm text-white/30 tracking-wider">
+              <p className="text-sm tracking-wider" style={{ color: '#c04444' }}>
                 本町の書店主　岡村繁次郎
               </p>
               <div className="text-base leading-[3] text-white/50 text-left space-y-8">
@@ -204,7 +204,7 @@ export default function NabariPage() {
 
       {/* 伊和新聞 */}
       <div className="bg-[#1a1a1a] py-24 px-8 text-center">
-        <p className="text-xs tracking-[0.4em] text-white/30 mb-12">
+        <p className="text-xs tracking-[0.4em] mb-12" style={{ color: '#c04444' }}>
           昭和二十七年九月二十九日　伊和新聞
         </p>
         <blockquote className="text-base font-light leading-[3] tracking-wider text-white/70 max-w-md mx-auto">
@@ -235,7 +235,7 @@ export default function NabariPage() {
           />
           <div className="absolute inset-0 bg-black/50" />
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-8">
-            <p className="text-xs tracking-[0.5em] text-white/40 mb-8">昭和三十年十一月三日</p>
+            <p className="text-xs tracking-[0.5em] mb-8" style={{ color: '#c04444' }}>昭和三十年十一月三日</p>
             <p className="text-2xl font-light tracking-[0.3em] text-white leading-[2]">
               名張の人々が、<br />碑を建てた。
             </p>
@@ -248,7 +248,7 @@ export default function NabariPage() {
 
       {/* 祝電 */}
       <div className="bg-[#1a1a1a] py-24 px-8 text-center">
-        <p className="text-xs tracking-[0.4em] text-white/30 mb-12">角田喜久雄　祝電より</p>
+        <p className="text-xs tracking-[0.4em] mb-12" style={{ color: '#c04444' }}>角田喜久雄　祝電より</p>
         <blockquote className="text-lg font-light tracking-widest text-white/80 leading-[2.4]">
           「故郷に錦を飾る人は多し、<br />
           されど石を飾る人は稀なり、<br />
@@ -286,7 +286,7 @@ export default function NabariPage() {
           <div className="absolute inset-0 bg-black/30" />
         </div>
         <div className="bg-[#1a1a1a] py-20 px-8 text-center">
-          <p className="text-xs tracking-[0.4em] text-white/30 mb-8">十一月三日　午後</p>
+          <p className="text-xs tracking-[0.4em] mb-8" style={{ color: '#c04444' }}>十一月三日　午後</p>
           <p className="text-sm leading-[3] text-white/60 max-w-sm mx-auto">
             式が終わると、桝田医院二階の広間でうなどんの昼食が振る舞われた。その夜、料亭で名張芸妓が踊り、市長が踊り、伊勢音頭の合唱になった。乱歩は家内に三味線を弾かせた。
           </p>
@@ -304,7 +304,7 @@ export default function NabariPage() {
           />
           <div className="absolute inset-0 bg-black/40" />
           <div className="absolute bottom-12 left-0 right-0 text-center">
-            <p className="text-xs tracking-[0.4em] text-white/40 mb-4">十一月四日</p>
+            <p className="text-xs tracking-[0.4em] mb-4" style={{ color: '#c04444' }}>十一月四日</p>
             <p className="text-lg font-light tracking-widest text-white">名張の子どもたちへ</p>
           </div>
         </div>
@@ -327,7 +327,7 @@ export default function NabariPage() {
           <div className="absolute inset-0 bg-black/20" />
         </div>
         <div className="bg-[#1a1a1a] py-24 px-8 text-center">
-          <p className="text-xs tracking-[0.4em] text-white/30 mb-10">十一月五日　香落渓</p>
+          <p className="text-xs tracking-[0.4em] mb-10" style={{ color: '#c04444' }}>十一月五日　香落渓</p>
           <p className="text-base font-light tracking-widest text-white/80 mb-10">
             これが、最後の名張だった。
           </p>
@@ -339,7 +339,7 @@ export default function NabariPage() {
 
       {/* 乱歩の言葉 */}
       <div className="bg-[#1a1a1a] py-40 px-8 text-center">
-        <p className="text-xs tracking-[0.4em] text-white/20 mb-20">
+        <p className="text-xs tracking-[0.4em] mb-20" style={{ color: '#c04444' }}>
           江戸川乱歩「生誕碑除幕式」『宝石』昭和三十一年一月号
         </p>
         <blockquote className="text-base font-light leading-[3.5] tracking-wider text-white/80 max-w-lg mx-auto">
