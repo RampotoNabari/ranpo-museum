@@ -16,16 +16,6 @@ export default function NabariPage() {
 
     // パララックス：スナップコンテナのスクロールで背景が動く
     const handleParallax = () => {
-      const scrollTop = container.scrollTop;
-      const vh = window.innerHeight;
-
-      // 2枚目背景：1→2遷移時に下からせり上がる
-      if (seifuteiBgRef.current) {
-        const progress = Math.min(1, scrollTop / vh); // 0〜1
-        const offset = (1 - progress) * 80;
-        seifuteiBgRef.current.style.transform = `scale(1.08) translateY(${offset}px)`;
-      }
-
       if (dawnBgRef.current) {
         const rect = dawnBgRef.current.parentElement!.getBoundingClientRect();
         const offset = rect.top * 0.35;
@@ -50,6 +40,11 @@ export default function NabariPage() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            // 背景を下からせり上げる
+            if (seifuteiBgRef.current) {
+              seifuteiBgRef.current.style.transition = "transform 2s cubic-bezier(0.16, 1, 0.3, 1)";
+              seifuteiBgRef.current.style.transform = "scale(1.12) translateY(0px)";
+            }
             const seifuteiText = document.getElementById("seifutei-credits");
             if (seifuteiText) {
               seifuteiText.style.animation = "scrollUp 40s linear forwards";
@@ -229,7 +224,7 @@ export default function NabariPage() {
           <div
             ref={seifuteiBgRef}
             className="absolute inset-0"
-            style={{ transform: "scale(1.08) translateY(80px)", willChange: "transform" }}
+            style={{ transform: "scale(1.12) translateY(120px)", willChange: "transform" }}
           >
           <Image
             src="/images/seifutei-lantern.jpeg"
