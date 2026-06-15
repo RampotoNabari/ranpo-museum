@@ -307,8 +307,9 @@ export default function NabariPage() {
               </div>
               <div className="text-base md:text-2xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.2]">
                 <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>彼らの存在こそが、乱歩の心に</span>
-                <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>本当の「ふるさと」を創り出したのだ。</span>
               </div>
+              <div className="hiawai-fade h-[4.5em]" style={{ opacity: 0, transform: "translateY(20px)" }} />
+              <span className="hiawai-fade block text-base md:text-2xl font-light tracking-wider leading-[2.2]" style={{ opacity: 0, transform: "translateY(20px)", color: "#c04444" }}>本当の「ふるさと」を創り出したのだ。</span>
             </div>
           </div>
         </div>
