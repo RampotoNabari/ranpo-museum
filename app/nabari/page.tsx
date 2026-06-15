@@ -7,6 +7,27 @@ const CREDITS_DURATION = 40000;
 export default function NabariPage() {
   const snapRef = useRef<HTMLDivElement>(null);
   const seifuteiBgRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // 動画の自動再生フォールバック（ブラウザポリシー対策）
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = true;
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // ユーザー操作後に再生を試みる
+        const tryPlay = () => {
+          video.play().catch(() => {});
+          document.removeEventListener("click", tryPlay);
+          document.removeEventListener("touchstart", tryPlay);
+        };
+        document.addEventListener("click", tryPlay, { once: true });
+        document.addEventListener("touchstart", tryPlay, { once: true });
+      });
+    }
+  }, []);
 
   useEffect(() => {
     const container = snapRef.current;
@@ -135,8 +156,9 @@ export default function NabariPage() {
         {/* ── 1枚目：動画 + 映画クレジット ── */}
         <div id="section-1" className="relative h-screen w-full snap-start overflow-hidden">
           <video
-            src="/videos/nabari-shrine.mp4"
-            autoPlay muted loop playsInline
+            ref={videoRef}
+            src="/videos/nabari-shrine-small.mp4"
+            autoPlay muted loop playsInline preload="auto"
             className="absolute inset-0 w-full h-full object-cover object-center"
           />
           <div className="absolute inset-0 bg-black/65" />
@@ -216,23 +238,26 @@ export default function NabariPage() {
           <div className="absolute inset-0 bg-black/60" />
           <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
           <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 50% 45% at 50% 50%, transparent 0%, rgba(0,0,0,0.82) 100%)" }} />
-          <div className="relative h-full flex flex-col items-center justify-center px-8 text-center">
-            <p className="dawn-fade text-sm tracking-[0.5em] mb-10"
-               style={{ color: "#c04444", opacity: 0, transform: "translateY(20px)" }}>
-              昭和二十七年　九月二十七日　暁
-            </p>
-            <div className="text-xl md:text-3xl font-light tracking-widest text-[#f0ebe0] leading-[2.6] mb-8">
-              <span className="dawn-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>清風亭の夜が明け、</span>
-              <span className="dawn-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>名張の町が動き出す。</span>
-            </div>
-            <div className="text-lg md:text-2xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.6] mb-8">
-              <span className="dawn-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>五十七年の歳月を経て、</span>
-              <span className="dawn-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>ひっそりと守られてきた</span>
-              <span className="dawn-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>生誕の地へ。</span>
-            </div>
-            <div className="text-lg md:text-2xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.6]">
-              <span className="dawn-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>Rampoにとっては</span>
-              <span className="dawn-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>『ふるさと発見』の朝であった。</span>
+          {/* ヘッダー(56px)を避けて top-14 から開始。flex centering との overflow 衝突も解消 */}
+          <div className="absolute left-0 right-0 bottom-0 top-14 overflow-y-auto snap-hide-scrollbar">
+            <div className="min-h-full flex flex-col items-center justify-center px-8 text-center py-4">
+              <p className="dawn-fade text-sm tracking-[0.5em] mb-4"
+                 style={{ color: "#c04444", opacity: 0, transform: "translateY(20px)" }}>
+                昭和二十七年　九月二十七日　暁
+              </p>
+              <div className="text-xl md:text-3xl font-light tracking-widest text-[#f0ebe0] leading-[2.2] mb-4">
+                <span className="dawn-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>清風亭の夜が明け、</span>
+                <span className="dawn-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>名張の町が動き出す。</span>
+              </div>
+              <div className="text-base md:text-2xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.2] mb-4">
+                <span className="dawn-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>五十七年の歳月を経て、</span>
+                <span className="dawn-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>ひっそりと守られてきた</span>
+                <span className="dawn-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>生誕の地へ。</span>
+              </div>
+              <div className="text-base md:text-2xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.2]">
+                <span className="dawn-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>Rampoにとっては</span>
+                <span className="dawn-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>『ふるさと発見』の朝であった。</span>
+              </div>
             </div>
           </div>
         </div>
@@ -243,26 +268,28 @@ export default function NabariPage() {
           <div className="absolute inset-0 bg-black/60" />
           <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
           <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 50% 45% at 50% 50%, transparent 0%, rgba(0,0,0,0.82) 100%)" }} />
-          <div className="relative h-full flex flex-col items-center justify-center px-8 text-center">
-            <div className="text-lg md:text-2xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.6] mb-4">
-              <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>ただの「生まれた町」が、</span>
-              <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>この日、</span>
-              <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>切っても切れない</span>
-            </div>
-            <p className="hiawai-fade text-2xl md:text-4xl font-light tracking-widest text-[#f0ebe0] mb-10"
-               style={{ opacity: 0, transform: "translateY(20px)" }}>
-              「故郷」になった。
-            </p>
-            <div className="text-lg md:text-2xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.6] mb-4">
-              <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>生誕の地をひっそりと守り続け、</span>
-              <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>熱を込めて自分を迎えてくれる</span>
-              <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>名張の人々の眼差し。</span>
-            </div>
-            <div className="text-lg md:text-2xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.6]">
-              <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>彼らの存在こそが、</span>
-              <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>Rampoの心に</span>
-              <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>本当の「故郷」を</span>
-              <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>創り出したのだ。</span>
+          <div className="absolute left-0 right-0 bottom-0 top-14 overflow-y-auto snap-hide-scrollbar">
+            <div className="min-h-full flex flex-col items-center justify-center px-8 text-center py-4">
+              <div className="text-base md:text-2xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.2] mb-1">
+                <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>ただの「生まれた町」が、</span>
+                <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>この日、</span>
+                <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>切っても切れない</span>
+              </div>
+              <p className="hiawai-fade text-2xl md:text-4xl font-light tracking-widest text-[#f0ebe0] mb-4"
+                 style={{ opacity: 0, transform: "translateY(20px)" }}>
+                「故郷」になった。
+              </p>
+              <div className="text-base md:text-2xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.2] mb-1">
+                <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>生誕の地をひっそりと守り続け、</span>
+                <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>熱を込めて自分を迎えてくれる</span>
+                <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>名張の人々の眼差し。</span>
+              </div>
+              <div className="text-base md:text-2xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.2]">
+                <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>彼らの存在こそが、</span>
+                <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>Rampoの心に</span>
+                <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>本当の「故郷」を</span>
+                <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>創り出したのだ。</span>
+              </div>
             </div>
           </div>
         </div>
