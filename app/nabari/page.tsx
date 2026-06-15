@@ -161,10 +161,11 @@ export default function NabariPage() {
       >
 
         {/* ── 1枚目：動画 + 映画クレジット ── */}
-        <div id="section-1" className="relative h-screen w-full snap-start overflow-hidden">
+        <div id="section-1" className="relative h-screen w-full snap-start overflow-hidden" style={{ backgroundColor: "#1a1a1a" }}>
           <video
             ref={videoRef}
             src="/videos/nabari-shrine-small.mp4"
+            poster="/images/nabari-shrine-festival.jpeg"
             autoPlay muted loop playsInline preload="auto"
             className="absolute inset-0 w-full h-full object-cover object-center"
           />
