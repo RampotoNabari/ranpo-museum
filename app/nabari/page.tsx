@@ -9,24 +9,31 @@ export default function NabariPage() {
   const seifuteiBgRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // 動画の自動再生フォールバック（ブラウザポリシー対策）
+  // 動画の自動再生（canplayを待ってから実行）
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
     video.muted = true;
-    const playPromise = video.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(() => {
-        // ユーザー操作後に再生を試みる
-        const tryPlay = () => {
-          video.play().catch(() => {});
-          document.removeEventListener("click", tryPlay);
-          document.removeEventListener("touchstart", tryPlay);
-        };
-        document.addEventListener("click", tryPlay, { once: true });
-        document.addEventListener("touchstart", tryPlay, { once: true });
+
+    const attemptPlay = () => {
+      video.play().catch(() => {
+        // ブラウザポリシーで弾かれた場合、最初のユーザー操作で再生
+        const onInteraction = () => { video.play().catch(() => {}); };
+        document.addEventListener("click", onInteraction, { once: true });
+        document.addEventListener("touchstart", onInteraction, { once: true });
       });
+    };
+
+    // すでに再生可能な状態なら即実行、そうでなければcanplayを待つ
+    if (video.readyState >= 3) {
+      attemptPlay();
+    } else {
+      video.addEventListener("canplay", attemptPlay, { once: true });
     }
+
+    return () => {
+      video.removeEventListener("canplay", attemptPlay);
+    };
   }, []);
 
   useEffect(() => {
