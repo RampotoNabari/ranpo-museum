@@ -36,6 +36,19 @@ export default function NabariPage() {
   }, []);
 
   useEffect(() => {
+    // 再レンダリング時にJSで変更した値がReactに上書きされないよう初期状態を明示的にセット
+    const finale = document.getElementById("seifutei-finale");
+    const l1 = document.getElementById("seifutei-finale-1");
+    const l2 = document.getElementById("seifutei-finale-2");
+    const credits = document.getElementById("seifutei-credits");
+    if (finale) finale.style.opacity = "0";
+    if (l1) l1.style.opacity = "0";
+    if (l2) l2.style.opacity = "0";
+    if (credits) credits.style.transform = "translateY(100vh)";
+    if (credits) credits.style.animation = "none";
+  }, []);
+
+  useEffect(() => {
     const container = snapRef.current;
     if (!container) return;
 
@@ -229,10 +242,10 @@ export default function NabariPage() {
           <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 50% 45% at 50% 50%, transparent 0%, rgba(0,0,0,0.85) 100%)" }} />
           {/* コンテンツ */}
           <div className="relative h-full overflow-hidden">
-            <div id="seifutei-finale" className="absolute inset-0 flex flex-col items-center justify-center text-center px-8" style={{ opacity: 0 }}>
-              <p id="seifutei-finale-1" className="text-2xl tracking-[0.3em] text-white/70" style={{ opacity: 0 }}>ここから乱歩と名張の物語は</p>
+            <div id="seifutei-finale" className="absolute inset-0 flex flex-col items-center justify-center text-center px-8 opacity-0">
+              <p id="seifutei-finale-1" className="text-2xl tracking-[0.3em] text-white/70 opacity-0">ここから乱歩と名張の物語は</p>
               <div className="h-28" />
-              <p id="seifutei-finale-2" className="text-3xl font-light tracking-widest text-white/75" style={{ opacity: 0 }}>再び動き始める</p>
+              <p id="seifutei-finale-2" className="text-3xl font-light tracking-widest text-white/75 opacity-0">再び動き始める</p>
             </div>
             <div id="seifutei-credits" style={{ transform: "translateY(100vh)" }} className="absolute left-0 right-0 px-8 text-white text-center">
               <div className="max-w-lg mx-auto space-y-16 py-8">
