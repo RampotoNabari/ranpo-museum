@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const CREDITS_DURATION = 40000;
 
@@ -8,6 +8,7 @@ export default function NabariPage() {
   const snapRef = useRef<HTMLDivElement>(null);
   const seifuteiBgRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoBlocked, setVideoBlocked] = useState(false);
 
   // 動画の自動再生（canplayを待ってから実行）
   useEffect(() => {
@@ -17,10 +18,8 @@ export default function NabariPage() {
 
     const attemptPlay = () => {
       video.play().catch(() => {
-        // ブラウザポリシーで弾かれた場合、最初のユーザー操作で再生
-        const onInteraction = () => { video.play().catch(() => {}); };
-        document.addEventListener("click", onInteraction, { once: true });
-        document.addEventListener("touchstart", onInteraction, { once: true });
+        // autoplayがブロックされたら再生ボタンを表示
+        setVideoBlocked(true);
       });
     };
 
@@ -170,6 +169,22 @@ export default function NabariPage() {
             className="absolute inset-0 w-full h-full object-cover object-center"
           />
           <div className="absolute inset-0 bg-black/65" />
+          {videoBlocked && (
+            <button
+              onClick={() => {
+                videoRef.current?.play().catch(() => {});
+                setVideoBlocked(false);
+              }}
+              className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-4 cursor-pointer bg-transparent border-none"
+            >
+              <div className="w-16 h-16 rounded-full border border-white/40 flex items-center justify-center hover:border-white/80 transition-colors duration-300">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="white" style={{ opacity: 0.7, marginLeft: 3 }}>
+                  <polygon points="4,2 18,10 4,18" />
+                </svg>
+              </div>
+              <p className="text-white/40 text-xs tracking-[0.3em]">タップして再生</p>
+            </button>
+          )}
           <div className="scroll-credits absolute left-0 right-0 px-8 text-white text-center">
             <div className="max-w-md mx-auto space-y-20 py-8">
               <div className="space-y-6">
