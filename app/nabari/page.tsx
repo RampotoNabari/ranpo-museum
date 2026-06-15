@@ -274,8 +274,7 @@ export default function NabariPage() {
               </div>
               <div className="text-base md:text-2xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.2] mb-4">
                 <span className="dawn-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>五十七年の歳月を経て、</span>
-                <span className="dawn-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>ひっそりと守られてきた</span>
-                <span className="dawn-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>生誕の地へ。</span>
+                <span className="dawn-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>ひっそりと守られてきた生誕の地へ。</span>
               </div>
               <div className="text-base md:text-2xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.2]">
                 <span className="dawn-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>Rampoにとっては</span>
@@ -294,13 +293,12 @@ export default function NabariPage() {
           <div className="absolute left-0 right-0 bottom-0 top-14 overflow-y-auto snap-hide-scrollbar">
             <div className="min-h-full flex flex-col items-center justify-center px-8 text-center py-4">
               <div className="text-base md:text-2xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.2] mb-1">
-                <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>ただの「生まれた町」が、</span>
-                <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>この日、</span>
+                <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>ただの「生まれた町」が、この日、</span>
                 <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>切っても切れない</span>
               </div>
               <p className="hiawai-fade text-2xl md:text-4xl font-light tracking-widest text-[#f0ebe0] mb-4"
                  style={{ opacity: 0, transform: "translateY(20px)" }}>
-                「故郷」になった。
+                「ふるさと」になった。
               </p>
               <div className="text-base md:text-2xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.2] mb-1">
                 <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>生誕の地をひっそりと守り続け、</span>
@@ -308,10 +306,8 @@ export default function NabariPage() {
                 <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>名張の人々の眼差し。</span>
               </div>
               <div className="text-base md:text-2xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.2]">
-                <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>彼らの存在こそが、</span>
-                <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>Rampoの心に</span>
-                <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>本当の「故郷」を</span>
-                <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>創り出したのだ。</span>
+                <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>彼らの存在こそが、乱歩の心に</span>
+                <span className="hiawai-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>本当の「ふるさと」を創り出したのだ。</span>
               </div>
             </div>
           </div>
