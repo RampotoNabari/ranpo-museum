@@ -25,7 +25,7 @@ export default function Header() {
           乱歩
         </Link>
         <Link href="/nabari" className={`text-xs tracking-[0.25em] hover:opacity-60 transition-opacity ${isDark ? "text-white/70" : "text-[var(--muted)]"}`}>
-          名張
+          ふるさと発見
         </Link>
         <Link href="/story" className={`text-xs tracking-[0.25em] hover:opacity-60 transition-opacity ${isDark ? "text-white/70" : "text-[var(--muted)]"}`}>
           物語
@@ -56,7 +56,7 @@ export default function Header() {
             乱歩
           </Link>
           <Link href="/nabari" className="text-xs tracking-[0.3em] text-[var(--muted)] hover:text-[var(--foreground)] transition-colors" onClick={() => setMenuOpen(false)}>
-            名張
+            ふるさと発見
           </Link>
           <Link href="/story" className="text-xs tracking-[0.3em] text-[var(--muted)] hover:text-[var(--foreground)] transition-colors" onClick={() => setMenuOpen(false)}>
             物語
