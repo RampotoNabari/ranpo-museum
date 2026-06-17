@@ -8,6 +8,7 @@ export default function NabariPage() {
   const snapRef = useRef<HTMLDivElement>(null);
   const seifuteiBgRef = useRef<HTMLDivElement>(null);
   const exteriorBgRef = useRef<HTMLDivElement>(null);
+  const hiawaiiBgRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoBlocked, setVideoBlocked] = useState(false);
 
@@ -53,55 +54,58 @@ export default function NabariPage() {
     const container = snapRef.current;
     if (!container) return;
 
-    // ─── 1枚目→2枚目：スナップ解除→JS同期スクロール＋背景上昇（40秒後） ───
-    const TRANSITION_DURATION = 10000; // 10秒（背景上昇とスクロールを完全同期）
+    const BG_DURATION = 10000; // 背景せり上がり：10秒
 
-    const timer = setTimeout(() => {
-      const s2 = document.getElementById("section-2");
-      if (!s2 || !seifuteiBgRef.current) return;
+    // 背景せり上がり＋スナップ解除スクロールを同時実行するヘルパー
+    const transitionToSection = (
+      sectionId: string,
+      bgRef: React.RefObject<HTMLDivElement | null>
+    ) => {
+      const section = document.getElementById(sectionId);
+      if (!section) return;
 
-      // ① スナップを一時解除（この間はJS制御で滑らかに動く）
+      // スナップ解除 → JS スクロール（10秒）→ スナップ再有効化
       container.style.scrollSnapType = "none";
-
-      // ② 背景を同じ2秒で上昇
-      seifuteiBgRef.current.style.transition = `transform ${TRANSITION_DURATION}ms ease-out`;
-      seifuteiBgRef.current.style.transform = "scale(1.12) translateY(0px)";
-
-      // ③ JSカスタムスクロール（easeInOut 2秒）
       const startTop = container.scrollTop;
-      const endTop = s2.offsetTop;
+      const endTop = section.offsetTop;
       const startTime = performance.now();
 
       const animateScroll = (now: number) => {
         const elapsed = now - startTime;
-        const t = Math.min(elapsed / TRANSITION_DURATION, 1);
-        // easeInOutCubic
+        const t = Math.min(elapsed / BG_DURATION, 1);
         const ease = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
         container.scrollTop = startTop + (endTop - startTop) * ease;
         if (t < 1) {
           requestAnimationFrame(animateScroll);
         } else {
-          // ④ スクロール完了後にスナップを再有効化
           container.style.scrollSnapType = "y mandatory";
         }
       };
       requestAnimationFrame(animateScroll);
-    }, CREDITS_DURATION);
+
+      // 背景せり上がり（スクロールと同時・10秒）
+      if (bgRef.current) {
+        bgRef.current.style.transition = `transform ${BG_DURATION}ms ease-out`;
+        bgRef.current.style.transform = "scale(1.12) translateY(0px)";
+      }
+    };
+
+    // ─── 背景タイマー（ページロードからの絶対時間） ───
+    // t=30s: 2枚目へ
+    const t2 = setTimeout(() => transitionToSection("section-2", seifuteiBgRef), 30000);
+    // t=60s: 3枚目へ
+    const t3 = setTimeout(() => transitionToSection("section-3", exteriorBgRef), 60000);
+    // t=80s: 4枚目へ（3枚目に20秒滞在）
+    const t4 = setTimeout(() => transitionToSection("section-4", hiawaiiBgRef), 80000);
 
     const observerOpts = { root: container, threshold: 0.1 };
 
-    // ─── 2枚目：クレジット + フィナーレ + 3枚目へ自動移動 ───
+    // ─── 2枚目：クレジット + フィナーレ（テキスト演出） ───
     const s2Observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         const credits = document.getElementById("seifutei-credits");
         if (credits) credits.style.animation = "scrollUp 30s linear forwards";
-        setTimeout(() => {
-          if (exteriorBgRef.current) {
-            exteriorBgRef.current.style.transition = "transform 10000ms ease-out";
-            exteriorBgRef.current.style.transform = "scale(1.12) translateY(0px)";
-          }
-        }, 35000);
         setTimeout(() => {
           const finale = document.getElementById("seifutei-finale");
           if (finale) finale.style.opacity = "1";
@@ -111,18 +115,14 @@ export default function NabariPage() {
             const l2 = document.getElementById("seifutei-finale-2");
             if (l2) { l2.style.transition = "opacity 2.5s ease-in"; l2.style.opacity = "1"; }
           }, 2000);
-          setTimeout(() => {
-            const s3 = document.getElementById("section-3");
-            if (s3) container.scrollTo({ top: s3.offsetTop, behavior: "smooth" });
-          }, 10000);
-        }, 30000);
+        }, 20000);
         s2Observer.disconnect();
       });
     }, observerOpts);
     const s2el = document.getElementById("section-2");
     if (s2el) s2Observer.observe(s2el);
 
-    // ─── 3枚目：0.8秒ごとにフェードイン + 4枚目へ自動移動 ───
+    // ─── 3枚目：テキストフェードイン ───
     const s3Observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
@@ -133,18 +133,13 @@ export default function NabariPage() {
             el.style.transform = "translateY(0)";
           }, i * 800);
         });
-        // 7行 × 0.8s + 2.5s フェード + 4s 余韻 = 11.3s
-        setTimeout(() => {
-          const s4 = document.getElementById("section-4");
-          if (s4) container.scrollTo({ top: s4.offsetTop, behavior: "smooth" });
-        }, 11300);
         s3Observer.disconnect();
       });
     }, observerOpts);
     const s3el = document.getElementById("section-3");
     if (s3el) s3Observer.observe(s3el);
 
-    // ─── 4枚目：0.8秒ごとにフェードイン ───
+    // ─── 4枚目：テキストフェードイン ───
     const s4Observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
@@ -162,7 +157,9 @@ export default function NabariPage() {
     if (s4el) s4Observer.observe(s4el);
 
     return () => {
-      clearTimeout(timer);
+      clearTimeout(t2);
+      clearTimeout(t3);
+      clearTimeout(t4);
       s2Observer.disconnect();
       s3Observer.disconnect();
       s4Observer.disconnect();
@@ -312,7 +309,13 @@ export default function NabariPage() {
 
         {/* ── 4枚目：故郷の誕生 ── */}
         <div id="section-4" className="relative h-screen w-full snap-start overflow-hidden">
-          <Image src="/images/nabari-hiawai.jpeg" alt="生誕地に続く路地（ひあわい）" fill className="object-cover object-center" />
+          <div
+            ref={hiawaiiBgRef}
+            className="absolute inset-0"
+            style={{ transform: "scale(1.12) translateY(140px)", willChange: "transform" }}
+          >
+            <Image src="/images/nabari-hiawai.jpeg" alt="生誕地に続く路地（ひあわい）" fill className="object-cover object-center" />
+          </div>
           <div className="absolute inset-0 bg-black/60" />
           <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
           <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 50% 45% at 50% 50%, transparent 0%, rgba(0,0,0,0.82) 100%)" }} />
