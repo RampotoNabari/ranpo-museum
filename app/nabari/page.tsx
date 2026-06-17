@@ -470,8 +470,8 @@ export default function NabariPage() {
                 母は毎日ここにきて洗濯していたのだ。
               </p>
               <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/60 leading-[3] mt-2">
-                <span className="river-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>川の向こうに広がる山を見ながら、</span>
-                <span className="river-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>乱歩が生まれた当時の母の姿が心に浮かんだ。</span>
+                <span className="river-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>乱歩は当時の母の様子を思いながら、</span>
+                <span className="river-fade block text-xl md:text-3xl font-light tracking-widest mt-6" style={{ opacity: 0, transform: "translateY(20px)", color: "#c04444" }}>故郷の空を見上げた。</span>
               </div>
             </div>
           </div>
