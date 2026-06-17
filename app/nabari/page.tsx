@@ -2,11 +2,12 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-const CREDITS_DURATION = 40000;
+const CREDITS_DURATION = 30000;
 
 export default function NabariPage() {
   const snapRef = useRef<HTMLDivElement>(null);
   const seifuteiBgRef = useRef<HTMLDivElement>(null);
+  const exteriorBgRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoBlocked, setVideoBlocked] = useState(false);
 
@@ -53,7 +54,7 @@ export default function NabariPage() {
     if (!container) return;
 
     // ─── 1枚目→2枚目：スナップ解除→JS同期スクロール＋背景上昇（40秒後） ───
-    const TRANSITION_DURATION = 1200; // 1.2秒（背景上昇とスクロールを完全同期）
+    const TRANSITION_DURATION = 10000; // 10秒（背景上昇とスクロールを完全同期）
 
     const timer = setTimeout(() => {
       const s2 = document.getElementById("section-2");
@@ -94,7 +95,13 @@ export default function NabariPage() {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         const credits = document.getElementById("seifutei-credits");
-        if (credits) credits.style.animation = "scrollUp 40s linear forwards";
+        if (credits) credits.style.animation = "scrollUp 30s linear forwards";
+        setTimeout(() => {
+          if (exteriorBgRef.current) {
+            exteriorBgRef.current.style.transition = "transform 10000ms ease-out";
+            exteriorBgRef.current.style.transform = "scale(1.12) translateY(0px)";
+          }
+        }, 35000);
         setTimeout(() => {
           const finale = document.getElementById("seifutei-finale");
           if (finale) finale.style.opacity = "1";
@@ -107,8 +114,8 @@ export default function NabariPage() {
           setTimeout(() => {
             const s3 = document.getElementById("section-3");
             if (s3) container.scrollTo({ top: s3.offsetTop, behavior: "smooth" });
-          }, 6000);
-        }, 37000);
+          }, 10000);
+        }, 30000);
         s2Observer.disconnect();
       });
     }, observerOpts);
@@ -126,11 +133,11 @@ export default function NabariPage() {
             el.style.transform = "translateY(0)";
           }, i * 800);
         });
-        // 8行 × 0.8s + 2.5s フェード + 5s 余韻 = 14.9s
+        // 7行 × 0.8s + 2.5s フェード + 4s 余韻 = 11.3s
         setTimeout(() => {
           const s4 = document.getElementById("section-4");
           if (s4) container.scrollTo({ top: s4.offsetTop, behavior: "smooth" });
-        }, 14900);
+        }, 11300);
         s3Observer.disconnect();
       });
     }, observerOpts);
@@ -270,7 +277,13 @@ export default function NabariPage() {
 
         {/* ── 3枚目：夜明け（暁） ── */}
         <div id="section-3" className="relative h-screen w-full snap-start overflow-hidden">
-          <Image src="/images/seifutei-exterior.jpeg" alt="清風亭の外観" fill className="object-cover object-center" />
+          <div
+            ref={exteriorBgRef}
+            className="absolute inset-0"
+            style={{ transform: "scale(1.12) translateY(140px)", willChange: "transform" }}
+          >
+            <Image src="/images/seifutei-exterior.jpeg" alt="清風亭の外観" fill className="object-cover object-center" />
+          </div>
           <div className="absolute inset-0 bg-black/60" />
           <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
           <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 50% 45% at 50% 50%, transparent 0%, rgba(0,0,0,0.82) 100%)" }} />
