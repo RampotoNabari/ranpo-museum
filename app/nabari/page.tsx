@@ -537,7 +537,7 @@ export default function NabariPage() {
                 </div>
                 <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/60 leading-[3] my-4">
                   <span className="block">「これが横山にいた平井さんの息子さんだ」</span>
-                  <span className="block mt-2">「まあ。大きくおなりなさって」</span>
+                  <span className="block mt-2 text-2xl md:text-3xl text-[#f0ebe0]/90">「まあ。大きくおなりなさって」</span>
                 </div>
                 <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.4]">
                   <span className="block">乱歩に会ったせきの、第一声だった。</span>
