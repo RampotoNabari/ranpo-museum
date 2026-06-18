@@ -150,15 +150,15 @@ export default function NabariPage() {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         const scroll = document.getElementById("masuda-scroll");
-        if (scroll) scroll.style.animation = "scrollUp 22s linear forwards";
-        // テキストが流れ終わる直前に写真を競り上げ
+        if (scroll) scroll.style.animation = "scrollUp 20s linear forwards";
+        // テキストが画面上部へ消えきる直前に写真を競り上げ
         setTimeout(() => {
           const photo = document.getElementById("masuda-photo");
           if (photo) {
             photo.style.transition = "transform 2.5s cubic-bezier(0.16, 1, 0.3, 1)";
             photo.style.transform = "translateX(-50%) translateY(0)";
           }
-        }, 14000);
+        }, 18000);
         s5Observer.disconnect();
       });
     }, observerOpts);
@@ -170,14 +170,14 @@ export default function NabariPage() {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         const scroll = document.getElementById("river-scroll");
-        if (scroll) scroll.style.animation = "scrollUp 22s linear forwards";
+        if (scroll) scroll.style.animation = "scrollUp 20s linear forwards";
         setTimeout(() => {
           const photo = document.getElementById("river-photo");
           if (photo) {
             photo.style.transition = "transform 2.5s cubic-bezier(0.16, 1, 0.3, 1)";
             photo.style.transform = "translateX(-50%) translateY(0)";
           }
-        }, 14000);
+        }, 18000);
         s6Observer.disconnect();
       });
     }, observerOpts);
