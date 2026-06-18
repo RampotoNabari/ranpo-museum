@@ -296,7 +296,7 @@ export default function NabariPage() {
           <div className="scroll-credits absolute left-0 right-0 px-8 text-white text-center">
             <div className="max-w-md mx-auto space-y-20 py-8">
               <div className="space-y-6">
-                <p className="text-base tracking-[0.5em]" style={{ color: "#c04444" }}>昭和二十七年（一九五二年）九月</p>
+                <p className="text-xl tracking-[0.5em]" style={{ color: "#c04444" }}>昭和二十七年（一九五二年）九月</p>
                 <h1 className="text-5xl font-light tracking-[0.3em] text-white/90 leading-[2]">名張という町</h1>
               </div>
               <div className="space-y-8">
@@ -306,7 +306,7 @@ export default function NabariPage() {
                 <p className="text-2xl tracking-widest text-white/80">それが、五十七年間。</p>
               </div>
               <div className="space-y-3">
-                <p className="text-base tracking-[0.4em]" style={{ color: "#c04444" }}>九月二十六日</p>
+                <p className="text-xl tracking-[0.4em]" style={{ color: "#c04444" }}>九月二十六日</p>
                 <p className="text-3xl font-light tracking-widest text-white/90">宇流冨志禰神社</p>
               </div>
               <p className="text-2xl leading-[2.8]">きっかけは、選挙応援だった。</p>
@@ -344,7 +344,7 @@ export default function NabariPage() {
             </div>
             <div id="seifutei-credits" style={{ transform: "translateY(100vh)" }} className="absolute left-0 right-0 px-8 text-white text-center">
               <div className="max-w-lg mx-auto space-y-16 py-8">
-                <p className="text-base tracking-[0.4em]" style={{ color: "#c04444" }}>九月二十六日　夜　清風亭</p>
+                <p className="text-xl tracking-[0.4em]" style={{ color: "#c04444" }}>九月二十六日　夜　清風亭</p>
                 <p className="text-xl leading-[2.8] tracking-wider text-white/60">
                   名張川に面した旅館の欄干にもたれかかり、<br />
                   川の瀬音を聞きながら、乱歩はぼんやりと夜空を見上げていた。
@@ -353,7 +353,7 @@ export default function NabariPage() {
                 <blockquote className="text-3xl font-light tracking-widest text-white/90 leading-[2.4]">
                   「先生の生まれた家を、<br />私が知っているのです」
                 </blockquote>
-                <p className="text-base tracking-wider" style={{ color: "#c04444" }}>本町の書店主　岡村繁次郎</p>
+                <p className="text-xl tracking-wider" style={{ color: "#c04444" }}>本町の書店主　岡村繁次郎</p>
                 <div className="text-lg leading-[2.8] text-white/50 text-left space-y-8">
                   <p>乱歩の顔に、一瞬、ただごとでない色がはしった。</p>
                   <p>昭和十二年、旅の途中に名張駅で降りて、生家を求めてさまよったことがある。そのときは見つけられなかった。幻のように脳裡につきまとっていた生家が、翌朝ついに姿を現そうとしていた。</p>
@@ -450,7 +450,7 @@ export default function NabariPage() {
             {/* スクロールするテキスト */}
             <div id="masuda-scroll" className="absolute w-full text-center px-8" style={{ transform: "translateY(100vh)" }}>
               <div className="py-16 flex flex-col items-center gap-6">
-                <p className="text-base tracking-[0.5em]" style={{ color: "#c04444" }}>九月二十七日　朝</p>
+                <p className="text-xl tracking-[0.5em]" style={{ color: "#c04444" }}>九月二十七日　朝</p>
                 <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.4]">
                   <span className="block">岡村繁次郎と富森高太郎に案内されて、</span>
                   <span className="block">乱歩は桝田医院を訪ねた。</span>
@@ -489,7 +489,7 @@ export default function NabariPage() {
             {/* スクロールするテキスト */}
             <div id="river-scroll" className="absolute w-full text-center px-8" style={{ transform: "translateY(100vh)" }}>
               <div className="py-16 flex flex-col items-center gap-6">
-                <p className="text-base tracking-[0.5em]" style={{ color: "#c04444" }}>九月二十七日　午後</p>
+                <p className="text-xl tracking-[0.5em]" style={{ color: "#c04444" }}>九月二十七日　午後</p>
                 <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.4]">
                   <span className="block">桝田医院から辻酒店に向かう前に、</span>
                   <span className="block">乱歩は河原に出てみた。</span>
@@ -530,7 +530,7 @@ export default function NabariPage() {
           <div className="absolute left-0 right-0 bottom-0 top-14 overflow-hidden">
             <div id="tsuji-scroll" className="absolute w-full text-center px-8" style={{ transform: "translateY(100vh)" }}>
               <div className="py-20 flex flex-col items-center gap-5">
-                <p className="text-base tracking-[0.5em]" style={{ color: "#c04444" }}>九月二十七日　午後</p>
+                <p className="text-xl tracking-[0.5em]" style={{ color: "#c04444" }}>九月二十七日　午後</p>
                 <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/80 leading-[2.4]">
                   <span className="block">乱歩は辻酒店を訪れた。</span>
                   <span className="block">辻せきとの、五十七年ぶりの再会である。</span>
