@@ -96,16 +96,11 @@ export default function NabariPage() {
     // ─── 背景タイマー（ページロードからの絶対時間） ───
     // t=30s: 2枚目へ
     const t2 = setTimeout(() => transitionToSection("section-2", seifuteiBgRef), 30000);
-    // t=60s: 3枚目へ（2枚目に30秒滞在）
-    const t3 = setTimeout(() => transitionToSection("section-3", exteriorBgRef), 60000);
-    // t=75s: 4枚目へ（3枚目に15秒滞在）
-    const t4 = setTimeout(() => transitionToSection("section-4", hiawaiiBgRef), 75000);
-    // t=90s: 5枚目へ（4枚目に15秒滞在）
-    const t5 = setTimeout(() => transitionToSection("section-5", masudaBgRef), 90000);
-    // t=130s: 6枚目へ（5枚目に40秒滞在）
-    const t6 = setTimeout(() => transitionToSection("section-6", riverBgRef), 130000);
-    // t=175s: 7枚目へ（6枚目に45秒滞在）
-    const t7 = setTimeout(() => transitionToSection("section-7", tsujiRef), 175000);
+
+    // 次の自動遷移タイマー（どのObserverからもキャンセル・再スケジュール可能）
+    let nextAutoTimer: ReturnType<typeof setTimeout> | undefined;
+    const cancelNext = () => { if (nextAutoTimer) clearTimeout(nextAutoTimer); };
+    const scheduleNext = (fn: () => void, ms: number) => { cancelNext(); nextAutoTimer = setTimeout(fn, ms); };
 
     const observerOpts = { root: container, threshold: 0.1 };
 
@@ -114,6 +109,7 @@ export default function NabariPage() {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         clearTimeout(t2);
+        cancelNext();
         const credits = document.getElementById("seifutei-credits");
         if (credits) credits.style.animation = "scrollUp 30s linear forwards";
         setTimeout(() => {
@@ -126,6 +122,7 @@ export default function NabariPage() {
             if (l2) { l2.style.transition = "opacity 2.5s ease-in"; l2.style.opacity = "1"; }
           }, 3000);
         }, 25000);
+        scheduleNext(() => transitionToSection("section-3", exteriorBgRef), 30000);
         s2Observer.disconnect();
       });
     }, observerOpts);
@@ -136,7 +133,8 @@ export default function NabariPage() {
     const s3Observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        clearTimeout(t3);
+        clearTimeout(t2);
+        cancelNext();
         document.querySelectorAll<HTMLElement>(".dawn-fade").forEach((el, i) => {
           setTimeout(() => {
             el.style.transition = "opacity 2.5s ease-out, transform 3s ease-out";
@@ -144,6 +142,7 @@ export default function NabariPage() {
             el.style.transform = "translateY(0)";
           }, i * 800);
         });
+        scheduleNext(() => transitionToSection("section-4", hiawaiiBgRef), 15000);
         s3Observer.disconnect();
       });
     }, observerOpts);
@@ -156,7 +155,8 @@ export default function NabariPage() {
     const s5Observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        // 背景：2〜4枚目と同じせり上がり
+        clearTimeout(t2);
+        cancelNext();
         if (masudaBgRef.current) {
           masudaBgRef.current.style.transition = "transform 10s ease-out";
           masudaBgRef.current.style.transform = "scale(1.12) translateY(0px)";
@@ -172,13 +172,7 @@ export default function NabariPage() {
             photo.style.transform = "translateX(-50%) translateY(calc(-50vh + 50%))";
           }
         }, 14000);
-        // 写真表示から4秒後（25秒+4秒）に6枚目へ遷移（以降の自動タイマーはキャンセル）
-        setTimeout(() => {
-          clearTimeout(t5);
-          clearTimeout(t6);
-          clearTimeout(t7);
-          transitionToSection("section-6", riverBgRef);
-        }, 29000);
+        scheduleNext(() => transitionToSection("section-6", riverBgRef), 29000);
         s5Observer.disconnect();
       });
     }, fullViewOpts);
@@ -189,7 +183,8 @@ export default function NabariPage() {
     const s6Observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        // 背景：2〜4枚目と同じせり上がり
+        clearTimeout(t2);
+        cancelNext();
         if (riverBgRef.current) {
           riverBgRef.current.style.transition = "transform 10s ease-out";
           riverBgRef.current.style.transform = "scale(1.12) translateY(0px)";
@@ -205,12 +200,7 @@ export default function NabariPage() {
             photo.style.transform = "translateX(-50%) translateY(calc(-50vh + 50%))";
           }
         }, 14000);
-        // 写真表示から4秒後（25秒+4秒）に7枚目へ遷移（以降の自動タイマーはキャンセル）
-        setTimeout(() => {
-          clearTimeout(t6);
-          clearTimeout(t7);
-          transitionToSection("section-7", tsujiRef);
-        }, 29000);
+        scheduleNext(() => transitionToSection("section-7", tsujiRef), 29000);
         s6Observer.disconnect();
       });
     }, fullViewOpts);
@@ -221,7 +211,8 @@ export default function NabariPage() {
     const s4Observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        clearTimeout(t4);
+        clearTimeout(t2);
+        cancelNext();
         document.querySelectorAll<HTMLElement>(".hiawai-fade").forEach((el, i) => {
           setTimeout(() => {
             el.style.transition = "opacity 2.5s ease-out, transform 3s ease-out";
@@ -229,6 +220,7 @@ export default function NabariPage() {
             el.style.transform = "translateY(0)";
           }, i * 800);
         });
+        scheduleNext(() => transitionToSection("section-5", masudaBgRef), 15000);
         s4Observer.disconnect();
       });
     }, observerOpts);
@@ -239,6 +231,8 @@ export default function NabariPage() {
     const s7Observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
+        clearTimeout(t2);
+        cancelNext();
         if (tsujiRef.current) {
           tsujiRef.current.style.transition = "transform 10s ease-out";
           tsujiRef.current.style.transform = "scale(1.12) translateY(0px)";
@@ -253,11 +247,7 @@ export default function NabariPage() {
 
     return () => {
       clearTimeout(t2);
-      clearTimeout(t3);
-      clearTimeout(t4);
-      clearTimeout(t5);
-      clearTimeout(t6);
-      clearTimeout(t7);
+      cancelNext();
       s2Observer.disconnect();
       s3Observer.disconnect();
       s4Observer.disconnect();
