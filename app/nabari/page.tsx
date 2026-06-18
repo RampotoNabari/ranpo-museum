@@ -113,6 +113,7 @@ export default function NabariPage() {
     const s2Observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
+        clearTimeout(t2);
         const credits = document.getElementById("seifutei-credits");
         if (credits) credits.style.animation = "scrollUp 30s linear forwards";
         setTimeout(() => {
@@ -135,6 +136,7 @@ export default function NabariPage() {
     const s3Observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
+        clearTimeout(t3);
         document.querySelectorAll<HTMLElement>(".dawn-fade").forEach((el, i) => {
           setTimeout(() => {
             el.style.transition = "opacity 2.5s ease-out, transform 3s ease-out";
@@ -170,16 +172,12 @@ export default function NabariPage() {
             photo.style.transform = "translateX(-50%) translateY(calc(-50vh + 50%))";
           }
         }, 14000);
-        // 写真表示から4秒後（25秒+4秒）に6枚目へ遷移
+        // 写真表示から4秒後（25秒+4秒）に6枚目へ遷移（以降の自動タイマーはキャンセル）
         setTimeout(() => {
-          const s6 = document.getElementById("section-6");
-          if (s6 && container) {
-            container.style.scrollSnapType = "none";
-            requestAnimationFrame(() => requestAnimationFrame(() => {
-              container.scrollTop = s6.offsetTop;
-              container.style.scrollSnapType = "y mandatory";
-            }));
-          }
+          clearTimeout(t5);
+          clearTimeout(t6);
+          clearTimeout(t7);
+          transitionToSection("section-6", riverBgRef);
         }, 29000);
         s5Observer.disconnect();
       });
@@ -207,16 +205,11 @@ export default function NabariPage() {
             photo.style.transform = "translateX(-50%) translateY(calc(-50vh + 50%))";
           }
         }, 14000);
-        // 写真表示から4秒後（25秒+4秒）に7枚目へ遷移
+        // 写真表示から4秒後（25秒+4秒）に7枚目へ遷移（以降の自動タイマーはキャンセル）
         setTimeout(() => {
-          const s7 = document.getElementById("section-7");
-          if (s7 && container) {
-            container.style.scrollSnapType = "none";
-            requestAnimationFrame(() => requestAnimationFrame(() => {
-              container.scrollTop = s7.offsetTop;
-              container.style.scrollSnapType = "y mandatory";
-            }));
-          }
+          clearTimeout(t6);
+          clearTimeout(t7);
+          transitionToSection("section-7", tsujiRef);
         }, 29000);
         s6Observer.disconnect();
       });
@@ -228,6 +221,7 @@ export default function NabariPage() {
     const s4Observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
+        clearTimeout(t4);
         document.querySelectorAll<HTMLElement>(".hiawai-fade").forEach((el, i) => {
           setTimeout(() => {
             el.style.transition = "opacity 2.5s ease-out, transform 3s ease-out";
@@ -279,12 +273,12 @@ export default function NabariPage() {
       {/* ===== スナップコンテナ（4枚の全画面セクション） ===== */}
       <div
         ref={snapRef}
-        className="h-screen overflow-y-scroll snap-y snap-mandatory"
+        className="h-svh overflow-y-scroll snap-y snap-mandatory"
         style={{ scrollbarWidth: "none" }}
       >
 
         {/* ── 1枚目：動画 + 映画クレジット ── */}
-        <div id="section-1" className="relative h-screen w-full snap-start overflow-hidden" style={{ backgroundColor: "#1a1a1a" }}>
+        <div id="section-1" className="relative h-svh w-full snap-start overflow-hidden" style={{ backgroundColor: "#1a1a1a" }}>
           <video
             ref={videoRef}
             src="/videos/nabari-shrine-small.mp4"
@@ -339,7 +333,7 @@ export default function NabariPage() {
         </div>
 
         {/* ── 2枚目：清風亭の夜 ── */}
-        <div id="section-2" className="relative h-screen w-full snap-start overflow-hidden">
+        <div id="section-2" className="relative h-svh w-full snap-start overflow-hidden">
           {/* 背景：1→2 スクロールに連動してせり上がる */}
           <div
             ref={seifuteiBgRef}
@@ -380,7 +374,7 @@ export default function NabariPage() {
         </div>
 
         {/* ── 3枚目：夜明け（暁） ── */}
-        <div id="section-3" className="relative h-screen w-full snap-start overflow-hidden">
+        <div id="section-3" className="relative h-svh w-full snap-start overflow-hidden">
           <div
             ref={exteriorBgRef}
             className="absolute inset-0"
@@ -415,7 +409,7 @@ export default function NabariPage() {
         </div>
 
         {/* ── 4枚目：故郷の誕生 ── */}
-        <div id="section-4" className="relative h-screen w-full snap-start overflow-hidden">
+        <div id="section-4" className="relative h-svh w-full snap-start overflow-hidden">
           <div
             ref={hiawaiiBgRef}
             className="absolute inset-0"
@@ -451,7 +445,7 @@ export default function NabariPage() {
         </div>
 
         {/* ── 5枚目：桝田医院 ── */}
-        <div id="section-5" className="relative h-screen w-full snap-start overflow-hidden">
+        <div id="section-5" className="relative h-svh w-full snap-start overflow-hidden">
           <div
             ref={masudaBgRef}
             className="absolute inset-0"
@@ -490,7 +484,7 @@ export default function NabariPage() {
         </div>
 
         {/* ── 6枚目：河原 ── */}
-        <div id="section-6" className="relative h-screen w-full snap-start overflow-hidden">
+        <div id="section-6" className="relative h-svh w-full snap-start overflow-hidden">
           <div
             ref={riverBgRef}
             className="absolute inset-0"
@@ -532,7 +526,7 @@ export default function NabariPage() {
         </div>
 
         {/* ── 7枚目：辻酒店・結び ── */}
-        <div id="section-7" className="relative h-screen w-full snap-start overflow-hidden">
+        <div id="section-7" className="relative h-svh w-full snap-start overflow-hidden">
           <div
             ref={tsujiRef}
             className="absolute inset-0"
