@@ -427,7 +427,7 @@ export default function NabariPage() {
                 <span className="masuda-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>乱歩は、建て替えられた本宅の二階に案内された。</span>
               </div>
               {/* 当時の写真 */}
-              <div id="masuda-photo" className="mt-12 relative w-64 md:w-80 aspect-[4/3] overflow-hidden" style={{ opacity: 0, outline: "none", border: "none" }}>
+              <div id="masuda-photo" className="mt-6 relative w-48 md:w-72 aspect-[4/3] overflow-hidden" style={{ opacity: 0, outline: "none", border: "none" }}>
                 <Image src="/images/masuda-with-rampo.jpg" alt="桝田医師と乱歩" fill className="object-cover object-center" loading="lazy" style={{ filter: "brightness(0.6)", transform: "scale(1.08)", transformOrigin: "center" }} />
                 <p className="absolute bottom-2 left-0 right-0 text-center text-xs tracking-wider" style={{ color: "rgba(240,235,224,0.5)" }}>昭和二十七年　桝田医師と乱歩</p>
               </div>
@@ -458,18 +458,18 @@ export default function NabariPage() {
                 <span className="river-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>乱歩は河原に出てみた。</span>
               </div>
               {/* 当時の写真 */}
-              <div id="river-photo" className="my-8 relative w-64 md:w-80 aspect-[4/3] overflow-hidden" style={{ opacity: 0 }}>
+              <div id="river-photo" className="my-4 relative w-48 md:w-72 aspect-[4/3] overflow-hidden" style={{ opacity: 0 }}>
                 <Image src="/images/rampo-river.jpg" alt="河原に立つ乱歩" fill className="object-cover object-center" loading="lazy" style={{ filter: "brightness(0.6)", transform: "scale(1.18)" }} />
                 <p className="absolute bottom-2 left-0 right-0 text-center text-xs tracking-wider" style={{ color: "rgba(240,235,224,0.5)" }}>昭和二十七年　名張川にて</p>
               </div>
-              <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70 leading-[3]">
+              <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.4]">
                 <span className="river-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>川までの石組みがしてあって、</span>
                 <span className="river-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>洗濯ができるようになっている。</span>
               </div>
-              <p className="river-fade text-xl md:text-3xl font-light tracking-widest text-[#f0ebe0] my-6" style={{ opacity: 0, transform: "translateY(20px)" }}>
+              <p className="river-fade text-xl md:text-3xl font-light tracking-widest text-[#f0ebe0] my-4" style={{ opacity: 0, transform: "translateY(20px)" }}>
                 母は毎日ここにきて洗濯していたのだ。
               </p>
-              <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/60 leading-[3] mt-2">
+              <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/60 leading-[2.4] mt-2">
                 <span className="river-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>乱歩は当時の母の様子を思いながら、</span>
                 <span className="river-fade block text-xl md:text-3xl font-light tracking-widest mt-6" style={{ opacity: 0, transform: "translateY(20px)", color: "#c04444" }}>故郷の空を見上げた。</span>
               </div>
