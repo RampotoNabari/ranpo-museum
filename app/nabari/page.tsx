@@ -159,12 +159,14 @@ export default function NabariPage() {
         // テキストスクロール（25秒）
         const scroll = document.getElementById("masuda-scroll");
         if (scroll) scroll.style.animation = "scrollUp 25s linear forwards";
-        // 写真：テキストと同速（linear）で中央まで上げて止める
-        const photo = document.getElementById("masuda-photo");
-        if (photo) {
-          photo.style.transition = "transform 11s linear";
-          photo.style.transform = "translateX(-50%) translateY(calc(-50vh + 50%))";
-        }
+        // 写真：テキストが消える直前（14秒後）に中央まで上げて止める
+        setTimeout(() => {
+          const photo = document.getElementById("masuda-photo");
+          if (photo) {
+            photo.style.transition = "transform 11s linear";
+            photo.style.transform = "translateX(-50%) translateY(calc(-50vh + 50%))";
+          }
+        }, 14000);
         s5Observer.disconnect();
       });
     }, fullViewOpts);
@@ -183,12 +185,14 @@ export default function NabariPage() {
         // テキストスクロール（25秒）
         const scroll = document.getElementById("river-scroll");
         if (scroll) scroll.style.animation = "scrollUp 25s linear forwards";
-        // 写真：テキストと同速（linear）で中央まで上げて止める
-        const photo = document.getElementById("river-photo");
-        if (photo) {
-          photo.style.transition = "transform 11s linear";
-          photo.style.transform = "translateX(-50%) translateY(calc(-50vh + 50%))";
-        }
+        // 写真：テキストが消える直前（14秒後）に中央まで上げて止める
+        setTimeout(() => {
+          const photo = document.getElementById("river-photo");
+          if (photo) {
+            photo.style.transition = "transform 11s linear";
+            photo.style.transform = "translateX(-50%) translateY(calc(-50vh + 50%))";
+          }
+        }, 14000);
         s6Observer.disconnect();
       });
     }, fullViewOpts);
