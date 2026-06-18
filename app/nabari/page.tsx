@@ -378,7 +378,7 @@ export default function NabariPage() {
           {/* ヘッダー(56px)を避けて top-14 から開始。flex centering との overflow 衝突も解消 */}
           <div className="absolute left-0 right-0 bottom-0 top-14 overflow-y-auto snap-hide-scrollbar">
             <div className="min-h-full flex flex-col items-center justify-center px-8 text-center py-4">
-              <p className="dawn-fade text-sm tracking-[0.5em] mb-4"
+              <p className="dawn-fade text-xl tracking-[0.5em] mb-4"
                  style={{ color: "#c04444", opacity: 0, transform: "translateY(20px)" }}>
                 昭和二十七年　九月二十七日　暁
               </p>
