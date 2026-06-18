@@ -439,7 +439,7 @@ export default function NabariPage() {
               </div>
             </div>
             {/* 写真：下から競り上がって止まる */}
-            <div id="masuda-photo" className="absolute bottom-0 left-1/2 w-56 md:w-80 aspect-[4/3] overflow-hidden" style={{ transform: "translateX(-50%) translateY(100%)" }}>
+            <div id="masuda-photo" className="absolute bottom-0 left-1/2 w-72 md:w-96 aspect-[4/3] overflow-hidden" style={{ transform: "translateX(-50%) translateY(100%)" }}>
               <Image src="/images/masuda-with-rampo.jpg" alt="桝田医師と乱歩" fill className="object-cover object-center" loading="lazy" style={{ filter: "brightness(0.6)", transform: "scale(1.08)", transformOrigin: "center" }} />
               <p className="absolute bottom-2 left-0 right-0 text-center text-xs tracking-wider" style={{ color: "rgba(240,235,224,0.5)" }}>昭和二十七年　桝田医師と乱歩</p>
             </div>
@@ -481,7 +481,7 @@ export default function NabariPage() {
               </div>
             </div>
             {/* 写真：下から競り上がって止まる */}
-            <div id="river-photo" className="absolute bottom-0 left-1/2 w-56 md:w-80 aspect-[4/3] overflow-hidden" style={{ transform: "translateX(-50%) translateY(100%)" }}>
+            <div id="river-photo" className="absolute bottom-0 left-1/2 w-72 md:w-96 aspect-[4/3] overflow-hidden" style={{ transform: "translateX(-50%) translateY(100%)" }}>
               <Image src="/images/rampo-river.jpg" alt="河原に立つ乱歩" fill className="object-cover object-center" loading="lazy" style={{ filter: "brightness(0.6)", transform: "scale(1.18)" }} />
               <p className="absolute bottom-2 left-0 right-0 text-center text-xs tracking-wider" style={{ color: "rgba(240,235,224,0.5)" }}>昭和二十七年　名張川にて</p>
             </div>
