@@ -450,7 +450,7 @@ export default function NabariPage() {
             {/* スクロールするテキスト */}
             <div id="masuda-scroll" className="absolute w-full text-center px-8" style={{ transform: "translateY(100vh)" }}>
               <div className="py-16 flex flex-col items-center gap-6">
-                <p className="text-sm tracking-[0.5em]" style={{ color: "#c04444" }}>九月二十七日　朝</p>
+                <p className="text-base tracking-[0.5em]" style={{ color: "#c04444" }}>九月二十七日　朝</p>
                 <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.4]">
                   <span className="block">岡村繁次郎と富森高太郎に案内されて、</span>
                   <span className="block">乱歩は桝田医院を訪ねた。</span>
@@ -489,7 +489,7 @@ export default function NabariPage() {
             {/* スクロールするテキスト */}
             <div id="river-scroll" className="absolute w-full text-center px-8" style={{ transform: "translateY(100vh)" }}>
               <div className="py-16 flex flex-col items-center gap-6">
-                <p className="text-sm tracking-[0.5em]" style={{ color: "#c04444" }}>九月二十七日　午後</p>
+                <p className="text-base tracking-[0.5em]" style={{ color: "#c04444" }}>九月二十七日　午後</p>
                 <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.4]">
                   <span className="block">桝田医院から辻酒店に向かう前に、</span>
                   <span className="block">乱歩は河原に出てみた。</span>
@@ -530,7 +530,7 @@ export default function NabariPage() {
           <div className="absolute left-0 right-0 bottom-0 top-14 overflow-hidden">
             <div id="tsuji-scroll" className="absolute w-full text-center px-8" style={{ transform: "translateY(100vh)" }}>
               <div className="py-20 flex flex-col items-center gap-5">
-                <p className="text-sm tracking-[0.5em]" style={{ color: "#c04444" }}>九月二十七日　午後</p>
+                <p className="text-base tracking-[0.5em]" style={{ color: "#c04444" }}>九月二十七日　午後</p>
                 <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/80 leading-[2.4]">
                   <span className="block">乱歩は辻酒店を訪れた。</span>
                   <span className="block">辻せきとの、五十七年ぶりの再会である。</span>
