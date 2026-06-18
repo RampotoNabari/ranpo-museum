@@ -170,6 +170,17 @@ export default function NabariPage() {
             photo.style.transform = "translateX(-50%) translateY(calc(-50vh + 50%))";
           }
         }, 14000);
+        // 写真表示から4秒後（25秒+4秒）に6枚目へ遷移
+        setTimeout(() => {
+          const s6 = document.getElementById("section-6");
+          if (s6 && container) {
+            container.style.scrollSnapType = "none";
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+              container.scrollTop = s6.offsetTop;
+              container.style.scrollSnapType = "y mandatory";
+            }));
+          }
+        }, 29000);
         s5Observer.disconnect();
       });
     }, fullViewOpts);
@@ -196,6 +207,17 @@ export default function NabariPage() {
             photo.style.transform = "translateX(-50%) translateY(calc(-50vh + 50%))";
           }
         }, 14000);
+        // 写真表示から4秒後（25秒+4秒）に7枚目へ遷移
+        setTimeout(() => {
+          const s7 = document.getElementById("section-7");
+          if (s7 && container) {
+            container.style.scrollSnapType = "none";
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+              container.scrollTop = s7.offsetTop;
+              container.style.scrollSnapType = "y mandatory";
+            }));
+          }
+        }, 29000);
         s6Observer.disconnect();
       });
     }, fullViewOpts);
