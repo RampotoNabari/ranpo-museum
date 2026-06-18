@@ -296,7 +296,7 @@ export default function NabariPage() {
           <div className="scroll-credits absolute left-0 right-0 px-8 text-white text-center">
             <div className="max-w-md mx-auto space-y-20 py-8">
               <div className="space-y-6">
-                <p className="text-xl tracking-[0.5em]" style={{ color: "#c04444" }}>昭和二十七年（一九五二年）九月</p>
+                <p className="text-xl tracking-[0.5em] whitespace-nowrap" style={{ color: "#c04444" }}>昭和二十七年（一九五二年）九月</p>
                 <h1 className="text-5xl font-light tracking-[0.3em] text-white/90 leading-[2]">名張という町</h1>
               </div>
               <div className="space-y-8">
