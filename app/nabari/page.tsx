@@ -514,9 +514,9 @@ export default function NabariPage() {
           <div
             ref={tsujiRef}
             className="absolute inset-0"
-            style={{ transform: "scale(1.12) translateY(140px)", willChange: "transform" }}
+            style={{ transform: "scale(1.0) translateY(0px)", willChange: "transform" }}
           >
-            <Image src="/images/nabari-monument-park.jpeg" alt="江戸川乱歩生誕地" fill className="object-cover object-center" loading="lazy" />
+            <Image src="/images/IMG_2639.jpeg" alt="辻せきが作った人形たち" fill className="object-cover" style={{ objectPosition: "center center" }} loading="lazy" />
           </div>
           <div className="absolute inset-0 bg-black/50" />
           <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
