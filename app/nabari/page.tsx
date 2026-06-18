@@ -273,12 +273,12 @@ export default function NabariPage() {
       {/* ===== スナップコンテナ（4枚の全画面セクション） ===== */}
       <div
         ref={snapRef}
-        className="h-svh overflow-y-scroll snap-y snap-mandatory"
+        className="h-screen overflow-y-scroll snap-y snap-mandatory"
         style={{ scrollbarWidth: "none" }}
       >
 
         {/* ── 1枚目：動画 + 映画クレジット ── */}
-        <div id="section-1" className="relative h-svh w-full snap-start overflow-hidden" style={{ backgroundColor: "#1a1a1a" }}>
+        <div id="section-1" className="relative h-screen w-full snap-start overflow-hidden" style={{ backgroundColor: "#1a1a1a" }}>
           <video
             ref={videoRef}
             src="/videos/nabari-shrine-small.mp4"
@@ -333,7 +333,7 @@ export default function NabariPage() {
         </div>
 
         {/* ── 2枚目：清風亭の夜 ── */}
-        <div id="section-2" className="relative h-svh w-full snap-start overflow-hidden">
+        <div id="section-2" className="relative h-screen w-full snap-start overflow-hidden">
           {/* 背景：1→2 スクロールに連動してせり上がる */}
           <div
             ref={seifuteiBgRef}
@@ -374,7 +374,7 @@ export default function NabariPage() {
         </div>
 
         {/* ── 3枚目：夜明け（暁） ── */}
-        <div id="section-3" className="relative h-svh w-full snap-start overflow-hidden">
+        <div id="section-3" className="relative h-screen w-full snap-start overflow-hidden">
           <div
             ref={exteriorBgRef}
             className="absolute inset-0"
@@ -409,7 +409,7 @@ export default function NabariPage() {
         </div>
 
         {/* ── 4枚目：故郷の誕生 ── */}
-        <div id="section-4" className="relative h-svh w-full snap-start overflow-hidden">
+        <div id="section-4" className="relative h-screen w-full snap-start overflow-hidden">
           <div
             ref={hiawaiiBgRef}
             className="absolute inset-0"
@@ -445,7 +445,7 @@ export default function NabariPage() {
         </div>
 
         {/* ── 5枚目：桝田医院 ── */}
-        <div id="section-5" className="relative h-svh w-full snap-start overflow-hidden">
+        <div id="section-5" className="relative h-screen w-full snap-start overflow-hidden">
           <div
             ref={masudaBgRef}
             className="absolute inset-0"
@@ -484,7 +484,7 @@ export default function NabariPage() {
         </div>
 
         {/* ── 6枚目：河原 ── */}
-        <div id="section-6" className="relative h-svh w-full snap-start overflow-hidden">
+        <div id="section-6" className="relative h-screen w-full snap-start overflow-hidden">
           <div
             ref={riverBgRef}
             className="absolute inset-0"
@@ -526,7 +526,7 @@ export default function NabariPage() {
         </div>
 
         {/* ── 7枚目：辻酒店・結び ── */}
-        <div id="section-7" className="relative h-svh w-full snap-start overflow-hidden">
+        <div id="section-7" className="relative h-screen w-full snap-start overflow-hidden">
           <div
             ref={tsujiRef}
             className="absolute inset-0"
