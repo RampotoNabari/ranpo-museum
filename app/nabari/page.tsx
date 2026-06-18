@@ -416,9 +416,9 @@ export default function NabariPage() {
           >
             <Image src="/images/nabari-masuda-now.jpeg" alt="現在の桝田医院跡の通り" fill className="object-cover object-center" loading="lazy" />
           </div>
-          <div className="absolute inset-0 bg-black/65" />
+          <div className="absolute inset-0 bg-black/40" />
           <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
-          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 50% 45% at 50% 50%, transparent 0%, rgba(0,0,0,0.82) 100%)" }} />
+          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 50% 45% at 50% 50%, transparent 0%, rgba(0,0,0,0.55) 100%)" }} />
           <div className="absolute left-0 right-0 bottom-0 top-14 overflow-hidden">
             {/* スクロールするテキスト */}
             <div id="masuda-scroll" className="absolute w-full text-center px-8" style={{ transform: "translateY(100vh)" }}>
@@ -455,9 +455,9 @@ export default function NabariPage() {
           >
             <Image src="/images/nabari-river-now.jpeg" alt="現在の名張川河原" fill className="object-cover object-center" loading="lazy" />
           </div>
-          <div className="absolute inset-0 bg-black/65" />
+          <div className="absolute inset-0 bg-black/40" />
           <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
-          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 45% 40% at 50% 50%, transparent 0%, rgba(0,0,0,0.92) 100%)" }} />
+          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 45% 40% at 50% 50%, transparent 0%, rgba(0,0,0,0.60) 100%)" }} />
           <div className="absolute left-0 right-0 bottom-0 top-14 overflow-hidden">
             {/* スクロールするテキスト */}
             <div id="river-scroll" className="absolute w-full text-center px-8" style={{ transform: "translateY(100vh)" }}>
