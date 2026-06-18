@@ -147,38 +147,48 @@ export default function NabariPage() {
 
     const fullViewOpts = { root: container, threshold: 0.9 };
 
-    // ─── 5枚目：テキストスクロール → 写真が下から競り上がる ───
+    // ─── 5枚目：背景上昇 + テキストスクロール + 写真が同速で中央まで上がって止まる ───
     const s5Observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
+        // 背景：2〜4枚目と同じせり上がり
+        if (masudaBgRef.current) {
+          masudaBgRef.current.style.transition = "transform 10s ease-out";
+          masudaBgRef.current.style.transform = "scale(1.12) translateY(0px)";
+        }
+        // テキストスクロール（25秒）
         const scroll = document.getElementById("masuda-scroll");
-        if (scroll) scroll.style.animation = "scrollUp 15s linear forwards";
-        setTimeout(() => {
-          const photo = document.getElementById("masuda-photo");
-          if (photo) {
-            photo.style.transition = "transform 2.5s cubic-bezier(0.16, 1, 0.3, 1)";
-            photo.style.transform = "translateX(-50%) translateY(0)";
-          }
-        }, 13000);
+        if (scroll) scroll.style.animation = "scrollUp 25s linear forwards";
+        // 写真：テキストと同速（linear）で中央まで上げて止める
+        const photo = document.getElementById("masuda-photo");
+        if (photo) {
+          photo.style.transition = "transform 11s linear";
+          photo.style.transform = "translateX(-50%) translateY(calc(-50vh + 50%))";
+        }
         s5Observer.disconnect();
       });
     }, fullViewOpts);
     const s5el = document.getElementById("section-5");
     if (s5el) s5Observer.observe(s5el);
 
-    // ─── 6枚目：テキストスクロール → 写真が下から競り上がる ───
+    // ─── 6枚目：背景上昇 + テキストスクロール + 写真が同速で中央まで上がって止まる ───
     const s6Observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
+        // 背景：2〜4枚目と同じせり上がり
+        if (riverBgRef.current) {
+          riverBgRef.current.style.transition = "transform 10s ease-out";
+          riverBgRef.current.style.transform = "scale(1.12) translateY(0px)";
+        }
+        // テキストスクロール（25秒）
         const scroll = document.getElementById("river-scroll");
-        if (scroll) scroll.style.animation = "scrollUp 15s linear forwards";
-        setTimeout(() => {
-          const photo = document.getElementById("river-photo");
-          if (photo) {
-            photo.style.transition = "transform 2.5s cubic-bezier(0.16, 1, 0.3, 1)";
-            photo.style.transform = "translateX(-50%) translateY(0)";
-          }
-        }, 13000);
+        if (scroll) scroll.style.animation = "scrollUp 25s linear forwards";
+        // 写真：テキストと同速（linear）で中央まで上げて止める
+        const photo = document.getElementById("river-photo");
+        if (photo) {
+          photo.style.transition = "transform 11s linear";
+          photo.style.transform = "translateX(-50%) translateY(calc(-50vh + 50%))";
+        }
         s6Observer.disconnect();
       });
     }, fullViewOpts);
