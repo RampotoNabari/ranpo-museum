@@ -544,9 +544,9 @@ export default function NabariPage() {
                   <span className="block">前にみたのは、赤ん坊の乱歩だったのだから。</span>
                 </div>
                 <div className="h-12" />
-                <p className="text-xs tracking-[0.5em] text-[#f0ebe0]/40">せきの日記より</p>
+                <p className="text-base tracking-[0.5em] text-[#f0ebe0]/60">せきの日記より</p>
                 <div className="h-4" />
-                <p className="text-sm tracking-[0.3em] text-[#f0ebe0]/50">昭和二十七年　九月二十七日</p>
+                <p className="text-base tracking-[0.3em] text-[#f0ebe0]/70">昭和二十七年　九月二十七日</p>
                 <div className="text-xl md:text-3xl font-light tracking-widest leading-[2] text-[#f0ebe0]/80">
                   <span className="block">本名平井太郎君　江戸川乱歩さん、</span>
                   <span className="block">お母さんの乳房にすがる姿</span>
