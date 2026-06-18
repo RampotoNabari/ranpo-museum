@@ -123,8 +123,8 @@ export default function NabariPage() {
           setTimeout(() => {
             const l2 = document.getElementById("seifutei-finale-2");
             if (l2) { l2.style.transition = "opacity 2.5s ease-in"; l2.style.opacity = "1"; }
-          }, 7000);
-        }, 20000);
+          }, 3000);
+        }, 25000);
         s2Observer.disconnect();
       });
     }, observerOpts);
