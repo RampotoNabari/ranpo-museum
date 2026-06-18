@@ -101,8 +101,8 @@ export default function NabariPage() {
     const t4 = setTimeout(() => transitionToSection("section-4", hiawaiiBgRef), 75000);
     // t=90s: 5枚目へ（4枚目に15秒滞在）
     const t5 = setTimeout(() => transitionToSection("section-5", masudaBgRef), 90000);
-    // t=110s: 6枚目へ（5枚目に20秒滞在）
-    const t6 = setTimeout(() => transitionToSection("section-6", riverBgRef), 110000);
+    // t=130s: 6枚目へ（5枚目に40秒滞在：スクロール15s+写真15s）
+    const t6 = setTimeout(() => transitionToSection("section-6", riverBgRef), 130000);
 
     const observerOpts = { root: container, threshold: 0.1 };
 
@@ -145,23 +145,24 @@ export default function NabariPage() {
     const s3el = document.getElementById("section-3");
     if (s3el) s3Observer.observe(s3el);
 
+    const fullViewOpts = { root: container, threshold: 0.9 };
+
     // ─── 5枚目：テキストスクロール → 写真が下から競り上がる ───
     const s5Observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         const scroll = document.getElementById("masuda-scroll");
-        if (scroll) scroll.style.animation = "scrollUp 20s linear forwards";
-        // テキストが画面上部へ消えきる直前に写真を競り上げ
+        if (scroll) scroll.style.animation = "scrollUp 15s linear forwards";
         setTimeout(() => {
           const photo = document.getElementById("masuda-photo");
           if (photo) {
             photo.style.transition = "transform 2.5s cubic-bezier(0.16, 1, 0.3, 1)";
             photo.style.transform = "translateX(-50%) translateY(0)";
           }
-        }, 18000);
+        }, 13000);
         s5Observer.disconnect();
       });
-    }, observerOpts);
+    }, fullViewOpts);
     const s5el = document.getElementById("section-5");
     if (s5el) s5Observer.observe(s5el);
 
@@ -170,17 +171,17 @@ export default function NabariPage() {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         const scroll = document.getElementById("river-scroll");
-        if (scroll) scroll.style.animation = "scrollUp 20s linear forwards";
+        if (scroll) scroll.style.animation = "scrollUp 15s linear forwards";
         setTimeout(() => {
           const photo = document.getElementById("river-photo");
           if (photo) {
             photo.style.transition = "transform 2.5s cubic-bezier(0.16, 1, 0.3, 1)";
             photo.style.transform = "translateX(-50%) translateY(0)";
           }
-        }, 18000);
+        }, 13000);
         s6Observer.disconnect();
       });
-    }, observerOpts);
+    }, fullViewOpts);
     const s6el = document.getElementById("section-6");
     if (s6el) s6Observer.observe(s6el);
 
