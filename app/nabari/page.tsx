@@ -11,6 +11,7 @@ export default function NabariPage() {
   const hiawaiiBgRef = useRef<HTMLDivElement>(null);
   const masudaBgRef = useRef<HTMLDivElement>(null);
   const riverBgRef = useRef<HTMLDivElement>(null);
+  const tsujiRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoBlocked, setVideoBlocked] = useState(false);
 
@@ -101,8 +102,10 @@ export default function NabariPage() {
     const t4 = setTimeout(() => transitionToSection("section-4", hiawaiiBgRef), 75000);
     // t=90s: 5枚目へ（4枚目に15秒滞在）
     const t5 = setTimeout(() => transitionToSection("section-5", masudaBgRef), 90000);
-    // t=130s: 6枚目へ（5枚目に40秒滞在：スクロール15s+写真15s）
+    // t=130s: 6枚目へ（5枚目に40秒滞在）
     const t6 = setTimeout(() => transitionToSection("section-6", riverBgRef), 130000);
+    // t=175s: 7枚目へ（6枚目に45秒滞在）
+    const t7 = setTimeout(() => transitionToSection("section-7", tsujiRef), 175000);
 
     const observerOpts = { root: container, threshold: 0.1 };
 
@@ -216,17 +219,35 @@ export default function NabariPage() {
     const s4el = document.getElementById("section-4");
     if (s4el) s4Observer.observe(s4el);
 
+    // ─── 7枚目：背景上昇 + テキストスクロール（結び） ───
+    const s7Observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        if (tsujiRef.current) {
+          tsujiRef.current.style.transition = "transform 10s ease-out";
+          tsujiRef.current.style.transform = "scale(1.12) translateY(0px)";
+        }
+        const scroll = document.getElementById("tsuji-scroll");
+        if (scroll) scroll.style.animation = "scrollUp 30s linear forwards";
+        s7Observer.disconnect();
+      });
+    }, fullViewOpts);
+    const s7el = document.getElementById("section-7");
+    if (s7el) s7Observer.observe(s7el);
+
     return () => {
       clearTimeout(t2);
       clearTimeout(t3);
       clearTimeout(t4);
       clearTimeout(t5);
       clearTimeout(t6);
+      clearTimeout(t7);
       s2Observer.disconnect();
       s3Observer.disconnect();
       s4Observer.disconnect();
       s5Observer.disconnect();
       s6Observer.disconnect();
+      s7Observer.disconnect();
     };
   }, []);
 
@@ -484,6 +505,48 @@ export default function NabariPage() {
             <div id="river-photo" className="absolute bottom-0 left-1/2 w-72 md:w-96 aspect-[4/3] overflow-hidden" style={{ transform: "translateX(-50%) translateY(100%)" }}>
               <Image src="/images/rampo-river.jpg" alt="河原に立つ乱歩" fill className="object-cover object-center" loading="lazy" style={{ filter: "brightness(0.6)", transform: "scale(1.18)" }} />
               <p className="absolute bottom-0 left-0 right-0 text-center text-sm tracking-wider py-1 bg-black/60" style={{ color: "rgba(255,255,255,0.9)" }}>昭和二十七年　名張川にて</p>
+            </div>
+          </div>
+        </div>
+
+        {/* ── 7枚目：辻酒店・結び ── */}
+        <div id="section-7" className="relative h-screen w-full snap-start overflow-hidden">
+          <div
+            ref={tsujiRef}
+            className="absolute inset-0"
+            style={{ transform: "scale(1.12) translateY(140px)", willChange: "transform" }}
+          >
+            <Image src="/images/nabari-monument-park.jpeg" alt="江戸川乱歩生誕地" fill className="object-cover object-center" loading="lazy" />
+          </div>
+          <div className="absolute inset-0 bg-black/50" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
+          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 55% 50% at 50% 50%, transparent 0%, rgba(0,0,0,0.65) 100%)" }} />
+          <div className="absolute left-0 right-0 bottom-0 top-14 overflow-hidden">
+            <div id="tsuji-scroll" className="absolute w-full text-center px-8" style={{ transform: "translateY(100vh)" }}>
+              <div className="py-20 flex flex-col items-center gap-5">
+                <p className="text-sm tracking-[0.5em]" style={{ color: "#c04444" }}>九月二十七日　午後</p>
+                <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/80 leading-[2.4]">
+                  <span className="block">乱歩は辻酒店を訪れた。</span>
+                  <span className="block">辻せきとの、五十七年ぶりの再会である。</span>
+                </div>
+                <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/60 leading-[3] my-4">
+                  <span className="block">「これが横山にいた平井さんの息子さんだ」</span>
+                  <span className="block mt-2">「まあ。大きくおなりなさって」</span>
+                </div>
+                <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.4]">
+                  <span className="block">乱歩に会ったせきの、第一声だった。</span>
+                  <span className="block">前にみたのは、赤ん坊の乱歩だったのだから。</span>
+                </div>
+                <div className="h-12" />
+                <p className="text-xs tracking-[0.5em] text-[#f0ebe0]/40">せきの日記より</p>
+                <div className="h-4" />
+                <p className="text-sm tracking-[0.3em] text-[#f0ebe0]/50">昭和二十七年　九月二十七日</p>
+                <div className="text-xl md:text-3xl font-light tracking-widest leading-[2] text-[#f0ebe0]/80">
+                  <span className="block">本名平井太郎君　江戸川乱歩さん、</span>
+                  <span className="block">お母さんの乳房にすがる姿</span>
+                </div>
+                <p className="text-xl md:text-3xl font-light tracking-widest mt-4" style={{ color: "#c04444" }}>目に浮かぶ。</p>
+              </div>
             </div>
           </div>
         </div>
