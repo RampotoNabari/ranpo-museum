@@ -158,8 +158,11 @@ export default function NabariPage() {
         });
         setTimeout(() => {
           const photo = document.getElementById("masuda-photo");
-          if (photo) { photo.style.transition = "opacity 3s ease-in"; photo.style.opacity = "1"; }
-        }, 12000);
+          if (photo) {
+            photo.style.transition = "transform 2.2s cubic-bezier(0.16, 1, 0.3, 1)";
+            photo.style.transform = "translateX(-50%) translateY(0)";
+          }
+        }, 6500);
         s5Observer.disconnect();
       });
     }, observerOpts);
@@ -179,8 +182,11 @@ export default function NabariPage() {
         });
         setTimeout(() => {
           const photo = document.getElementById("river-photo");
-          if (photo) { photo.style.transition = "opacity 3s ease-in"; photo.style.opacity = "1"; }
-        }, 3000);
+          if (photo) {
+            photo.style.transition = "transform 2.2s cubic-bezier(0.16, 1, 0.3, 1)";
+            photo.style.transform = "translateX(-50%) translateY(0)";
+          }
+        }, 6500);
         s6Observer.disconnect();
       });
     }, observerOpts);
@@ -407,8 +413,8 @@ export default function NabariPage() {
           <div className="absolute inset-0 bg-black/65" />
           <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
           <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 50% 45% at 50% 50%, transparent 0%, rgba(0,0,0,0.82) 100%)" }} />
-          <div className="absolute left-0 right-0 bottom-0 top-14 overflow-y-auto snap-hide-scrollbar">
-            <div className="min-h-full flex flex-col items-center justify-center px-8 text-center py-4">
+          <div className="absolute left-0 right-0 bottom-0 top-14 overflow-hidden">
+            <div className="h-full flex flex-col items-center justify-center px-8 text-center py-4">
               <p className="masuda-fade text-sm tracking-[0.5em] mb-6"
                  style={{ color: "#c04444", opacity: 0, transform: "translateY(20px)" }}>
                 九月二十七日　朝
@@ -426,11 +432,11 @@ export default function NabariPage() {
                 <span className="masuda-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>この建物は横山家から桝田医師の手に渡っていた。</span>
                 <span className="masuda-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>乱歩は、建て替えられた本宅の二階に案内された。</span>
               </div>
-              {/* 当時の写真 */}
-              <div id="masuda-photo" className="mt-6 relative w-48 md:w-72 aspect-[4/3] overflow-hidden" style={{ opacity: 0, outline: "none", border: "none" }}>
-                <Image src="/images/masuda-with-rampo.jpg" alt="桝田医師と乱歩" fill className="object-cover object-center" loading="lazy" style={{ filter: "brightness(0.6)", transform: "scale(1.08)", transformOrigin: "center" }} />
-                <p className="absolute bottom-2 left-0 right-0 text-center text-xs tracking-wider" style={{ color: "rgba(240,235,224,0.5)" }}>昭和二十七年　桝田医師と乱歩</p>
-              </div>
+            </div>
+            {/* 写真：下から競り上がる */}
+            <div id="masuda-photo" className="absolute bottom-0 left-1/2 w-48 md:w-72 aspect-[4/3] overflow-hidden" style={{ transform: "translateX(-50%) translateY(100%)" }}>
+              <Image src="/images/masuda-with-rampo.jpg" alt="桝田医師と乱歩" fill className="object-cover object-center" loading="lazy" style={{ filter: "brightness(0.6)", transform: "scale(1.08)", transformOrigin: "center" }} />
+              <p className="absolute bottom-2 left-0 right-0 text-center text-xs tracking-wider" style={{ color: "rgba(240,235,224,0.5)" }}>昭和二十七年　桝田医師と乱歩</p>
             </div>
           </div>
         </div>
@@ -447,8 +453,8 @@ export default function NabariPage() {
           <div className="absolute inset-0 bg-black/65" />
           <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
           <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 45% 40% at 50% 50%, transparent 0%, rgba(0,0,0,0.92) 100%)" }} />
-          <div className="absolute left-0 right-0 bottom-0 top-14 overflow-y-auto snap-hide-scrollbar">
-            <div className="min-h-full flex flex-col items-center justify-center px-8 text-center py-4">
+          <div className="absolute left-0 right-0 bottom-0 top-14 overflow-hidden">
+            <div className="h-full flex flex-col items-center justify-center px-8 text-center py-4">
               <p className="river-fade text-sm tracking-[0.5em] mb-6"
                  style={{ color: "#c04444", opacity: 0, transform: "translateY(20px)" }}>
                 九月二十七日　午後
@@ -457,11 +463,6 @@ export default function NabariPage() {
                 <span className="river-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>桝田医院から辻酒店に向かう前に、</span>
                 <span className="river-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>乱歩は河原に出てみた。</span>
               </div>
-              {/* 当時の写真 */}
-              <div id="river-photo" className="my-4 relative w-48 md:w-72 aspect-[4/3] overflow-hidden" style={{ opacity: 0 }}>
-                <Image src="/images/rampo-river.jpg" alt="河原に立つ乱歩" fill className="object-cover object-center" loading="lazy" style={{ filter: "brightness(0.6)", transform: "scale(1.18)" }} />
-                <p className="absolute bottom-2 left-0 right-0 text-center text-xs tracking-wider" style={{ color: "rgba(240,235,224,0.5)" }}>昭和二十七年　名張川にて</p>
-              </div>
               <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.4]">
                 <span className="river-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>川までの石組みがしてあって、</span>
                 <span className="river-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>洗濯ができるようになっている。</span>
@@ -469,10 +470,15 @@ export default function NabariPage() {
               <p className="river-fade text-xl md:text-3xl font-light tracking-widest text-[#f0ebe0] my-4" style={{ opacity: 0, transform: "translateY(20px)" }}>
                 母は毎日ここにきて洗濯していたのだ。
               </p>
-              <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/60 leading-[2.4] mt-2">
+              <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/60 leading-[2.4] mt-2 mb-6">
                 <span className="river-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>乱歩は当時の母の様子を思いながら、</span>
                 <span className="river-fade block text-xl md:text-3xl font-light tracking-widest mt-6" style={{ opacity: 0, transform: "translateY(20px)", color: "#c04444" }}>故郷の空を見上げた。</span>
               </div>
+            </div>
+            {/* 写真：下から競り上がる */}
+            <div id="river-photo" className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 md:w-72 aspect-[4/3] overflow-hidden" style={{ transform: "translateX(-50%) translateY(100%)" }}>
+              <Image src="/images/rampo-river.jpg" alt="河原に立つ乱歩" fill className="object-cover object-center" loading="lazy" style={{ filter: "brightness(0.6)", transform: "scale(1.18)" }} />
+              <p className="absolute bottom-2 left-0 right-0 text-center text-xs tracking-wider" style={{ color: "rgba(240,235,224,0.5)" }}>昭和二十七年　名張川にて</p>
             </div>
           </div>
         </div>
