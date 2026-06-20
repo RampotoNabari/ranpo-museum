@@ -46,7 +46,23 @@ export default function Home() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      heroRef.current?.scrollIntoView({ behavior: "smooth" });
+      const target = heroRef.current;
+      if (!target) return;
+      const start = window.scrollY;
+      const end = target.getBoundingClientRect().top + start;
+      const duration = 12000;
+      const startTime = performance.now();
+
+      const step = (now: number) => {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = progress < 0.5
+          ? 2 * progress * progress
+          : -1 + (4 - 2 * progress) * progress;
+        window.scrollTo(0, start + (end - start) * ease);
+        if (progress < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
     }, 3000);
     return () => clearTimeout(timer);
   }, []);
