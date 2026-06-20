@@ -3,10 +3,11 @@ import { useState, useEffect } from "react";
 
 // 右開き（縦書き）: right = 奇数ページ（先に読む）, left = 偶数ページ
 const spreads = [
-  { cover: true,  right: "/images/seki/seki-01.png?v=2", left: null },
-  { right: "/images/seki/seki-02.png?v=2",  left: "/images/seki/seki-03.png?v=2" },
-  { right: "/images/seki/seki04.png?v=2",   left: "/images/seki/seki-05.png?v=2" },
-  { right: "/images/seki/seki-06.png?v=2",  left: null },
+  { cover: true,  right: "/images/seki/seki-01.png?v=2", left: null, note: "" },
+  { right: "/images/seki/seki-02.png?v=2",  left: "/images/seki/seki-03.png?v=2",
+    note: "この日記は孫の使い古しのノートに墨で書き綴ったものです。孫たちとの微笑ましいやり取りです。せきおばあさんを知るひ孫たちは、遊びに行くといつもお菓子をくれた、といっていました。" },
+  { right: "/images/seki/seki04.png?v=2",   left: "/images/seki/seki-05.png?v=2", note: "" },
+  { right: "/images/seki/seki-06.png?v=2",  left: null, note: "" },
 ];
 
 function PageImg({ src, alt, w, h }: { src: string | null; alt: string; w: number; h: number }) {
@@ -136,6 +137,13 @@ export default function SekiPage() {
           </div>
         )}
       </div>
+
+      {/* 解説 */}
+      {!isCover && cur.note && (
+        <div className="max-w-xl mt-10 px-6 text-center">
+          <p className="text-xs leading-[2.2] tracking-wider text-white/40">{cur.note}</p>
+        </div>
+      )}
 
       {/* ナビゲーション */}
       <div className="flex items-center gap-10 mt-10">
