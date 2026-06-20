@@ -6,7 +6,7 @@ import { useState } from "react";
 
 const chapters = [
   { label: "ふるさと発見", href: "/nabari", available: true },
-  { label: "せきの日記", href: "/seki", available: false },
+  { label: "せきの日記", href: "/seki", available: true },
   { label: "生誕碑除幕式", href: "/unveiling", available: false },
   { label: "横山文圭・よしえ", href: "/yokoyama", available: false },
   { label: "生誕地ミュージアム", href: "/museum", available: false },

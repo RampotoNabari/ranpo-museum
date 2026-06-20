@@ -20,7 +20,7 @@ const chapters = [
     description: "「八十八の手習の。日記のさまを、誰か読むべき」\n昭和三十年、八十八歳のせきが書き綴った記憶。",
     href: "/seki",
     image: "/images/seki-diary.jpeg",
-    available: false,
+    available: true,
   },
   {
     number: "三",

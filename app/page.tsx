@@ -18,7 +18,7 @@ const chapters = [
     title: "せきの日記",
     note: "日記が語るせきの生涯",
     image: "/images/seki-diary.jpeg",
-    available: false,
+    available: true,
   },
   {
     href: "/unveiling",

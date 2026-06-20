@@ -1,96 +1,186 @@
 "use client";
-import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-const pages = [
-  { image: "/images/seki/seki-01.png", note: "" },
-  { image: "/images/seki/seki-02.png", note: "" },
-  { image: "/images/seki/seki-03.png", note: "" },
-  { image: "/images/seki/seki04.png",  note: "" },
-  { image: "/images/seki/seki-05.png", note: "" },
-  { image: "/images/seki/seki-06.png", note: "" },
+// 右開き（縦書き）: right = 奇数ページ（先に読む）, left = 偶数ページ
+const spreads = [
+  { cover: true,  right: "/images/seki/seki-01.png?v=2", left: null },
+  { right: "/images/seki/seki-02.png?v=2",  left: "/images/seki/seki-03.png?v=2" },
+  { right: "/images/seki/seki04.png?v=2",   left: "/images/seki/seki-05.png?v=2" },
+  { right: "/images/seki/seki-06.png?v=2",  left: null },
 ];
 
+const PAGE_W = 380;
+const PAGE_H = 540;
+
+function PageImg({ src, alt }: { src: string | null; alt: string }) {
+  if (!src) return <div style={{ width: PAGE_W, height: PAGE_H, background: "#f5f0e8" }} />;
+  return (
+    <div style={{ width: PAGE_W, height: PAGE_H, background: "#fff", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={src} alt={alt} style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }} />
+    </div>
+  );
+}
+
 export default function SekiPage() {
-  const [current, setCurrent] = useState(0);
+  const [idx, setIdx] = useState(0);
+  const [flipping, setFlipping] = useState(false);
+  const [dir, setDir] = useState<1 | -1>(1);
+  const [pending, setPending] = useState(0);
 
-  const prev = () => setCurrent((c) => Math.max(0, c - 1));
-  const next = () => setCurrent((c) => Math.min(pages.length - 1, c + 1));
+  const turn = (d: 1 | -1) => {
+    const next = idx + d;
+    if (next < 0 || next >= spreads.length || flipping) return;
+    setDir(d);
+    setPending(next);
+    setFlipping(true);
+    setTimeout(() => {
+      setIdx(next);
+      setFlipping(false);
+    }, 750);
+  };
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") next();
-      if (e.key === "ArrowLeft") prev();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [current]);
-
-  const page = pages[current];
+  const cur = spreads[idx];
+  const nxt = spreads[pending] ?? cur;
+  const isCover = idx === 0;
+  const isLast = idx === spreads.length - 1;
 
   return (
-    <div className="min-h-screen bg-[#0d0d0d] flex flex-col items-center">
-
-      {/* タイトル */}
-      <div className="pt-24 pb-8 text-center">
+    <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center select-none">
+      <div className="pt-20 pb-8 text-center">
         <p className="text-xs tracking-[0.5em] text-white/30">せきの日記</p>
-        <p className="text-xs tracking-[0.3em] text-white/15 mt-2">
-          {current + 1} / {pages.length}
-        </p>
+        {!isCover && (
+          <p className="text-xs text-white/15 mt-2 tracking-wider">
+            {idx * 2 - 1} · {idx * 2} ページ
+          </p>
+        )}
       </div>
 
-      {/* 日記画像 */}
-      <div className="w-full max-w-xl px-6 flex-1 flex flex-col items-center">
-        <div className="relative w-full">
-          <Image
-            src={page.image}
-            alt={`せきの日記 ${current + 1}ページ`}
-            width={800}
-            height={1200}
-            className="w-full h-auto object-contain"
-            priority
-          />
-        </div>
+      {/* Book stage */}
+      <div style={{ perspective: 1400 }}>
 
-        {/* 解説（あれば表示） */}
-        {page.note && (
-          <div className="mt-10 border-t border-white/10 pt-8 w-full">
-            <p className="text-xs tracking-[0.3em] text-white/30 mb-4">解説</p>
-            <p className="text-sm leading-[2.4] text-white/50">{page.note}</p>
+        {/* 表紙（右側に単体表示） */}
+        {isCover && (
+          <div style={{ position: "relative", width: PAGE_W, height: PAGE_H }}>
+            <PageImg src={cur.right} alt="表紙" />
+            <div style={{ position: "absolute", inset: 0, boxShadow: "6px 6px 24px rgba(0,0,0,0.8), -2px 0 8px rgba(0,0,0,0.4)", borderRadius: 2 }} />
+          </div>
+        )}
+
+        {/* 見開き */}
+        {!isCover && (
+          <div style={{ position: "relative", display: "flex", width: PAGE_W * 2, height: PAGE_H }}>
+
+            {/* 左ページ（偶数・後に読む） */}
+            <div style={{ position: "relative", zIndex: 1, boxShadow: "inset -4px 0 8px rgba(0,0,0,0.15)" }}>
+              <PageImg
+                src={flipping && dir === 1 ? nxt.left : cur.left}
+                alt="左ページ"
+              />
+            </div>
+
+            {/* 綴じ目 */}
+            <div style={{
+              position: "absolute", left: PAGE_W, top: 0, bottom: 0, width: 8, zIndex: 20,
+              background: "linear-gradient(to right, rgba(0,0,0,0.35), rgba(0,0,0,0.05) 60%, transparent)",
+              pointerEvents: "none"
+            }} />
+
+            {/* 右ページ（奇数・先に読む） */}
+            <div style={{ position: "relative", zIndex: 1, boxShadow: "inset 4px 0 8px rgba(0,0,0,0.1)" }}>
+              <PageImg
+                src={flipping && dir === -1 ? nxt.right : cur.right}
+                alt="右ページ"
+              />
+            </div>
+
+            {/* 前進めくり：左ページが右へ（日本語右開き） */}
+            {flipping && dir === 1 && (
+              <div style={{
+                position: "absolute", top: 0, left: 0, width: PAGE_W, height: PAGE_H,
+                transformStyle: "preserve-3d", transformOrigin: "right center",
+                animation: "flipForwardJP 0.75s cubic-bezier(0.4,0,0.2,1) forwards",
+                zIndex: 30,
+              }}>
+                {/* 表：現在の左ページ */}
+                <div style={{ position: "absolute", inset: 0, backfaceVisibility: "hidden" }}>
+                  <PageImg src={cur.left} alt="めくり表" />
+                </div>
+                {/* 裏：次の右ページ（鏡像） */}
+                <div style={{ position: "absolute", inset: 0, backfaceVisibility: "hidden", transform: "rotateY(-180deg)" }}>
+                  <div style={{ transform: "scaleX(-1)", width: "100%", height: "100%" }}>
+                    <PageImg src={nxt.right} alt="めくり裏" />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* 後退めくり：右ページが左へ */}
+            {flipping && dir === -1 && (
+              <div style={{
+                position: "absolute", top: 0, left: PAGE_W, width: PAGE_W, height: PAGE_H,
+                transformStyle: "preserve-3d", transformOrigin: "left center",
+                animation: "flipBackJP 0.75s cubic-bezier(0.4,0,0.2,1) forwards",
+                zIndex: 30,
+              }}>
+                <div style={{ position: "absolute", inset: 0, backfaceVisibility: "hidden" }}>
+                  <PageImg src={cur.right} alt="戻り表" />
+                </div>
+                <div style={{ position: "absolute", inset: 0, backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
+                  <div style={{ transform: "scaleX(-1)", width: "100%", height: "100%" }}>
+                    <PageImg src={nxt.left} alt="戻り裏" />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
 
-      {/* ナビゲーション */}
-      <div className="flex items-center justify-center gap-12 py-16">
-        <button
-          onClick={prev}
-          disabled={current === 0}
-          className="text-xs tracking-[0.4em] text-white/40 hover:text-white/80 disabled:opacity-15 disabled:cursor-not-allowed transition-colors duration-300"
-        >
-          ← 前
-        </button>
-
-        <div className="flex gap-2">
-          {pages.map((_, i) => (
+      {/* ナビゲーション（右開きなので「次」が左） */}
+      <div className="flex items-center gap-10 mt-12">
+        {isCover ? (
+          <button
+            onClick={() => turn(1)}
+            className="text-xs tracking-[0.5em] text-white/50 border border-white/20 px-10 py-3 hover:text-white hover:border-white/50 transition-colors duration-300"
+          >
+            開　く
+          </button>
+        ) : (
+          <>
             <button
-              key={i}
-              onClick={() => setCurrent(i)}
-              className={`w-1.5 h-1.5 rounded-full transition-colors duration-300 ${
-                i === current ? "bg-white/60" : "bg-white/15 hover:bg-white/30"
-              }`}
-            />
-          ))}
-        </div>
-
-        <button
-          onClick={next}
-          disabled={current === pages.length - 1}
-          className="text-xs tracking-[0.4em] text-white/40 hover:text-white/80 disabled:opacity-15 disabled:cursor-not-allowed transition-colors duration-300"
-        >
-          次 →
-        </button>
+              onClick={() => turn(1)}
+              disabled={isLast || flipping}
+              className="text-xs tracking-[0.4em] text-white/40 hover:text-white/80 disabled:opacity-15 disabled:cursor-not-allowed transition-colors duration-300"
+            >
+              ← 次
+            </button>
+            <div className="flex gap-2">
+              {spreads.slice(1).map((_, i) => (
+                <span key={i} className={`block w-1.5 h-1.5 rounded-full transition-colors ${idx === i + 1 ? "bg-white/60" : "bg-white/15"}`} />
+              ))}
+            </div>
+            <button
+              onClick={() => turn(-1)}
+              disabled={flipping || idx === 1}
+              className="text-xs tracking-[0.4em] text-white/40 hover:text-white/80 disabled:opacity-15 disabled:cursor-not-allowed transition-colors duration-300"
+            >
+              前 →
+            </button>
+          </>
+        )}
       </div>
+
+      <style>{`
+        @keyframes flipForwardJP {
+          from { transform: rotateY(0deg); }
+          to   { transform: rotateY(180deg); }
+        }
+        @keyframes flipBackJP {
+          from { transform: rotateY(0deg); }
+          to   { transform: rotateY(-180deg); }
+        }
+      `}</style>
     </div>
   );
 }
