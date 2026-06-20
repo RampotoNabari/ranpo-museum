@@ -42,7 +42,7 @@ export default function Header() {
           )
         ))}
         <a
-          href="https://www.ranpomuseum.com"
+          href="https://www.ranpomuseum.com/"
           target="_blank"
           rel="noopener noreferrer"
           className={`text-xs tracking-[0.25em] hover:opacity-60 transition-opacity ${isDark ? "text-white/40" : "text-[var(--muted)]/40"}`}
@@ -79,7 +79,7 @@ export default function Header() {
             )
           ))}
           <a
-            href="https://www.ranpomuseum.com"
+            href="https://www.ranpomuseum.com/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs tracking-[0.3em] text-white/30 hover:text-white/50 transition-colors"
