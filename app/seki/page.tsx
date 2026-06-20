@@ -138,12 +138,12 @@ export default function SekiPage() {
         )}
       </div>
 
-      {/* 解説 */}
-      {!isCover && cur.note && (
-        <div className="max-w-xl mt-10 px-6 text-center">
+      {/* 解説（固定高さで本が動かないように） */}
+      <div className="max-w-xl mt-10 px-6 text-center" style={{ minHeight: 80 }}>
+        {!isCover && cur.note && (
           <p className="text-xs leading-[2.2] tracking-wider text-white/40">{cur.note}</p>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* ナビゲーション */}
       <div className="flex items-center gap-10 mt-10">
