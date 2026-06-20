@@ -121,18 +121,12 @@ export default function Home() {
             辻せきの日記が語る百三十年の記憶。
           </p>
 
-          <div className="fade-in-delay-2 flex flex-col sm:flex-row gap-5">
+          <div className="fade-in-delay-2">
             <Link
               href="/nabari"
               className="border border-white/60 text-white/80 px-10 py-4 text-xs tracking-[0.25em] hover:bg-white hover:text-black transition-colors duration-500"
             >
               物語を読む
-            </Link>
-            <Link
-              href="/reserve"
-              className="bg-[var(--accent)] text-white px-10 py-4 text-xs tracking-[0.25em] hover:opacity-80 transition-opacity duration-300"
-            >
-              来館を予約する
             </Link>
           </div>
         </div>
@@ -217,25 +211,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 予約CTA */}
-      <section className="py-32 px-8 text-center border-t border-[#d4c9b0]">
-        <p className="text-xs tracking-[0.4em] text-[var(--muted)] mb-8">
-          予約の瞬間から、展示は始まっている
-        </p>
-        <p className="text-sm leading-[2.4] text-[var(--muted)] max-w-sm mx-auto mb-16">
-          完全予約制。少人数。約六十分。
-          <br />
-          この場所に宿る記憶の連鎖に、
-          <br />
-          あなた自身が加わる時間です。
-        </p>
-        <Link
-          href="/reserve"
-          className="inline-block bg-[var(--accent)] text-white px-14 py-5 text-xs tracking-[0.3em] hover:opacity-80 transition-opacity duration-300"
-        >
-          来館を予約する
-        </Link>
-      </section>
 
       {/* フッター */}
       <footer className="py-12 px-8 border-t border-[#d4c9b0]">
@@ -245,7 +220,6 @@ export default function Home() {
           </p>
           <div className="flex gap-8 text-xs text-[var(--muted)] tracking-wider">
             <Link href="/nabari" className="hover:text-[var(--foreground)] transition-colors">ふるさと発見</Link>
-            <Link href="/reserve" className="hover:text-[var(--foreground)] transition-colors">予約</Link>
             <a href="https://www.ranpomuseum.com" className="hover:text-[var(--foreground)] transition-colors">ミュージアム</a>
           </div>
           <p className="text-xs text-[var(--muted)]">
