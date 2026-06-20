@@ -1,5 +1,7 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 
 const chapters = [
   {
@@ -40,6 +42,15 @@ const chapters = [
 ];
 
 export default function Home() {
+  const heroRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      heroRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <main>
       {/* せきの言葉 */}
@@ -69,7 +80,7 @@ export default function Home() {
       </section>
 
       {/* Hero */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-8 text-center overflow-hidden">
+      <section ref={heroRef} className="relative min-h-screen flex flex-col items-center justify-center px-8 text-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
             src="/images/street.jpeg"
