@@ -56,9 +56,16 @@ export default function Home() {
         </div>
 
         <div className="relative z-10 flex flex-col items-center">
-          <p className="fade-in text-xs tracking-[0.5em] text-white/40 mb-16">
-            たれか読むべき　── 辻せき、昭和三十年
-          </p>
+          <div className="fade-in mb-16 text-center">
+            <p className="text-sm font-light leading-[2.4] tracking-widest text-white/50 mb-6">
+              八十八の手習いの日記の様を
+              <br />
+              誰か読むべき
+            </p>
+            <p className="text-xs tracking-[0.3em] text-white/25">
+              辻せき　慶応三年十二月二十一日―昭和三十二年八月二十四日
+            </p>
+          </div>
 
           <h1 className="fade-in-delay-1 text-4xl md:text-6xl font-light leading-loose tracking-wider text-white mb-28">
             あなたは未来へ、
