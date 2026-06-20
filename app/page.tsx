@@ -9,6 +9,7 @@ const chapters = [
     year: "昭和二十七年",
     title: "ふるさと発見",
     note: "乱歩、名張へ帰る",
+    image: "/images/street.jpeg",
     available: true,
   },
   {
@@ -16,6 +17,7 @@ const chapters = [
     year: "明治〜昭和三十年",
     title: "せきの日記",
     note: "日記が語るせきの生涯",
+    image: "/images/seki-diary.jpeg",
     available: false,
   },
   {
@@ -23,6 +25,7 @@ const chapters = [
     year: "昭和三十年　十一月三日",
     title: "生誕碑除幕式",
     note: "あの日、名張に乱歩が来た",
+    image: "/images/ceremony-wide.jpg",
     available: false,
   },
   {
@@ -30,6 +33,7 @@ const chapters = [
     year: "明治二十七年以前",
     title: "横山文圭・よしえ",
     note: "この地の歴史を紐解く",
+    image: "/images/nabari-shrine-day.jpeg",
     available: false,
   },
   {
@@ -37,6 +41,7 @@ const chapters = [
     year: "現在、そして未来へ",
     title: "生誕地ミュージアム",
     note: "孝信、土地を取得する",
+    image: "/images/ranpo-monument.jpg",
     available: false,
   },
 ];
@@ -137,51 +142,42 @@ export default function Home() {
       </section>
 
       {/* 物語への入口 */}
-      <section id="stories" className="py-32 px-8 bg-[var(--background)]">
-        <div className="max-w-3xl mx-auto">
-          <p className="text-xs tracking-[0.5em] text-[var(--muted)] mb-6 text-center">
-            乱歩と名張
-          </p>
-          <p className="text-xs tracking-[0.3em] text-[var(--muted)]/60 mb-20 text-center">
+      <section id="stories" className="bg-black">
+        <div className="text-center py-16 px-8">
+          <p className="text-xs tracking-[0.5em] text-white/30">
             どこからでも、物語に入ることができます
           </p>
-
-          <div className="space-y-0">
-            {chapters.map((chapter, i) => (
-              chapter.available ? (
-                <Link
-                  key={i}
-                  href={chapter.href}
-                  className="group flex items-baseline gap-8 py-10 border-b border-[#e8e0d0] first:border-t hover:opacity-70 transition-opacity duration-300"
-                >
-                  <span className="text-xs text-[var(--muted)] w-40 shrink-0 tracking-wider">
-                    {chapter.year}
-                  </span>
-                  <span className="text-xl tracking-widest font-light">
-                    {chapter.title}
-                  </span>
-                  <span className="text-sm text-[var(--muted)] hidden md:block ml-auto">
-                    {chapter.note}　→
-                  </span>
-                </Link>
-              ) : (
-                <div
-                  key={i}
-                  className="flex items-baseline gap-8 py-10 border-b border-[#e8e0d0] first:border-t opacity-35"
-                >
-                  <span className="text-xs text-[var(--muted)] w-40 shrink-0 tracking-wider">
-                    {chapter.year}
-                  </span>
-                  <span className="text-xl tracking-widest font-light">
-                    {chapter.title}
-                  </span>
-                  <span className="text-xs text-[var(--muted)] hidden md:block ml-auto tracking-wider">
-                    準備中
-                  </span>
-                </div>
-              )
-            ))}
-          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-5">
+          {chapters.map((chapter, i) => (
+            <div key={i} className={`relative h-[60vh] md:h-screen overflow-hidden ${!chapter.available ? "opacity-40" : ""}`}>
+              <Image
+                src={chapter.image!}
+                alt={chapter.title}
+                fill
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-black/60" />
+              <div className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center">
+                <p className="text-xs tracking-[0.4em] text-white/30 mb-4">第{["一","二","三","四","五"][i]}章</p>
+                <p className="text-xs tracking-[0.3em] text-white/30 mb-6">{chapter.year}</p>
+                <h3 className="text-xl md:text-lg tracking-[0.2em] text-white font-light mb-4">
+                  {chapter.title}
+                </h3>
+                <p className="text-xs tracking-wider text-white/40 mb-8">{chapter.note}</p>
+                {chapter.available ? (
+                  <Link
+                    href={chapter.href}
+                    className="text-xs tracking-[0.3em] text-white/70 border-b border-white/30 pb-1 hover:text-white hover:border-white transition-colors duration-300"
+                  >
+                    見る
+                  </Link>
+                ) : (
+                  <span className="text-xs tracking-[0.3em] text-white/20">準備中</span>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
