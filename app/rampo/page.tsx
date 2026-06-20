@@ -245,7 +245,7 @@ export default function RampoPage() {
 
       <footer className="py-8 px-8 border-t border-[#d4c9b0] text-center">
         <p className="text-xs text-[var(--muted)] tracking-widest">
-          江戸川乱歩生誕地ミュージアム ― 名張
+          乱歩と名張
         </p>
       </footer>
     </main>

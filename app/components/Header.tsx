@@ -13,7 +13,7 @@ export default function Header() {
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 px-8 py-5 flex justify-between items-center transition-colors duration-500 ${isDark ? "bg-black/30 backdrop-blur-sm" : "bg-[var(--background)] border-b border-[#d4c9b0]"}`}>
       <Link href="/" className={`text-xs tracking-[0.3em] hover:opacity-60 transition-opacity ${isDark ? "text-white/70" : "text-[var(--muted)]"}`}>
-        江戸川乱歩生誕地ミュージアム
+        乱歩と名張
       </Link>
 
       {/* デスクトップナビ */}

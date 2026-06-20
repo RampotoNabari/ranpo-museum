@@ -3,7 +3,7 @@ import "./globals.css";
 import Header from "./components/Header";
 
 export const metadata: Metadata = {
-  title: "江戸川乱歩生誕地ミュージアム",
+  title: "乱歩と名張",
   description: "明治27年、名張。130年続く記憶の継承の場所。",
 };
 

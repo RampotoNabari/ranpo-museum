@@ -17,7 +17,7 @@ export default function AccessPage() {
           <p className="text-xs tracking-[0.4em] text-[var(--muted)] mb-8">所在地</p>
           <div className="border-l-2 border-[#d4c9b0] pl-8 space-y-3">
             <p className="text-base text-[var(--foreground)] tracking-wide">
-              江戸川乱歩生誕地ミュージアム
+              乱歩と名張
             </p>
             <p className="text-sm text-[var(--muted)] leading-loose">
               〒518-0727<br />
@@ -124,7 +124,7 @@ export default function AccessPage() {
 
       <footer className="py-8 px-8 border-t border-[#d4c9b0] text-center">
         <p className="text-xs text-[var(--muted)] tracking-widest">
-          江戸川乱歩生誕地ミュージアム ― 名張
+          乱歩と名張
         </p>
       </footer>
     </main>
