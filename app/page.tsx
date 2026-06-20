@@ -126,7 +126,7 @@ export default function Home() {
               href="/nabari"
               className="border border-white/60 text-white/80 px-10 py-4 text-xs tracking-[0.25em] hover:bg-white hover:text-black transition-colors duration-500"
             >
-              物語を読む
+              物語を見る
             </Link>
           </div>
         </div>
