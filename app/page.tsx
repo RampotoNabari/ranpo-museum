@@ -42,6 +42,32 @@ const chapters = [
 export default function Home() {
   return (
     <main>
+      {/* せきの言葉 */}
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-8 text-center bg-black overflow-hidden">
+        <div className="flex flex-col items-center gap-2">
+          <p className="rise-1 text-xl md:text-2xl font-light leading-loose tracking-widest text-white/50">
+            八十八の手習の
+          </p>
+          <p className="rise-2 text-xl md:text-2xl font-light leading-loose tracking-widest text-white/50">
+            日記のさまを
+          </p>
+          <p className="rise-3 text-xl md:text-2xl font-light leading-loose tracking-widest text-white/50 mb-8">
+            誰か読むべき
+          </p>
+          <p className="rise-4 text-3xl md:text-4xl tracking-[0.4em] text-white/85 mb-8">
+            辻せき
+          </p>
+          <div className="flex flex-col items-center text-[#c0392b] text-base tracking-[0.25em]">
+            <p className="rise-5">慶応三年十二月二十一日</p>
+            <p className="rise-6 text-2xl leading-none my-2">|</p>
+            <p className="rise-7">昭和三十二年八月二十四日</p>
+          </div>
+        </div>
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/20 text-xs tracking-[0.3em] rise-7">
+          scroll
+        </div>
+      </section>
+
       {/* Hero */}
       <section className="relative min-h-screen flex flex-col items-center justify-center px-8 text-center overflow-hidden">
         <div className="absolute inset-0 z-0">
@@ -56,30 +82,19 @@ export default function Home() {
         </div>
 
         <div className="relative z-10 flex flex-col items-center">
-          <div className="fade-in mb-16 text-center">
-            <p className="text-sm font-light leading-[2.4] tracking-widest text-white/50 mb-6">
-              八十八の手習いの日記の様を
-              <br />
-              誰か読むべき
-            </p>
-            <p className="text-xs tracking-[0.3em] text-white/25">
-              辻せき　慶応三年十二月二十一日―昭和三十二年八月二十四日
-            </p>
-          </div>
-
-          <h1 className="fade-in-delay-1 text-4xl md:text-6xl font-light leading-loose tracking-wider text-white mb-28">
+          <h1 className="fade-in text-4xl md:text-6xl font-light leading-loose tracking-wider text-white mb-28">
             あなたは未来へ、
             <br />
             何を手渡しますか。
           </h1>
 
-          <p className="fade-in-delay-2 text-sm leading-loose text-white/50 max-w-xs mb-20">
+          <p className="fade-in-delay-1 text-sm leading-loose text-white/50 max-w-xs mb-20">
             江戸川乱歩が生まれたこの場所で、
             <br />
             辻せきの日記が語る百三十年の記憶。
           </p>
 
-          <div className="fade-in-delay-3 flex flex-col sm:flex-row gap-5">
+          <div className="fade-in-delay-2 flex flex-col sm:flex-row gap-5">
             <Link
               href="/nabari"
               className="border border-white/60 text-white/80 px-10 py-4 text-xs tracking-[0.25em] hover:bg-white hover:text-black transition-colors duration-500"
