@@ -123,7 +123,7 @@ export default function Home() {
 
           <div className="fade-in-delay-2">
             <Link
-              href="#stories"
+              href="/stories"
               className="border border-white/60 text-white/80 px-10 py-4 text-xs tracking-[0.25em] hover:bg-white hover:text-black transition-colors duration-500"
             >
               物語を見る
