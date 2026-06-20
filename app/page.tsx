@@ -123,7 +123,7 @@ export default function Home() {
 
           <div className="fade-in-delay-2">
             <Link
-              href="/nabari"
+              href="#stories"
               className="border border-white/60 text-white/80 px-10 py-4 text-xs tracking-[0.25em] hover:bg-white hover:text-black transition-colors duration-500"
             >
               物語を見る
@@ -137,7 +137,7 @@ export default function Home() {
       </section>
 
       {/* 物語への入口 */}
-      <section className="py-32 px-8 bg-[var(--background)]">
+      <section id="stories" className="py-32 px-8 bg-[var(--background)]">
         <div className="max-w-3xl mx-auto">
           <p className="text-xs tracking-[0.5em] text-[var(--muted)] mb-6 text-center">
             乱歩と名張
