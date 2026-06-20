@@ -239,6 +239,14 @@ export default function NabariPage() {
         }
         const scroll = document.getElementById("tsuji-scroll");
         if (scroll) scroll.style.animation = "scrollUp 30s linear forwards";
+        // 写真：テキストが消える直前（19秒後）に中央まで上げて止める
+        setTimeout(() => {
+          const photo = document.getElementById("tsuji-photo");
+          if (photo) {
+            photo.style.transition = "transform 11s linear";
+            photo.style.transform = "translateX(-50%) translateY(calc(-50vh + 50%))";
+          }
+        }, 19000);
         s7Observer.disconnect();
       });
     }, fullViewOpts);
@@ -391,7 +399,7 @@ export default function NabariPage() {
                 <span className="dawn-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>ひっそりと守られてきた生誕の地へ。</span>
               </div>
               <div className="text-base md:text-2xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.2]">
-                <span className="dawn-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>Rampoにとっては</span>
+                <span className="dawn-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>乱歩にとっては</span>
                 <span className="dawn-fade block" style={{ opacity: 0, transform: "translateY(20px)" }}>『ふるさと発見』の朝であった。</span>
               </div>
             </div>
@@ -466,9 +474,15 @@ export default function NabariPage() {
               </div>
             </div>
             {/* 写真：下から競り上がって止まる */}
-            <div id="masuda-photo" className="absolute bottom-0 left-1/2 w-72 md:w-96 aspect-[4/3] overflow-hidden" style={{ transform: "translateX(-50%) translateY(100%)" }}>
-              <Image src="/images/masuda-with-rampo.jpg" alt="桝田医師と乱歩" fill className="object-cover object-center" loading="lazy" style={{ filter: "brightness(0.6)", transform: "scale(1.08)", transformOrigin: "center" }} />
-              <p className="absolute bottom-0 left-0 right-0 text-center text-sm tracking-wider py-1 bg-black/60" style={{ color: "rgba(255,255,255,0.9)" }}>昭和二十七年　桝田医師と乱歩</p>
+            <div id="masuda-photo" className="absolute bottom-0 left-1/2 w-72 md:w-96 flex flex-col gap-1" style={{ transform: "translateX(-50%) translateY(100%)" }}>
+              <div className="relative w-full aspect-[4/3] overflow-hidden">
+                <Image src="/images/masuda-with-rampo.jpg" alt="桝田医師と乱歩" fill className="object-cover object-center" loading="lazy" style={{ filter: "brightness(0.6)", transform: "scale(1.08)", transformOrigin: "center" }} />
+                <p className="absolute bottom-0 left-0 right-0 text-center text-sm tracking-wider py-1 bg-black/60" style={{ color: "rgba(255,255,255,0.9)" }}>昭和二十七年　桝田医師と乱歩</p>
+              </div>
+              <div className="relative w-full aspect-[4/3] overflow-hidden">
+                <Image src="/images/rampo-alley.jpg" alt="借家跡に立つ乱歩" fill className="object-cover object-center" loading="lazy" style={{ filter: "brightness(0.6)", transform: "scale(1.08)", transformOrigin: "center" }} />
+                <p className="absolute bottom-0 left-0 right-0 text-center text-sm tracking-wider py-1 bg-black/60" style={{ color: "rgba(255,255,255,0.9)" }}>借家跡に立つ乱歩</p>
+              </div>
             </div>
           </div>
         </div>
@@ -528,6 +542,11 @@ export default function NabariPage() {
           <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
           <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 55% 50% at 50% 50%, transparent 0%, rgba(0,0,0,0.65) 100%)" }} />
           <div className="absolute left-0 right-0 bottom-0 top-14 overflow-hidden">
+            {/* 日記写真：下から競り上がって止まる */}
+            <div id="tsuji-photo" className="w-72 md:w-96 aspect-[4/3] overflow-hidden" style={{ position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%) translateY(100%)" }}>
+              <Image src="/images/seki-diary.jpeg" alt="辻せきの日記" fill className="object-cover object-top" loading="lazy" style={{ filter: "brightness(0.75) sepia(0.2)" }} />
+              <p className="absolute bottom-0 left-0 right-0 text-center text-sm tracking-wider py-1 bg-black/60" style={{ color: "rgba(255,255,255,0.9)" }}>辻せきの日記　昭和二十七年九月二十七日</p>
+            </div>
             <div id="tsuji-scroll" className="absolute w-full text-center px-8" style={{ transform: "translateY(100vh)" }}>
               <div className="py-20 flex flex-col items-center gap-5">
                 <p className="text-xl tracking-[0.5em]" style={{ color: "#c04444" }}>九月二十七日　午後</p>
