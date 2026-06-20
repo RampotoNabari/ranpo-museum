@@ -324,7 +324,7 @@ export default function NabariPage() {
                 <p className="leading-[2.8]">五十七年間、一度も踏まなかった土地へ、乱歩はそうやって、ほとんど偶然のように帰ってきた。</p>
                 <p className="leading-[2.8]">宇流冨志禰神社の境内は、人で埋め尽くされていた。</p>
                 <p className="leading-[2.8]">地元の人々は「お春日さん」と呼ぶ、この町の氏神。</p>
-                <p className="text-xl leading-[2.8]" style={{ color: "#c04444" }}>その社の前に、江戸川乱歩は立った。</p>
+                <p className="text-2xl leading-[2.8]" style={{ color: "#c04444" }}>その社の前に、江戸川乱歩は立った。</p>
               </div>
             </div>
           </div>
