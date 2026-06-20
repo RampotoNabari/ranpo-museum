@@ -142,41 +142,35 @@ export default function Home() {
       </section>
 
       {/* 物語への入口 */}
-      <section id="stories" className="bg-black">
-        <div className="text-center py-16 px-8">
-          <p className="text-xs tracking-[0.5em] text-white/30">
-            どこからでも、物語に入ることができます
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-5">
+      <section id="stories" className="bg-[#0a0a0a] py-8 px-8 md:px-20">
+        <p className="text-xs tracking-[0.5em] text-white/20 text-center mb-16">
+          どこからでも、物語に入ることができます
+        </p>
+        <div className="max-w-4xl mx-auto">
           {chapters.map((chapter, i) => (
-            <div key={i} className={`relative h-[60vh] md:h-screen overflow-hidden ${!chapter.available ? "opacity-40" : ""}`}>
-              <Image
-                src={chapter.image!}
-                alt={chapter.title}
-                fill
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-black/60" />
-              <div className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center">
-                <p className="text-xs tracking-[0.4em] text-white/30 mb-4">第{["一","二","三","四","五"][i]}章</p>
-                <p className="text-xs tracking-[0.3em] text-white/30 mb-6">{chapter.year}</p>
-                <h3 className="text-xl md:text-lg tracking-[0.2em] text-white font-light mb-4">
+            <Link
+              key={i}
+              href={chapter.href}
+              className="group flex items-center gap-8 md:gap-16 py-10 border-t border-white/8 last:border-b hover:bg-white/3 transition-all duration-500 px-4 -mx-4"
+            >
+              <span className="text-4xl md:text-5xl font-light text-white/10 group-hover:text-white/30 transition-colors duration-500 w-12 shrink-0 text-center">
+                {["一","二","三","四","五"][i]}
+              </span>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs tracking-[0.4em] text-white/20 group-hover:text-white/40 transition-colors duration-500 mb-3">
+                  {chapter.year}
+                </p>
+                <h3 className="text-2xl md:text-3xl font-light tracking-[0.15em] text-white/50 group-hover:text-white transition-colors duration-500">
                   {chapter.title}
                 </h3>
-                <p className="text-xs tracking-wider text-white/40 mb-8">{chapter.note}</p>
-                {chapter.available ? (
-                  <Link
-                    href={chapter.href}
-                    className="text-xs tracking-[0.3em] text-white/70 border-b border-white/30 pb-1 hover:text-white hover:border-white transition-colors duration-300"
-                  >
-                    見る
-                  </Link>
-                ) : (
-                  <span className="text-xs tracking-[0.3em] text-white/20">準備中</span>
-                )}
               </div>
-            </div>
+              <p className="text-xs tracking-wider text-white/20 group-hover:text-white/50 transition-colors duration-500 hidden md:block text-right shrink-0 max-w-[140px]">
+                {chapter.note}
+              </p>
+              <span className="text-white/10 group-hover:text-white/60 transition-colors duration-500 shrink-0 text-lg">
+                →
+              </span>
+            </Link>
           ))}
         </div>
       </section>
