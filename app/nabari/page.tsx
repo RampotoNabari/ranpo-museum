@@ -122,7 +122,7 @@ export default function NabariPage() {
             if (l2) { l2.style.transition = "opacity 2.5s ease-in"; l2.style.opacity = "1"; }
           }, 3000);
         }, 25000);
-        scheduleNext(() => transitionToSection("section-3", exteriorBgRef), 30000);
+        scheduleNext(() => transitionToSection("section-3", exteriorBgRef), 34000);
         s2Observer.disconnect();
       });
     }, observerOpts);
@@ -142,7 +142,7 @@ export default function NabariPage() {
             el.style.transform = "translateY(0)";
           }, i * 800);
         });
-        scheduleNext(() => transitionToSection("section-4", hiawaiiBgRef), 15000);
+        scheduleNext(() => transitionToSection("section-4", hiawaiiBgRef), 10500);
         s3Observer.disconnect();
       });
     }, observerOpts);
@@ -172,7 +172,7 @@ export default function NabariPage() {
             photo.style.transform = "translateX(-50%) translateY(calc(-50vh + 50%))";
           }
         }, 14000);
-        scheduleNext(() => transitionToSection("section-6", riverBgRef), 29000);
+        scheduleNext(() => transitionToSection("section-6", riverBgRef), 28000);
         s5Observer.disconnect();
       });
     }, fullViewOpts);
@@ -200,7 +200,7 @@ export default function NabariPage() {
             photo.style.transform = "translateX(-50%) translateY(calc(-50vh + 50%))";
           }
         }, 14000);
-        scheduleNext(() => transitionToSection("section-7", tsujiRef), 29000);
+        scheduleNext(() => transitionToSection("section-7", tsujiRef), 28000);
         s6Observer.disconnect();
       });
     }, fullViewOpts);
@@ -220,7 +220,7 @@ export default function NabariPage() {
             el.style.transform = "translateY(0)";
           }, i * 800);
         });
-        scheduleNext(() => transitionToSection("section-5", masudaBgRef), 15000);
+        scheduleNext(() => transitionToSection("section-5", masudaBgRef), 12000);
         s4Observer.disconnect();
       });
     }, observerOpts);
@@ -324,7 +324,7 @@ export default function NabariPage() {
                 <p className="leading-[2.8]">五十七年間、一度も踏まなかった土地へ、乱歩はそうやって、ほとんど偶然のように帰ってきた。</p>
                 <p className="leading-[2.8]">宇流冨志禰神社の境内は、人で埋め尽くされていた。</p>
                 <p className="leading-[2.8]">地元の人々は「お春日さん」と呼ぶ、この町の氏神。</p>
-                <p className="leading-[2.8]">その社の前に、江戸川乱歩は立った。</p>
+                <p className="text-xl leading-[2.8]" style={{ color: "#c04444" }}>その社の前に、江戸川乱歩は立った。</p>
               </div>
             </div>
           </div>
@@ -543,9 +543,11 @@ export default function NabariPage() {
           <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 55% 50% at 50% 50%, transparent 0%, rgba(0,0,0,0.65) 100%)" }} />
           <div className="absolute left-0 right-0 bottom-0 top-14 overflow-hidden">
             {/* 日記写真：下から競り上がって止まる */}
-            <div id="tsuji-photo" className="w-72 md:w-96 aspect-[4/3] overflow-hidden" style={{ position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%) translateY(100%)" }}>
-              <Image src="/images/seki-diary.jpeg" alt="辻せきの日記" fill className="object-cover object-top" loading="lazy" style={{ filter: "brightness(0.75) sepia(0.2)" }} />
-              <p className="absolute bottom-0 left-0 right-0 text-center text-sm tracking-wider py-1 bg-black/60" style={{ color: "rgba(255,255,255,0.9)" }}>辻せきの日記　昭和二十七年九月二十七日</p>
+            <div id="tsuji-photo" className="w-72 md:w-96 flex flex-col" style={{ position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%) translateY(100%)" }}>
+              <div className="relative w-full aspect-[4/3] overflow-hidden">
+                <Image src="/images/seki-diary.jpeg" alt="辻せきの日記" fill className="object-cover object-top" loading="lazy" style={{ filter: "brightness(0.75) sepia(0.2)" }} />
+              </div>
+              <p className="text-center text-xs tracking-wider py-2 text-[#f0ebe0]/60">辻せきの日記　昭和二十七年九月二十七日</p>
             </div>
             <div id="tsuji-scroll" className="absolute w-full text-center px-8" style={{ transform: "translateY(100vh)" }}>
               <div className="py-20 flex flex-col items-center gap-5">
