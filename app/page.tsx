@@ -69,7 +69,7 @@ export default function Home() {
         if (progress < 1) requestAnimationFrame(step);
       };
       requestAnimationFrame(step);
-    }, 8500);
+    }, 11000);
     return () => clearTimeout(timer);
   }, []);
 
