@@ -113,7 +113,7 @@ export default function Home() {
       </section>
 
       {/* Hero：せきの日記 表紙 */}
-      <section ref={heroRef} className="relative min-h-screen bg-black flex flex-col items-center justify-end pb-20 overflow-hidden">
+      <section ref={heroRef} className="relative min-h-screen bg-black flex flex-col items-center justify-start pt-16 overflow-hidden">
         <div
           style={{
             transform: coverRisen ? "translateY(0)" : "translateY(100vh)",
