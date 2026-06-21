@@ -62,7 +62,7 @@ export default function SekiPage() {
         setTimeout(() => {
           if (coverPhotoRef.current) {
             coverPhotoRef.current.style.transition = "transform 2.0s cubic-bezier(0.16, 1, 0.3, 1)";
-            coverPhotoRef.current.style.transform = "translateY(0)";
+            coverPhotoRef.current.style.transform = "translateX(-50%) translateY(0)";
           }
         }, 800);
         s2Observer.disconnect();
@@ -142,7 +142,7 @@ export default function SekiPage() {
               <div className="h-16" />
               <div className="text-white/25 text-sm tracking-[0.4em]">
                 <p>慶応三年（1867年）</p>
-                <p className="mt-2">三重県名張　辻家に生まれる</p>
+                <p className="mt-2">三重県名張　横山家に生まれる</p>
               </div>
             </div>
           </div>
@@ -163,8 +163,8 @@ export default function SekiPage() {
           <div className="absolute left-0 right-0 bottom-0 top-14 overflow-hidden">
             <div
               ref={coverPhotoRef}
-              className="absolute bottom-0 left-1/2 flex flex-col items-center gap-6"
-              style={{ transform: "translateX(-50%) translateY(100%)", width: "min(280px, 70vw)" }}
+              className="absolute top-4 left-1/2 flex flex-col items-center gap-6"
+              style={{ transform: "translateX(-50%) translateY(100vh)", width: "min(280px, 70vw)" }}
             >
               <div className="relative w-full" style={{ aspectRatio: "0.72 / 1" }}>
                 <Image
