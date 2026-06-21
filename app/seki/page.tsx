@@ -56,17 +56,19 @@ export default function SekiPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-start select-none">
-      <div className="pt-16 pb-2 text-center">
-        <p className="text-xs tracking-[0.5em] text-white/30">せきの日記</p>
-        {!isCover && (
-          <p className="text-xs text-white/15 mt-2 tracking-wider">
-            {idx * 2 - 1} · {idx * 2} ページ
-          </p>
-        )}
-      </div>
+      <div className="pt-16 pb-2 flex items-start gap-4">
+        {/* タイトル（本の左横・縦書き） */}
+        <div className="flex flex-col items-center justify-center gap-1 pt-2" style={{ writingMode: "vertical-rl" }}>
+          <p className="text-xs tracking-[0.5em] text-white/30">せきの日記</p>
+          {!isCover && (
+            <p className="text-xs text-white/15 tracking-wider mt-3">
+              {idx * 2 - 1} · {idx * 2}
+            </p>
+          )}
+        </div>
 
-      {/* Book stage */}
-      <div style={{ perspective: 1400 }}>
+        {/* Book stage */}
+        <div style={{ perspective: 1400 }}>
 
         {/* 表紙 */}
         {isCover && (
@@ -136,7 +138,8 @@ export default function SekiPage() {
             )}
           </div>
         )}
-      </div>
+        </div>{/* /Book stage */}
+      </div>{/* /タイトル+本 wrapper */}
 
       {/* ナビゲーション */}
       <div className="flex items-center gap-10 mt-5">
