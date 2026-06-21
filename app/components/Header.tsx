@@ -14,7 +14,7 @@ const chapters = [
 
 export default function Header() {
   const pathname = usePathname();
-  const isDark = ["/" , "/nabari", "/stories"].some(p => pathname === p || pathname.startsWith("/nabari"));
+  const isDark = ["/" , "/nabari", "/stories", "/seki"].some(p => pathname === p || pathname.startsWith("/nabari") || pathname.startsWith("/seki"));
   const [menuOpen, setMenuOpen] = useState(false);
 
   const linkClass = (available: boolean) =>

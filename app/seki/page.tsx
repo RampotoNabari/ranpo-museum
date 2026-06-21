@@ -56,7 +56,7 @@ export default function SekiPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-start select-none">
-      <div className="pt-14 pb-3 text-center">
+      <div className="pt-16 pb-2 text-center">
         <p className="text-xs tracking-[0.5em] text-white/30">せきの日記</p>
         {!isCover && (
           <p className="text-xs text-white/15 mt-2 tracking-wider">
@@ -138,13 +138,6 @@ export default function SekiPage() {
         )}
       </div>
 
-      {/* 解説（固定高さで本が動かないように） */}
-      <div className="max-w-xl mt-5 px-6 text-center" style={{ minHeight: 80 }}>
-        {!isCover && cur.note && (
-          <p className="text-xs leading-[2.2] tracking-wider text-white/40">{cur.note}</p>
-        )}
-      </div>
-
       {/* ナビゲーション */}
       <div className="flex items-center gap-10 mt-5">
         {isCover ? (
@@ -176,6 +169,13 @@ export default function SekiPage() {
               前 →
             </button>
           </>
+        )}
+      </div>
+
+      {/* 解説（ボタンの下） */}
+      <div className="max-w-xl mt-6 px-6 text-center" style={{ minHeight: 80 }}>
+        {!isCover && cur.note && (
+          <p className="text-xs leading-[2.2] tracking-wider text-white/40">{cur.note}</p>
         )}
       </div>
 
