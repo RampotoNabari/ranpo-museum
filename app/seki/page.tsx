@@ -13,6 +13,7 @@ const spreads = [
 export default function SekiPage() {
   const [diaryOpen, setDiaryOpen] = useState(false);
   const [spreadIdx, setSpreadIdx] = useState(0);
+  const [flipClass, setFlipClass] = useState("");
   const snapRef = useRef<HTMLDivElement>(null);
   const coverBgRef = useRef<HTMLDivElement>(null);
   const coverPhotoRef = useRef<HTMLDivElement>(null);
@@ -72,13 +73,22 @@ export default function SekiPage() {
     };
   }, []);
 
+  const flipTo = (next: number, dir: "next" | "prev") => {
+    setFlipClass(`flip-out-${dir}`);
+    setTimeout(() => {
+      setSpreadIdx(next);
+      setFlipClass(`flip-in-${dir}`);
+      setTimeout(() => setFlipClass(""), 320);
+    }, 320);
+  };
+
   if (diaryOpen) {
     const pageW = typeof window !== "undefined" ? Math.min(Math.floor((window.innerWidth - 48) / 2), 480) : 360;
     const current = spreads[spreadIdx];
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-start select-none">
         <div className="pt-16 pb-4 px-4 w-full flex justify-center">
-          <div style={{ display: "flex", gap: 2 }}>
+          <div className={flipClass} style={{ display: "flex", gap: 2 }}>
             {[...current].reverse().map((src, i) => (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -91,14 +101,14 @@ export default function SekiPage() {
           </div>
         </div>
         <div className="flex items-center gap-10 mt-5">
-          <button onClick={() => setSpreadIdx((p) => Math.min(p + 1, spreads.length - 1))} disabled={spreadIdx === spreads.length - 1}
+          <button onClick={() => { if (spreadIdx < spreads.length - 1) flipTo(spreadIdx + 1, "next"); }} disabled={spreadIdx === spreads.length - 1}
             className="text-xs tracking-[0.4em] text-white/40 hover:text-white/80 disabled:opacity-15 disabled:cursor-not-allowed transition-colors duration-300">← 次</button>
           <div className="flex gap-2">
             {spreads.map((_, i) => (
               <span key={i} className={`block w-1.5 h-1.5 rounded-full transition-colors ${i === spreadIdx ? "bg-white/60" : "bg-white/15"}`} />
             ))}
           </div>
-          <button onClick={() => setSpreadIdx((p) => Math.max(p - 1, 0))} disabled={spreadIdx === 0}
+          <button onClick={() => { if (spreadIdx > 0) flipTo(spreadIdx - 1, "prev"); }} disabled={spreadIdx === 0}
             className="text-xs tracking-[0.4em] text-white/40 hover:text-white/80 disabled:opacity-15 disabled:cursor-not-allowed transition-colors duration-300">前 →</button>
         </div>
         <button onClick={() => { setDiaryOpen(false); setSpreadIdx(0); }}
