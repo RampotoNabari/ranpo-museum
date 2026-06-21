@@ -48,7 +48,7 @@ export default function SekiPage() {
   // 詩文が表示されてから写真が競り上がる
   useEffect(() => {
     if (opened) return;
-    const t = setTimeout(() => setRisen(true), 900);
+    const t = setTimeout(() => setRisen(true), 8000);
     return () => clearTimeout(t);
   }, [opened]);
 
@@ -60,73 +60,34 @@ export default function SekiPage() {
 
   if (!opened) {
     return (
-      <div
-        className="min-h-screen bg-[#0a0a0a] flex flex-col items-center select-none"
-        style={{ overflow: "hidden" }}
-      >
-        {/* 詩文エリア（上部） */}
-        <div
-          className="flex items-start justify-center gap-6 px-6"
-          style={{ paddingTop: 80, minHeight: 160 }}
-        >
-          {/* 縦書き詩文（幅固定でスクロール可） */}
-          <div
-            style={{
-              writingMode: "vertical-rl",
-              height: isMobile ? 160 : 200,
-              width: isMobile ? 56 : 70,
-              overflowX: "auto",
-              overflowY: "hidden",
-            }}
-            className="scrollbar-hide"
-          >
-            {poem.map((line, i) =>
-              line === "|" ? (
-                <span
-                  key={i}
-                  style={{
-                    display: "inline-block",
-                    width: 1,
-                    height: "2em",
-                    background: "rgba(255,255,255,0.2)",
-                    margin: "0 0.4em",
-                    verticalAlign: "middle",
-                  }}
-                />
-              ) : line === "" ? (
-                <span key={i} style={{ display: "inline-block", width: "0.8em" }} />
-              ) : (
-                <span
-                  key={i}
-                  style={{
-                    display: "block",
-                    fontSize: isMobile ? 12 : 13,
-                    letterSpacing: "0.4em",
-                    color: "rgba(255,255,255,0.55)",
-                    lineHeight: 2.2,
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {line}
-                </span>
-              )
-            )}
+      <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-start select-none overflow-hidden">
+
+        {/* 詩文（テロップ：下から順に上昇） */}
+        <div className="flex flex-col items-center text-center pt-24 gap-0">
+          <p className="seki-rise-1 text-lg md:text-xl font-light tracking-widest text-white/50 leading-loose">八十八の手習の</p>
+          <p className="seki-rise-2 text-lg md:text-xl font-light tracking-widest text-white/50 leading-loose">日記のさまを</p>
+          <p className="seki-rise-3 text-lg md:text-xl font-light tracking-widest text-white/50 leading-loose mb-6">誰か読むべき</p>
+          <p className="seki-rise-4 text-2xl md:text-3xl tracking-[0.4em] text-white/85 mb-6">辻せき</p>
+          <div className="flex flex-col items-center text-[#c0392b] tracking-[0.25em] text-sm">
+            <p className="seki-rise-5">慶応三年十二月二十一日</p>
+            <p className="seki-rise-6 text-xl leading-none my-2">|</p>
+            <p className="seki-rise-7">昭和三十二年八月二十四日</p>
           </div>
         </div>
 
-        {/* 表紙写真（下から競り上がる） */}
+        {/* 表紙写真（詩文の後に下から競り上がる） */}
         <div
           style={{
             transform: risen ? "translateY(0)" : "translateY(100vh)",
-            transition: "transform 1.4s cubic-bezier(0.16, 1, 0.3, 1)",
+            transition: "transform 1.6s cubic-bezier(0.16, 1, 0.3, 1)",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             gap: 24,
-            marginTop: 24,
+            marginTop: 32,
           }}
         >
-          <div style={{ width: imgW, height: imgH, flexShrink: 0 }}>
+          <div style={{ width: imgW, height: imgH }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/seki/seki-diary01.png"
@@ -134,7 +95,6 @@ export default function SekiPage() {
               style={{ width: "100%", height: "100%", objectFit: "contain" }}
             />
           </div>
-
           <button
             onClick={() => setOpened(true)}
             className="text-xs tracking-[0.5em] text-white/50 border border-white/20 px-10 py-3 hover:text-white hover:border-white/50 transition-colors duration-300"
@@ -144,8 +104,17 @@ export default function SekiPage() {
         </div>
 
         <style>{`
-          .scrollbar-hide::-webkit-scrollbar { display: none; }
-          .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+          @keyframes sekiTelopUp {
+            from { opacity: 0.6; transform: translateY(60vh); }
+            to   { opacity: 1;   transform: translateY(0); }
+          }
+          .seki-rise-1 { opacity: 0; animation: sekiTelopUp 3.0s cubic-bezier(0.16,1,0.3,1) 0.2s forwards; }
+          .seki-rise-2 { opacity: 0; animation: sekiTelopUp 3.0s cubic-bezier(0.16,1,0.3,1) 0.9s forwards; }
+          .seki-rise-3 { opacity: 0; animation: sekiTelopUp 3.0s cubic-bezier(0.16,1,0.3,1) 1.6s forwards; }
+          .seki-rise-4 { opacity: 0; animation: sekiTelopUp 3.0s cubic-bezier(0.16,1,0.3,1) 2.4s forwards; }
+          .seki-rise-5 { opacity: 0; animation: sekiTelopUp 3.0s cubic-bezier(0.16,1,0.3,1) 3.2s forwards; }
+          .seki-rise-6 { opacity: 0; animation: sekiTelopUp 3.0s cubic-bezier(0.16,1,0.3,1) 4.0s forwards; }
+          .seki-rise-7 { opacity: 0; animation: sekiTelopUp 3.0s cubic-bezier(0.16,1,0.3,1) 4.8s forwards; }
         `}</style>
       </div>
     );
