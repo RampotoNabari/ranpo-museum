@@ -1,7 +1,5 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
 
 const chapters = [
   {
@@ -47,42 +45,6 @@ const chapters = [
 ];
 
 export default function Home() {
-  const heroRef = useRef<HTMLElement>(null);
-  const [coverRisen, setCoverRisen] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      const target = heroRef.current;
-      if (!target) return;
-      const start = window.scrollY;
-      const end = target.getBoundingClientRect().top + start;
-      const duration = 12000;
-      const startTime = performance.now();
-
-      const step = (now: number) => {
-        const elapsed = now - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const ease = progress < 0.5
-          ? 2 * progress * progress
-          : -1 + (4 - 2 * progress) * progress;
-        window.scrollTo(0, start + (end - start) * ease);
-        if (progress < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
-    }, 11000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    const el = heroRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setCoverRisen(true); },
-      { threshold: 0.2 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <main>
@@ -112,34 +74,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Hero：せきの日記 表紙 */}
-      <section ref={heroRef} className="relative min-h-screen bg-black flex flex-col items-center justify-start pt-16 overflow-hidden">
-        <div
-          style={{
-            transform: coverRisen ? "translateY(0)" : "translateY(100vh)",
-            transition: "transform 1.6s cubic-bezier(0.16, 1, 0.3, 1)",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 32,
-          }}
-        >
-          <div className="relative w-[240px] md:w-[320px] aspect-[0.72/1]">
-            <Image
-              src="/images/seki/seki-diary01.png"
-              alt="せきの日記 表紙"
-              fill
-              className="object-contain"
-            />
-          </div>
-          <Link
-            href="/seki"
-            className="text-xs tracking-[0.5em] text-white/50 border border-white/20 px-10 py-3 hover:text-white hover:border-white/50 transition-colors duration-300"
-          >
-            せきの日記を読む
-          </Link>
-        </div>
-      </section>
 
       {/* 物語への入口 */}
       <section id="stories" className="bg-[#0a0a0a] py-8 px-8 md:px-20">
