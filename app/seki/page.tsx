@@ -89,12 +89,12 @@ export default function SekiPage() {
               {pageIdx + 1} / {diaryPages.length}
             </p>
           </div>
-          <div style={{ width: pdfW, height: pdfH, background: "#fff", flexShrink: 0 }}>
+          <div style={{ width: pdfW, flexShrink: 0 }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={diaryPages[pageIdx]}
               alt={`せきの日記 ${pageIdx + 1}ページ`}
-              style={{ width: "100%", height: "100%", objectFit: "contain" }}
+              style={{ width: "100%", height: "auto", display: "block" }}
             />
           </div>
         </div>
