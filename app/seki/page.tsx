@@ -109,10 +109,10 @@ export default function SekiPage() {
           <div style={{ position: "relative", display: "flex", width: pageW * 2, height: pageH }}>
 
             {/* 左ページ */}
-            <div style={{ position: "relative", zIndex: 1, boxShadow: "inset -4px 0 8px rgba(0,0,0,0.15)", flexShrink: 0 }}>
+            <div style={{ position: "relative", zIndex: 1, boxShadow: "inset -4px 0 8px rgba(0,0,0,0.15)", flexShrink: 0, background: "#fff" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={flipping && flipDir === 1 ? nxt.left : cur.left} alt="左ページ"
-                style={{ width: pageW, height: pageH, objectFit: "cover", display: "block" }} />
+                style={{ width: pageW, height: pageH, objectFit: "contain", display: "block" }} />
             </div>
 
             {/* 綴じ目 */}
@@ -123,10 +123,10 @@ export default function SekiPage() {
             }} />
 
             {/* 右ページ */}
-            <div style={{ position: "relative", zIndex: 1, boxShadow: "inset 4px 0 8px rgba(0,0,0,0.1)", flexShrink: 0 }}>
+            <div style={{ position: "relative", zIndex: 1, boxShadow: "inset 4px 0 8px rgba(0,0,0,0.1)", flexShrink: 0, background: "#fff" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={flipping && flipDir === -1 ? nxt.right : cur.right} alt="右ページ"
-                style={{ width: pageW, height: pageH, objectFit: "cover", display: "block" }} />
+                style={{ width: pageW, height: pageH, objectFit: "contain", display: "block" }} />
             </div>
 
             {/* 前進めくり：左ページが右へ（日本語右開き） */}
@@ -139,12 +139,12 @@ export default function SekiPage() {
               }}>
                 <div style={{ position: "absolute", inset: 0, backfaceVisibility: "hidden" }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={cur.left} alt="めくり表" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                  <img src={cur.left} alt="めくり表" style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }} />
                 </div>
                 <div style={{ position: "absolute", inset: 0, backfaceVisibility: "hidden", transform: "rotateY(-180deg)" }}>
                   <div style={{ transform: "scaleX(-1)", width: "100%", height: "100%" }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={nxt.right} alt="めくり裏" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                    <img src={nxt.right} alt="めくり裏" style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }} />
                   </div>
                 </div>
               </div>
@@ -160,12 +160,12 @@ export default function SekiPage() {
               }}>
                 <div style={{ position: "absolute", inset: 0, backfaceVisibility: "hidden" }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={cur.right} alt="戻り表" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                  <img src={cur.right} alt="戻り表" style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }} />
                 </div>
                 <div style={{ position: "absolute", inset: 0, backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
                   <div style={{ transform: "scaleX(-1)", width: "100%", height: "100%" }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={nxt.left} alt="戻り裏" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                    <img src={nxt.left} alt="戻り裏" style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }} />
                   </div>
                 </div>
               </div>
