@@ -2,20 +2,21 @@
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 
+// 右開き：right = 奇数ページ（先に読む）, left = 偶数ページ
 const spreads = [
-  ["/images/seki/seki-01.jpg", "/images/seki/seki-02.jpg"],
-  ["/images/seki/seki-03.jpg", "/images/seki/seki-04.jpg"],
-  ["/images/seki/seki-05.jpg", "/images/seki/seki-06.jpg"],
-  ["/images/seki/seki-07.jpg", "/images/seki/seki-08.jpg"],
-  ["/images/seki/seki-09.jpg", "/images/seki/seki-10.jpg"],
+  { right: "/images/seki/seki-01.jpg", left: "/images/seki/seki-02.jpg" },
+  { right: "/images/seki/seki-03.jpg", left: "/images/seki/seki-04.jpg" },
+  { right: "/images/seki/seki-05.jpg", left: "/images/seki/seki-06.jpg" },
+  { right: "/images/seki/seki-07.jpg", left: "/images/seki/seki-08.jpg" },
+  { right: "/images/seki/seki-09.jpg", left: "/images/seki/seki-10.jpg" },
 ];
 
 export default function SekiPage() {
   const [diaryOpen, setDiaryOpen] = useState(false);
   const [spreadIdx, setSpreadIdx] = useState(0);
-  const [animPhase, setAnimPhase] = useState<"idle"|"out"|"in">("idle");
-  const [animDir, setAnimDir] = useState<"next"|"prev">("next");
-  const [pendingIdx, setPendingIdx] = useState(0);
+  const [flipping, setFlipping] = useState(false);
+  const [flipDir, setFlipDir] = useState<1 | -1>(1);
+  const [pending, setPending] = useState(0);
   const snapRef = useRef<HTMLDivElement>(null);
   const coverBgRef = useRef<HTMLDivElement>(null);
   const coverPhotoRef = useRef<HTMLDivElement>(null);
@@ -75,66 +76,127 @@ export default function SekiPage() {
     };
   }, []);
 
-  const flipTo = (next: number, dir: "next" | "prev") => {
-    if (animPhase !== "idle") return;
-    setPendingIdx(next);
-    setAnimDir(dir);
-    setAnimPhase("out");
+  const turn = (d: 1 | -1) => {
+    const next = spreadIdx + d;
+    if (next < 0 || next >= spreads.length || flipping) return;
+    setFlipDir(d);
+    setPending(next);
+    setFlipping(true);
     setTimeout(() => {
       setSpreadIdx(next);
-      setAnimPhase("in");
-      setTimeout(() => setAnimPhase("idle"), 300);
-    }, 280);
+      setFlipping(false);
+    }, 750);
   };
 
   if (diaryOpen) {
     const pageW = typeof window !== "undefined" ? Math.min(Math.floor((window.innerWidth - 48) / 2), 480) : 360;
-    const current = spreads[spreadIdx];
-    // 右ページ = current[0], 左ページ = current[1]（右綴じ）
-    const rightPage = current[0];
-    const leftPage  = current[1];
-    // めくれるページ: 次へ→左ページが折れる / 前へ→右ページが折れる
-    const rightClass = animPhase === "out" && animDir === "prev"  ? "page-fold-out-back"
-                     : animPhase === "in"  && animDir === "next"  ? "page-unfold-in"
-                     : "";
-    const leftClass  = animPhase === "out" && animDir === "next"  ? "page-fold-out"
-                     : animPhase === "in"  && animDir === "prev"  ? "page-unfold-in-back"
-                     : "";
+    const pageH = Math.round(pageW * 1.41);
+    const cur = spreads[spreadIdx];
+    const nxt = spreads[pending] ?? cur;
+    const isLast = spreadIdx === spreads.length - 1;
+
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-start select-none">
-        <div className="pt-16 pb-4 px-4 w-full flex justify-center" style={{ perspective: "1200px" }}>
-          <div style={{ display: "flex", gap: 2 }}>
-            {/* 右ページ */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={rightPage}
-              alt={`せきの日記 ${spreadIdx * 2 + 1}ページ`}
-              className={rightClass}
-              style={{ width: pageW, height: "auto", display: "block" }}
-            />
+        <div className="pt-16 pb-4">
+          <p className="text-xs tracking-[0.5em] text-white/30 text-center">せきの日記</p>
+          <p className="text-xs text-white/15 tracking-wider mt-2 text-center">
+            {spreadIdx * 2 + 1} · {spreadIdx * 2 + 2} ページ
+          </p>
+        </div>
+
+        {/* 本のステージ */}
+        <div style={{ perspective: 1400 }}>
+          <div style={{ position: "relative", display: "flex", width: pageW * 2, height: pageH }}>
+
             {/* 左ページ */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={leftPage}
-              alt={`せきの日記 ${spreadIdx * 2 + 2}ページ`}
-              className={leftClass}
-              style={{ width: pageW, height: "auto", display: "block" }}
-            />
+            <div style={{ position: "relative", zIndex: 1, boxShadow: "inset -4px 0 8px rgba(0,0,0,0.15)", flexShrink: 0 }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={flipping && flipDir === 1 ? nxt.left : cur.left} alt="左ページ"
+                style={{ width: pageW, height: pageH, objectFit: "cover", display: "block" }} />
+            </div>
+
+            {/* 綴じ目 */}
+            <div style={{
+              position: "absolute", left: pageW, top: 0, bottom: 0, width: 8, zIndex: 20,
+              background: "linear-gradient(to right, rgba(0,0,0,0.35), rgba(0,0,0,0.05) 60%, transparent)",
+              pointerEvents: "none",
+            }} />
+
+            {/* 右ページ */}
+            <div style={{ position: "relative", zIndex: 1, boxShadow: "inset 4px 0 8px rgba(0,0,0,0.1)", flexShrink: 0 }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={flipping && flipDir === -1 ? nxt.right : cur.right} alt="右ページ"
+                style={{ width: pageW, height: pageH, objectFit: "cover", display: "block" }} />
+            </div>
+
+            {/* 前進めくり：左ページが右へ（日本語右開き） */}
+            {flipping && flipDir === 1 && (
+              <div style={{
+                position: "absolute", top: 0, left: 0, width: pageW, height: pageH,
+                transformStyle: "preserve-3d", transformOrigin: "right center",
+                animation: "flipForwardJP 0.75s cubic-bezier(0.4,0,0.2,1) forwards",
+                zIndex: 30,
+              }}>
+                <div style={{ position: "absolute", inset: 0, backfaceVisibility: "hidden" }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={cur.left} alt="めくり表" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                </div>
+                <div style={{ position: "absolute", inset: 0, backfaceVisibility: "hidden", transform: "rotateY(-180deg)" }}>
+                  <div style={{ transform: "scaleX(-1)", width: "100%", height: "100%" }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={nxt.right} alt="めくり裏" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* 後退めくり：右ページが左へ */}
+            {flipping && flipDir === -1 && (
+              <div style={{
+                position: "absolute", top: 0, left: pageW, width: pageW, height: pageH,
+                transformStyle: "preserve-3d", transformOrigin: "left center",
+                animation: "flipBackJP 0.75s cubic-bezier(0.4,0,0.2,1) forwards",
+                zIndex: 30,
+              }}>
+                <div style={{ position: "absolute", inset: 0, backfaceVisibility: "hidden" }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={cur.right} alt="戻り表" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                </div>
+                <div style={{ position: "absolute", inset: 0, backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
+                  <div style={{ transform: "scaleX(-1)", width: "100%", height: "100%" }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={nxt.left} alt="戻り裏" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
-        <div className="flex items-center gap-10 mt-5">
-          <button onClick={() => { if (spreadIdx < spreads.length - 1) flipTo(spreadIdx + 1, "next"); }} disabled={spreadIdx === spreads.length - 1 || animPhase !== "idle"}
+
+        <div className="flex items-center gap-10 mt-10">
+          <button onClick={() => turn(1)} disabled={isLast || flipping}
             className="text-xs tracking-[0.4em] text-white/40 hover:text-white/80 disabled:opacity-15 disabled:cursor-not-allowed transition-colors duration-300">← 次</button>
           <div className="flex gap-2">
             {spreads.map((_, i) => (
               <span key={i} className={`block w-1.5 h-1.5 rounded-full transition-colors ${i === spreadIdx ? "bg-white/60" : "bg-white/15"}`} />
             ))}
           </div>
-          <button onClick={() => { if (spreadIdx > 0) flipTo(spreadIdx - 1, "prev"); }} disabled={spreadIdx === 0 || animPhase !== "idle"}
+          <button onClick={() => turn(-1)} disabled={spreadIdx === 0 || flipping}
             className="text-xs tracking-[0.4em] text-white/40 hover:text-white/80 disabled:opacity-15 disabled:cursor-not-allowed transition-colors duration-300">前 →</button>
         </div>
         <button onClick={() => { setDiaryOpen(false); setSpreadIdx(0); }}
           className="mt-8 text-xs tracking-[0.3em] text-white/20 hover:text-white/40 transition-colors duration-300">← 表紙へ</button>
+
+        <style>{`
+          @keyframes flipForwardJP {
+            from { transform: rotateY(0deg); }
+            to   { transform: rotateY(180deg); }
+          }
+          @keyframes flipBackJP {
+            from { transform: rotateY(0deg); }
+            to   { transform: rotateY(-180deg); }
+          }
+        `}</style>
       </div>
     );
   }
