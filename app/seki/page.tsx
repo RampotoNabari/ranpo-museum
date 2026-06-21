@@ -79,7 +79,7 @@ export default function SekiPage() {
       <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-start select-none">
         <div className="pt-16 pb-4 px-4 w-full flex justify-center">
           <div style={{ display: "flex", gap: 2 }}>
-            {current.map((src, i) => (
+            {[...current].reverse().map((src, i) => (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 key={i}
