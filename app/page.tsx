@@ -49,15 +49,24 @@ export default function Home() {
   return (
     <main>
       {/* Hero：花火 */}
-      <section className="relative h-screen overflow-hidden">
-        <Image
-          src="/images/street.jpeg"
-          alt="名張の花火"
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-black/30" />
+      <section className="relative h-screen overflow-hidden flex flex-col items-center justify-center px-8 text-center">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/street.jpeg"
+            alt="名張の花火"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-black/70" />
+        </div>
+        <div className="relative z-10 flex flex-col items-center">
+          <h1 className="fade-in text-4xl md:text-6xl font-light leading-loose tracking-wider text-white mb-28">
+            あなたは未来へ、
+            <br />
+            何を手渡しますか。
+          </h1>
+        </div>
         <div className="absolute bottom-12 left-1/2 -translate-x-1/2 text-white/40 text-xs tracking-[0.3em]">
           scroll
         </div>
