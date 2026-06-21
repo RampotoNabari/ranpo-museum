@@ -66,8 +66,21 @@ export default function Home() {
             <br />
             何を手渡しますか。
           </h1>
+          <p className="fade-in-delay-1 text-sm leading-loose text-white/50 max-w-xs mb-20">
+            江戸川乱歩が生まれたこの場所で、
+            <br />
+            辻せきの日記が語る百三十年の記憶。
+          </p>
+          <div className="fade-in-delay-2">
+            <Link
+              href="#stories"
+              className="border border-white/60 text-white/80 px-10 py-4 text-xs tracking-[0.25em] hover:bg-white hover:text-black transition-colors duration-500"
+            >
+              物語を見る
+            </Link>
+          </div>
         </div>
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 text-white/40 text-xs tracking-[0.3em]">
+        <div className="fade-in-delay-3 absolute bottom-10 left-1/2 -translate-x-1/2 text-white/30 text-xs tracking-[0.3em]">
           scroll
         </div>
       </section>
