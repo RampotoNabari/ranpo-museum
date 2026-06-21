@@ -13,7 +13,9 @@ const spreads = [
 export default function SekiPage() {
   const [diaryOpen, setDiaryOpen] = useState(false);
   const [spreadIdx, setSpreadIdx] = useState(0);
-  const [flipClass, setFlipClass] = useState("");
+  const [animPhase, setAnimPhase] = useState<"idle"|"out"|"in">("idle");
+  const [animDir, setAnimDir] = useState<"next"|"prev">("next");
+  const [pendingIdx, setPendingIdx] = useState(0);
   const snapRef = useRef<HTMLDivElement>(null);
   const coverBgRef = useRef<HTMLDivElement>(null);
   const coverPhotoRef = useRef<HTMLDivElement>(null);
@@ -74,41 +76,61 @@ export default function SekiPage() {
   }, []);
 
   const flipTo = (next: number, dir: "next" | "prev") => {
-    setFlipClass(`flip-out-${dir}`);
+    if (animPhase !== "idle") return;
+    setPendingIdx(next);
+    setAnimDir(dir);
+    setAnimPhase("out");
     setTimeout(() => {
       setSpreadIdx(next);
-      setFlipClass(`flip-in-${dir}`);
-      setTimeout(() => setFlipClass(""), 320);
-    }, 320);
+      setAnimPhase("in");
+      setTimeout(() => setAnimPhase("idle"), 300);
+    }, 280);
   };
 
   if (diaryOpen) {
     const pageW = typeof window !== "undefined" ? Math.min(Math.floor((window.innerWidth - 48) / 2), 480) : 360;
     const current = spreads[spreadIdx];
+    // 右ページ = current[0], 左ページ = current[1]（右綴じ）
+    const rightPage = current[0];
+    const leftPage  = current[1];
+    // めくれるページ: 次へ→左ページが折れる / 前へ→右ページが折れる
+    const rightClass = animPhase === "out" && animDir === "prev"  ? "page-fold-out-back"
+                     : animPhase === "in"  && animDir === "next"  ? "page-unfold-in"
+                     : "";
+    const leftClass  = animPhase === "out" && animDir === "next"  ? "page-fold-out"
+                     : animPhase === "in"  && animDir === "prev"  ? "page-unfold-in-back"
+                     : "";
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-start select-none">
-        <div className="pt-16 pb-4 px-4 w-full flex justify-center">
-          <div className={flipClass} style={{ display: "flex", gap: 2 }}>
-            {[...current].reverse().map((src, i) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                key={i}
-                src={src}
-                alt={`せきの日記 ${spreadIdx * 2 + i + 1}ページ`}
-                style={{ width: pageW, height: "auto", display: "block" }}
-              />
-            ))}
+        <div className="pt-16 pb-4 px-4 w-full flex justify-center" style={{ perspective: "1200px" }}>
+          <div style={{ display: "flex", gap: 2 }}>
+            {/* 右ページ */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={rightPage}
+              alt={`せきの日記 ${spreadIdx * 2 + 1}ページ`}
+              className={rightClass}
+              style={{ width: pageW, height: "auto", display: "block" }}
+            />
+            {/* 左ページ */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={leftPage}
+              alt={`せきの日記 ${spreadIdx * 2 + 2}ページ`}
+              className={leftClass}
+              style={{ width: pageW, height: "auto", display: "block" }}
+            />
           </div>
         </div>
         <div className="flex items-center gap-10 mt-5">
-          <button onClick={() => { if (spreadIdx < spreads.length - 1) flipTo(spreadIdx + 1, "next"); }} disabled={spreadIdx === spreads.length - 1}
+          <button onClick={() => { if (spreadIdx < spreads.length - 1) flipTo(spreadIdx + 1, "next"); }} disabled={spreadIdx === spreads.length - 1 || animPhase !== "idle"}
             className="text-xs tracking-[0.4em] text-white/40 hover:text-white/80 disabled:opacity-15 disabled:cursor-not-allowed transition-colors duration-300">← 次</button>
           <div className="flex gap-2">
             {spreads.map((_, i) => (
               <span key={i} className={`block w-1.5 h-1.5 rounded-full transition-colors ${i === spreadIdx ? "bg-white/60" : "bg-white/15"}`} />
             ))}
           </div>
-          <button onClick={() => { if (spreadIdx > 0) flipTo(spreadIdx - 1, "prev"); }} disabled={spreadIdx === 0}
+          <button onClick={() => { if (spreadIdx > 0) flipTo(spreadIdx - 1, "prev"); }} disabled={spreadIdx === 0 || animPhase !== "idle"}
             className="text-xs tracking-[0.4em] text-white/40 hover:text-white/80 disabled:opacity-15 disabled:cursor-not-allowed transition-colors duration-300">前 →</button>
         </div>
         <button onClick={() => { setDiaryOpen(false); setSpreadIdx(0); }}
