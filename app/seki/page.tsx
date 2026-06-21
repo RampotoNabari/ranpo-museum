@@ -31,77 +31,86 @@ const poem = [
 export default function SekiPage() {
   const [opened, setOpened] = useState(false);
   const [pageIdx, setPageIdx] = useState(0);
-  const [W, setW] = useState(340);
+  const [imgH, setImgH] = useState(320);
+  const [winW, setWinW] = useState(800);
 
   useEffect(() => {
     const update = () => {
-      setW(Math.min(420, Math.floor(window.innerWidth * 0.85)));
+      setWinW(window.innerWidth);
+      // 画像の高さ = 画面高さの55%（ヘッダー分引いて、ボタンが見えるように）
+      setImgH(Math.floor((window.innerHeight - 120) * 0.55));
     };
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  const H = Math.round(W * 1.41);
+  const isMobile = winW < 640;
+  // 画像幅は高さに合わせて縦長（元画像比率に合わせる）
+  const imgW = Math.round(imgH * 0.72);
+  // PDFエリア
+  const pdfW = Math.min(winW - 80, 600);
+  const pdfH = Math.round(pdfW * 1.41);
+  // テキストエリアの高さ（スクロールが出るよう半分程度に制限）
+  const textH = Math.round(imgH * 0.45);
 
   if (!opened) {
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-start select-none">
-        <div className="pt-16 pb-6 flex items-start gap-6 px-4">
-          {/* 表紙画像 */}
-          <div style={{ width: W * 0.55, height: H * 0.75, flexShrink: 0 }}>
+        <div className="pt-16 pb-6 flex items-start justify-center gap-6 px-4 w-full">
+          {/* 表紙画像（切れないようにcontain） */}
+          <div style={{ width: imgW, height: imgH, flexShrink: 0 }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/seki/seki-diary01.png"
               alt="せきの日記"
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              style={{ width: "100%", height: "100%", objectFit: "contain" }}
             />
           </div>
 
-          {/* 縦書きテキスト（横スクロール） */}
+          {/* 縦書きテキスト（幅固定で横スクロール） */}
           <div
             style={{
               writingMode: "vertical-rl",
-              height: H * 0.75,
+              height: imgH,
+              width: isMobile ? 60 : 80,
               overflowX: "auto",
               overflowY: "hidden",
-              display: "flex",
-              flexDirection: "row",
-              paddingBottom: 8,
+              flexShrink: 0,
             }}
             className="scrollbar-hide"
           >
-            <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-              {poem.map((line, i) =>
-                line === "|" ? (
-                  <div
-                    key={i}
-                    style={{
-                      width: "1px",
-                      height: "3em",
-                      background: "rgba(255,255,255,0.2)",
-                      margin: "4px auto",
-                      alignSelf: "center",
-                    }}
-                  />
-                ) : line === "" ? (
-                  <div key={i} style={{ height: "1.5em" }} />
-                ) : (
-                  <p
-                    key={i}
-                    style={{
-                      fontSize: 12,
-                      letterSpacing: "0.35em",
-                      color: "rgba(255,255,255,0.5)",
-                      lineHeight: 2,
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {line}
-                  </p>
-                )
-              )}
-            </div>
+            {poem.map((line, i) =>
+              line === "|" ? (
+                <div
+                  key={i}
+                  style={{
+                    display: "inline-block",
+                    width: 1,
+                    height: "2.5em",
+                    background: "rgba(255,255,255,0.2)",
+                    margin: "0 0.5em",
+                    verticalAlign: "middle",
+                  }}
+                />
+              ) : line === "" ? (
+                <span key={i} style={{ display: "inline-block", height: "1em" }}>&nbsp;</span>
+              ) : (
+                <span
+                  key={i}
+                  style={{
+                    display: "block",
+                    fontSize: isMobile ? 13 : 15,
+                    letterSpacing: "0.4em",
+                    color: "rgba(255,255,255,0.55)",
+                    lineHeight: 2.2,
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {line}
+                </span>
+              )
+            )}
           </div>
         </div>
 
@@ -111,6 +120,11 @@ export default function SekiPage() {
         >
           開　く
         </button>
+
+        <style>{`
+          .scrollbar-hide::-webkit-scrollbar { display: none; }
+          .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        `}</style>
       </div>
     );
   }
@@ -121,8 +135,7 @@ export default function SekiPage() {
       <div className="pt-16 pb-4 flex items-start gap-4 px-4">
         {/* タイトル縦書き */}
         <div
-          className="flex flex-col items-center"
-          style={{ writingMode: "vertical-rl", paddingTop: 8 }}
+          style={{ writingMode: "vertical-rl", paddingTop: 8, flexShrink: 0 }}
         >
           <p className="text-xs tracking-[0.5em] text-white/30">せきの日記</p>
           <p className="text-xs text-white/15 tracking-wider mt-3">
@@ -131,14 +144,14 @@ export default function SekiPage() {
         </div>
 
         {/* PDF表示 */}
-        <div style={{ width: W, height: H, background: "#1a1a1a" }}>
-          <embed
+        <div style={{ width: pdfW, height: pdfH, background: "#111", flexShrink: 0 }}>
+          <iframe
             key={pdfPages[pageIdx]}
             src={pdfPages[pageIdx]}
-            type="application/pdf"
-            width={W}
-            height={H}
-            style={{ display: "block" }}
+            width={pdfW}
+            height={pdfH}
+            style={{ display: "block", border: "none" }}
+            title={`せきの日記 ${pageIdx + 1}ページ`}
           />
         </div>
       </div>
@@ -177,11 +190,6 @@ export default function SekiPage() {
       >
         ← 表紙へ
       </button>
-
-      <style>{`
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-      `}</style>
     </div>
   );
 }
