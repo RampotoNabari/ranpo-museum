@@ -166,7 +166,7 @@ export default function SekiPage() {
               className="absolute top-4 left-1/2 flex flex-col items-center gap-6"
               style={{ transform: "translateX(-50%) translateY(100vh)", width: "min(280px, 70vw)" }}
             >
-              <div className="relative w-full" style={{ aspectRatio: "0.72 / 1" }}>
+              <div className="relative w-full" style={{ aspectRatio: "0.72 / 1", background: "#f5f0e8", boxShadow: "0 8px 40px rgba(0,0,0,0.8), 0 2px 12px rgba(0,0,0,0.6)" }}>
                 <Image
                   src="/images/seki/seki-diary01.png"
                   alt="せきの日記 表紙"
