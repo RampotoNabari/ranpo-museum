@@ -90,6 +90,7 @@ export default function SekiPage() {
 
   if (diaryOpen) {
     const pageW = typeof window !== "undefined" ? Math.min(Math.floor((window.innerWidth - 48) / 2), 480) : 360;
+    const pageH = pageW; // 画像は正方形（886×886）
     const cur = spreads[spreadIdx];
     const nxt = spreads[pending] ?? cur;
     const isLast = spreadIdx === spreads.length - 1;
