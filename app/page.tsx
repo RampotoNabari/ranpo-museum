@@ -60,28 +60,28 @@ export default function Home() {
           />
           <div className="absolute inset-0 bg-black/70" />
         </div>
-        <div className="relative z-10 flex flex-col items-center">
-          <h1 className="fade-in text-4xl md:text-6xl font-light leading-loose tracking-wider text-white mb-28">
-            あなたは未来へ、
-            <br />
-            何を手渡しますか。
-          </h1>
-          <p className="fade-in-delay-1 text-sm leading-loose text-white/50 max-w-xs mb-20">
-            江戸川乱歩が生まれたこの場所で、
-            <br />
-            辻せきの日記が語る百三十年の記憶。
-          </p>
-          <div className="fade-in-delay-2">
-            <Link
-              href="#stories"
-              className="border border-white/60 text-white/80 px-10 py-4 text-xs tracking-[0.25em] hover:bg-white hover:text-black transition-colors duration-500"
-            >
-              物語を見る
-            </Link>
+        {/* テロップ */}
+        <div className="scroll-credits absolute left-0 right-0 px-8 text-white text-center z-10">
+          <div className="max-w-lg mx-auto py-8 flex flex-col items-center gap-16">
+            <p className="font-light leading-loose tracking-widest text-white/80">
+              幾重にも仕組まれた偶然、
+            </p>
+            <p className="font-light leading-loose tracking-widest text-white/80">
+              人はそれを運命と呼ぶ。
+            </p>
+            <p className="font-light leading-loose tracking-widest text-white/80">
+              あなたは未来へ
+            </p>
+            <p className="font-light leading-loose tracking-widest text-white/80">
+              何を手渡しますか？
+            </p>
+            <p className="font-light leading-loose tracking-widest text-white/50">
+              江戸川乱歩を巡る
+            </p>
+            <p className="font-light leading-loose tracking-widest text-white/50">
+              運命のバトン
+            </p>
           </div>
-        </div>
-        <div className="fade-in-delay-3 absolute bottom-10 left-1/2 -translate-x-1/2 text-white/30 text-xs tracking-[0.3em]">
-          scroll
         </div>
       </section>
 
