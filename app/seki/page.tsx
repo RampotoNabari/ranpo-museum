@@ -3,16 +3,16 @@ import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 
 const diaryPages = [
-  "/images/seki/seki-01.png",
-  "/images/seki/seki-02.png",
-  "/images/seki/seki-03.png",
-  "/images/seki/seki-04.png",
-  "/images/seki/seki-05.png",
-  "/images/seki/seki-06.png",
-  "/images/seki/seki-07.png",
-  "/images/seki/seki-08.png",
-  "/images/seki/seki-09.png",
-  "/images/seki/seki-10.png",
+  "/images/seki/seki-01.jpg",
+  "/images/seki/seki-02.jpg",
+  "/images/seki/seki-03.jpg",
+  "/images/seki/seki-04.jpg",
+  "/images/seki/seki-05.jpg",
+  "/images/seki/seki-06.jpg",
+  "/images/seki/seki-07.jpg",
+  "/images/seki/seki-08.jpg",
+  "/images/seki/seki-09.jpg",
+  "/images/seki/seki-10.jpg",
 ];
 
 export default function SekiPage() {
