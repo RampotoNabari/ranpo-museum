@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import CinematicHero from "./components/CinematicHero";
 
 const chapters = [
   {
@@ -48,42 +48,7 @@ export default function Home() {
 
   return (
     <main>
-      {/* Hero：花火 */}
-      <section className="relative h-screen overflow-hidden flex flex-col items-center justify-center px-8 text-center">
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/images/street.jpeg"
-            alt="名張の花火"
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-black/70" />
-        </div>
-        {/* テロップ */}
-        <div className="scroll-credits absolute left-0 right-0 px-8 text-white text-center z-10">
-          <div className="max-w-lg mx-auto py-8 flex flex-col items-center gap-16">
-            <p className="font-light leading-loose tracking-widest text-white/80">
-              幾重にも仕組まれた偶然、
-            </p>
-            <p className="font-light leading-loose tracking-widest text-white/80">
-              人はそれを運命と呼ぶ。
-            </p>
-            <p className="font-light leading-loose tracking-widest text-white/80">
-              あなたは未来へ
-            </p>
-            <p className="font-light leading-loose tracking-widest text-white/80">
-              何を手渡しますか？
-            </p>
-            <p className="font-light leading-loose tracking-widest text-white/50">
-              江戸川乱歩を巡る
-            </p>
-            <p className="font-light leading-loose tracking-widest text-white/50">
-              運命のバトン
-            </p>
-          </div>
-        </div>
-      </section>
+      <CinematicHero />
 
 
       {/* 物語への入口 */}
