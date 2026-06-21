@@ -90,7 +90,6 @@ export default function SekiPage() {
 
   if (diaryOpen) {
     const pageW = typeof window !== "undefined" ? Math.min(Math.floor((window.innerWidth - 48) / 2), 480) : 360;
-    const pageH = Math.round(pageW * 1.41);
     const cur = spreads[spreadIdx];
     const nxt = spreads[pending] ?? cur;
     const isLast = spreadIdx === spreads.length - 1;
@@ -106,13 +105,13 @@ export default function SekiPage() {
 
         {/* 本のステージ */}
         <div style={{ perspective: 1400 }}>
-          <div style={{ position: "relative", display: "flex", width: pageW * 2, height: pageH }}>
+          <div style={{ position: "relative", display: "flex", width: pageW * 2 }}>
 
             {/* 左ページ */}
             <div style={{ position: "relative", zIndex: 1, boxShadow: "inset -4px 0 8px rgba(0,0,0,0.15)", flexShrink: 0, background: "#fff" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={flipping && flipDir === 1 ? nxt.left : cur.left} alt="左ページ"
-                style={{ width: pageW, height: pageH, objectFit: "contain", display: "block" }} />
+                style={{ width: pageW, height: "auto", display: "block" }} />
             </div>
 
             {/* 綴じ目 */}
@@ -126,7 +125,7 @@ export default function SekiPage() {
             <div style={{ position: "relative", zIndex: 1, boxShadow: "inset 4px 0 8px rgba(0,0,0,0.1)", flexShrink: 0, background: "#fff" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={flipping && flipDir === -1 ? nxt.right : cur.right} alt="右ページ"
-                style={{ width: pageW, height: pageH, objectFit: "contain", display: "block" }} />
+                style={{ width: pageW, height: "auto", display: "block" }} />
             </div>
 
             {/* 前進めくり：左ページが右へ（日本語右開き） */}
