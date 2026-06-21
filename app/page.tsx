@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const chapters = [
   {
@@ -48,6 +48,7 @@ const chapters = [
 
 export default function Home() {
   const heroRef = useRef<HTMLElement>(null);
+  const [coverRisen, setCoverRisen] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -70,6 +71,17 @@ export default function Home() {
       requestAnimationFrame(step);
     }, 8500);
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const el = heroRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setCoverRisen(true); },
+      { threshold: 0.2 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -100,44 +112,32 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Hero */}
-      <section ref={heroRef} className="relative min-h-screen flex flex-col items-center justify-center px-8 text-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/images/street.jpeg"
-            alt="名張の街道"
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-black/70" />
-        </div>
-
-        <div className="relative z-10 flex flex-col items-center">
-          <h1 className="fade-in text-4xl md:text-6xl font-light leading-loose tracking-wider text-white mb-28">
-            あなたは未来へ、
-            <br />
-            何を手渡しますか。
-          </h1>
-
-          <p className="fade-in-delay-1 text-sm leading-loose text-white/50 max-w-xs mb-20">
-            江戸川乱歩が生まれたこの場所で、
-            <br />
-            辻せきの日記が語る百三十年の記憶。
-          </p>
-
-          <div className="fade-in-delay-2">
-            <Link
-              href="#stories"
-              className="border border-white/60 text-white/80 px-10 py-4 text-xs tracking-[0.25em] hover:bg-white hover:text-black transition-colors duration-500"
-            >
-              物語を見る
-            </Link>
+      {/* Hero：せきの日記 表紙 */}
+      <section ref={heroRef} className="relative min-h-screen bg-black flex flex-col items-center justify-end pb-20 overflow-hidden">
+        <div
+          style={{
+            transform: coverRisen ? "translateY(0)" : "translateY(100vh)",
+            transition: "transform 1.6s cubic-bezier(0.16, 1, 0.3, 1)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 32,
+          }}
+        >
+          <div className="relative w-[240px] md:w-[320px] aspect-[0.72/1]">
+            <Image
+              src="/images/seki/seki-diary01.png"
+              alt="せきの日記 表紙"
+              fill
+              className="object-contain"
+            />
           </div>
-        </div>
-
-        <div className="fade-in-delay-3 absolute bottom-10 left-1/2 -translate-x-1/2 text-white/30 text-xs tracking-[0.3em]">
-          scroll
+          <Link
+            href="/seki"
+            className="text-xs tracking-[0.5em] text-white/50 border border-white/20 px-10 py-3 hover:text-white hover:border-white/50 transition-colors duration-300"
+          >
+            せきの日記を読む
+          </Link>
         </div>
       </section>
 
