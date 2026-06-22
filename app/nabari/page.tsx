@@ -131,7 +131,7 @@ export default function NabariPage() {
             if (l2) { l2.style.transition = "opacity 2.5s ease-in"; l2.style.opacity = "1"; }
           }, 2000);
         }, 30000);
-        scheduleNext(() => transitionToSection("section-3", exteriorBgRef), 45000);
+        scheduleNext(() => transitionToSection("section-3", exteriorBgRef), 35000);
         s2Observer.disconnect();
       });
     }, observerOpts);
