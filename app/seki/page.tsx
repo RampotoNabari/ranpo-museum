@@ -1,6 +1,5 @@
 "use client";
-import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 // 右開き：right = 奇数ページ（先に読む）, left = 偶数ページ
 const spreads = [
@@ -33,70 +32,12 @@ export default function SekiPage() {
   const [pending, setPending] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [pageIdx, setPageIdx] = useState(0);
-  const snapRef = useRef<HTMLDivElement>(null);
-  const coverBgRef = useRef<HTMLDivElement>(null);
-  const coverPhotoRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
-  }, []);
-
-  useEffect(() => {
-    const container = snapRef.current;
-    if (!container) return;
-
-    const BG_DURATION = 12000;
-
-    const transitionToSection2 = () => {
-      const section2 = document.getElementById("seki-section-2");
-      if (!section2) return;
-      container.style.scrollSnapType = "none";
-      const startTop = container.scrollTop;
-      const endTop = section2.offsetTop;
-      const startTime = performance.now();
-      const animateScroll = (now: number) => {
-        const elapsed = now - startTime;
-        const t = Math.min(elapsed / BG_DURATION, 1);
-        const ease = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-        container.scrollTop = startTop + (endTop - startTop) * ease;
-        if (t < 1) requestAnimationFrame(animateScroll);
-        else container.style.scrollSnapType = "y mandatory";
-      };
-      requestAnimationFrame(animateScroll);
-    };
-
-    // 詩文クレジットが流れ終わった後（25秒）に2枚目へ
-    const timer = setTimeout(transitionToSection2, 25000);
-
-    // 2枚目に入ったら表紙写真を競り上げる
-    const observerOpts = { root: container, threshold: 0.2 };
-    const s2Observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        clearTimeout(timer);
-        if (coverBgRef.current) {
-          coverBgRef.current.style.transition = `transform ${BG_DURATION}ms ease-out`;
-          coverBgRef.current.style.transform = "scale(1.0) translateY(0px)";
-        }
-        setTimeout(() => {
-          if (coverPhotoRef.current) {
-            coverPhotoRef.current.style.transition = "transform 2.0s cubic-bezier(0.16, 1, 0.3, 1)";
-            coverPhotoRef.current.style.transform = "translateX(-50%) translateY(0)";
-          }
-        }, 800);
-        s2Observer.disconnect();
-      });
-    }, observerOpts);
-    const s2el = document.getElementById("seki-section-2");
-    if (s2el) s2Observer.observe(s2el);
-
-    return () => {
-      clearTimeout(timer);
-      s2Observer.disconnect();
-    };
   }, []);
 
   const turn = (d: 1 | -1) => {
@@ -111,6 +52,7 @@ export default function SekiPage() {
     }, 750);
   };
 
+  // スマホ：1ページずつ表示
   if (diaryOpen && isMobile) {
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center select-none px-4 py-8">
@@ -119,13 +61,11 @@ export default function SekiPage() {
           <p className="text-xs text-white/15 tracking-wider mt-1">{pageIdx + 1} / {pages.length} ページ</p>
         </div>
 
-        {/* 1ページ表示 */}
         <div className="w-full max-w-sm">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={pages[pageIdx]} alt={`${pageIdx + 1}ページ`} className="w-full h-auto block" style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.8)" }} />
         </div>
 
-        {/* ナビゲーション */}
         <div className="flex items-center gap-8 mt-8">
           <button onClick={() => setPageIdx(p => Math.max(0, p - 1))} disabled={pageIdx === 0}
             className="text-xs tracking-[0.4em] text-white/40 hover:text-white/80 disabled:opacity-15 disabled:cursor-not-allowed transition-colors duration-300">前 →</button>
@@ -143,11 +83,11 @@ export default function SekiPage() {
     );
   }
 
+  // PC：見開き3Dめくり
   if (diaryOpen) {
-    // 画面の高さと幅の両方を考慮してページサイズを決定
     const availH = typeof window !== "undefined" ? window.innerHeight - 180 : 600;
     const availW = typeof window !== "undefined" ? Math.floor((window.innerWidth - 32) / 2) : 400;
-    const pageW = Math.min(availW, availH); // 正方形画像なので短い方に合わせる
+    const pageW = Math.min(availW, availH);
     const pageH = pageW;
     const cur = spreads[spreadIdx];
     const nxt = spreads[pending] ?? cur;
@@ -162,32 +102,27 @@ export default function SekiPage() {
           </p>
         </div>
 
-        {/* 本のステージ */}
         <div style={{ perspective: 1400 }}>
           <div style={{ position: "relative", display: "flex", width: pageW * 2 }}>
 
-            {/* 左ページ */}
             <div style={{ position: "relative", zIndex: 1, boxShadow: "inset -4px 0 8px rgba(0,0,0,0.15)", flexShrink: 0, background: "#fff" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={flipping && flipDir === 1 ? nxt.left : cur.left} alt="左ページ"
                 style={{ width: pageW, height: "auto", display: "block" }} />
             </div>
 
-            {/* 綴じ目 */}
             <div style={{
               position: "absolute", left: pageW, top: 0, bottom: 0, width: 8, zIndex: 20,
               background: "linear-gradient(to right, rgba(0,0,0,0.35), rgba(0,0,0,0.05) 60%, transparent)",
               pointerEvents: "none",
             }} />
 
-            {/* 右ページ */}
             <div style={{ position: "relative", zIndex: 1, boxShadow: "inset 4px 0 8px rgba(0,0,0,0.1)", flexShrink: 0, background: "#fff" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={flipping && flipDir === -1 ? nxt.right : cur.right} alt="右ページ"
                 style={{ width: pageW, height: "auto", display: "block" }} />
             </div>
 
-            {/* 前進めくり：左ページが右へ（日本語右開き） */}
             {flipping && flipDir === 1 && (
               <div style={{
                 position: "absolute", top: 0, left: 0, width: pageW, height: pageH,
@@ -208,7 +143,6 @@ export default function SekiPage() {
               </div>
             )}
 
-            {/* 後退めくり：右ページが左へ */}
             {flipping && flipDir === -1 && (
               <div style={{
                 position: "absolute", top: 0, left: pageW, width: pageW, height: pageH,
@@ -259,75 +193,35 @@ export default function SekiPage() {
     );
   }
 
+  // オープニング：詩文＋「日記を読む」ボタン
   return (
-    <main className="min-h-screen">
-      <div
-        ref={snapRef}
-        className="h-screen overflow-y-scroll snap-y snap-mandatory"
-        style={{ scrollbarWidth: "none" }}
-      >
-
-        {/* ── 1枚目：詩文クレジット ── */}
-        <div id="seki-section-1" className="relative h-screen w-full snap-start overflow-hidden bg-black">
-          <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black" />
-          <div className="scroll-credits absolute left-0 right-0 px-8 text-white text-center">
-            <div className="max-w-md mx-auto py-8 flex flex-col items-center gap-16">
-              <div className="flex flex-col items-center gap-6">
-                <p className="text-xl md:text-2xl font-light tracking-widest text-white/50 leading-loose">八十八の手習の</p>
-                <p className="text-xl md:text-2xl font-light tracking-widest text-white/50 leading-loose">日記のさまを</p>
-                <p className="text-xl md:text-2xl font-light tracking-widest text-white/50 leading-loose">誰か読むべき</p>
-              </div>
-              <p className="text-3xl md:text-4xl tracking-[0.4em] text-white/85">辻せき</p>
-              <div className="flex flex-col items-center gap-3 text-[#c0392b] tracking-[0.25em]">
-                <p className="text-base md:text-lg">慶応三年十二月二十一日</p>
-                <p className="text-2xl leading-none">|</p>
-                <p className="text-base md:text-lg">昭和三十二年八月二十四日</p>
-              </div>
-              <div className="h-16" />
-              <div className="text-white/25 text-sm tracking-[0.4em]">
-                <p>慶応三年（1867年）</p>
-                <p className="mt-2">三重県名張　横山家に生まれる</p>
-              </div>
-            </div>
-          </div>
+    <main className="min-h-screen bg-black flex items-center justify-center">
+      <div className="flex flex-col items-center gap-12 px-8 text-center">
+        <div className="flex flex-col items-center gap-6">
+          <p className="text-xl md:text-2xl font-light tracking-widest text-white/50 leading-loose">八十八の手習の</p>
+          <p className="text-xl md:text-2xl font-light tracking-widest text-white/50 leading-loose">日記のさまを</p>
+          <p className="text-xl md:text-2xl font-light tracking-widest text-white/50 leading-loose">誰か読むべき</p>
         </div>
 
-        {/* ── 2枚目：表紙写真が競り上がる ── */}
-        <div id="seki-section-2" className="relative h-screen w-full snap-start overflow-hidden bg-black">
-          <div
-            ref={coverBgRef}
-            className="absolute inset-0"
-            style={{ transform: "scale(1.0) translateY(100px)", willChange: "transform" }}
-          >
-            <div className="absolute inset-0 bg-[#0a0a0a]" />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
+        <p className="text-3xl md:text-4xl tracking-[0.4em] text-white/85">辻せき</p>
 
-          {/* 表紙写真：下から競り上がって止まる */}
-          <div className="absolute left-0 right-0 bottom-0 top-14 overflow-hidden">
-            <div
-              ref={coverPhotoRef}
-              className="absolute top-4 left-1/2 flex flex-col items-center gap-6"
-              style={{ transform: "translateX(-50%) translateY(100vh)", width: "min(280px, 70vw)" }}
-            >
-              <div className="relative w-full" style={{ aspectRatio: "0.72 / 1", background: "#f5f0e8", boxShadow: "0 8px 40px rgba(0,0,0,0.8), 0 2px 12px rgba(0,0,0,0.6)" }}>
-                <Image
-                  src="/images/seki/seki-diary01.png"
-                  alt="せきの日記 表紙"
-                  fill
-                  className="object-contain"
-                />
-              </div>
-              <button
-                onClick={() => setDiaryOpen(true)}
-                className="text-xs tracking-[0.5em] text-white/50 border border-white/20 px-10 py-3 hover:text-white hover:border-white/50 transition-colors duration-300 whitespace-nowrap"
-              >
-                開　く
-              </button>
-            </div>
-          </div>
+        <div className="flex flex-col items-center gap-3 text-[#c0392b] tracking-[0.25em]">
+          <p className="text-base md:text-lg">慶応三年十二月二十一日</p>
+          <p className="text-2xl leading-none">|</p>
+          <p className="text-base md:text-lg">昭和三十二年八月二十四日</p>
         </div>
 
+        <div className="text-white/25 text-sm tracking-[0.4em]">
+          <p>慶応三年（1867年）</p>
+          <p className="mt-2">三重県名張　横山家に生まれる</p>
+        </div>
+
+        <button
+          onClick={() => setDiaryOpen(true)}
+          className="mt-4 text-xs tracking-[0.5em] text-white/50 border border-white/20 px-10 py-3 hover:text-white hover:border-white/50 transition-colors duration-300 whitespace-nowrap"
+        >
+          日記を読む
+        </button>
       </div>
     </main>
   );
