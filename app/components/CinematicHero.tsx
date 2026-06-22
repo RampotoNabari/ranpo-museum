@@ -132,6 +132,7 @@ export default function CinematicHero() {
               transition: imgVisible
                 ? "opacity 2.0s ease-out"
                 : "opacity 1.0s ease-in",
+              filter: "sepia(50%) brightness(1.6)",
             }}
           >
             <Image
