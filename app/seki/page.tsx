@@ -23,30 +23,44 @@ export default function SekiPage() {
   // 全画面：1ページずつ表示
   if (diaryOpen) {
     return (
-      <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center select-none px-4 py-8">
-        <div className="pb-4 text-center">
-          <p className="text-xs tracking-[0.5em] text-white/30">せきの日記</p>
-          <p className="text-xs text-white/15 tracking-wider mt-1">{pageIdx + 1} / {pages.length} ページ</p>
-        </div>
+      <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center select-none py-8">
 
-        <div className="w-full max-w-sm">
+        {/* 画像＋左右ボタン */}
+        <div className="flex items-center gap-4 px-2 w-full max-w-2xl">
+          <button
+            onClick={() => setPageIdx(p => Math.max(0, p - 1))}
+            disabled={pageIdx === 0}
+            className="text-2xl text-white/40 hover:text-white/80 disabled:opacity-15 disabled:cursor-not-allowed transition-colors duration-300 flex-shrink-0"
+          >◀</button>
+
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={pages[pageIdx]} alt={`${pageIdx + 1}ページ`} className="w-full h-auto block" style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.8)" }} />
+          <img
+            src={pages[pageIdx]}
+            alt={`${pageIdx}ページ`}
+            className="flex-1 h-auto block"
+            style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.8)" }}
+          />
+
+          <button
+            onClick={() => setPageIdx(p => Math.min(pages.length - 1, p + 1))}
+            disabled={pageIdx === pages.length - 1}
+            className="text-2xl text-white/40 hover:text-white/80 disabled:opacity-15 disabled:cursor-not-allowed transition-colors duration-300 flex-shrink-0"
+          >▶</button>
         </div>
 
-        <div className="flex items-center gap-8 mt-8">
-          <button onClick={() => setPageIdx(p => Math.max(0, p - 1))} disabled={pageIdx === 0}
-            className="text-xs tracking-[0.4em] text-white/40 hover:text-white/80 disabled:opacity-15 disabled:cursor-not-allowed transition-colors duration-300">前 →</button>
-          <div className="flex gap-1.5 flex-wrap justify-center max-w-[120px]">
+        {/* ページ情報（下） */}
+        <div className="mt-6 text-center">
+          <p className="text-xs tracking-[0.5em] text-white/30">せきの日記</p>
+          <div className="flex gap-1.5 flex-wrap justify-center mt-3 max-w-[160px] mx-auto">
             {pages.map((_, i) => (
               <span key={i} className={`block w-1.5 h-1.5 rounded-full transition-colors ${i === pageIdx ? "bg-white/60" : "bg-white/15"}`} />
             ))}
           </div>
-          <button onClick={() => setPageIdx(p => Math.min(pages.length - 1, p + 1))} disabled={pageIdx === pages.length - 1}
-            className="text-xs tracking-[0.4em] text-white/40 hover:text-white/80 disabled:opacity-15 disabled:cursor-not-allowed transition-colors duration-300">← 次</button>
+          <p className="text-xs text-white/20 tracking-wider mt-2">{pageIdx + 1} / {pages.length} ページ</p>
         </div>
+
         <button onClick={() => { setDiaryOpen(false); setPageIdx(0); }}
-          className="mt-8 text-xs tracking-[0.3em] text-white/20 hover:text-white/40 transition-colors duration-300">← 表紙へ</button>
+          className="mt-6 text-xs tracking-[0.3em] text-white/20 hover:text-white/40 transition-colors duration-300">← 表紙へ</button>
       </div>
     );
   }
