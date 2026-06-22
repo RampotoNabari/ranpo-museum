@@ -39,6 +39,7 @@ const phrases = [
     cls: "text-5xl md:text-7xl text-white/90 tracking-[0.35em] font-light",
     img: "/images/intro/IMG_3887.jpeg",   // 人々の宴・笑顔
     imgOpacity: 0.25,
+    imgPosition: "object-top",
   },
 ];
 
@@ -136,7 +137,7 @@ export default function CinematicHero() {
               src={p.img}
               alt=""
               fill
-              className="object-cover object-center"
+              className={`object-cover ${p.imgPosition ?? "object-center"}`}
               sizes="100vw"
             />
           </div>
