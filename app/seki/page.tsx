@@ -211,7 +211,7 @@ export default function SekiPage() {
           <p className="text-base md:text-lg">昭和三十二年八月二十四日</p>
         </div>
 
-        <div className="text-white/25 text-sm tracking-[0.4em]">
+        <div className="text-white/50 text-base md:text-lg tracking-[0.4em]">
           <p>慶応三年（1867年）</p>
           <p className="mt-2">三重県名張　横山家に生まれる</p>
         </div>
