@@ -130,7 +130,7 @@ export default function NabariPage() {
             const l2 = document.getElementById("seifutei-finale-2");
             if (l2) { l2.style.transition = "opacity 2.5s ease-in"; l2.style.opacity = "1"; }
           }, 3000);
-        }, 15000);
+        }, 38000);
         scheduleNext(() => transitionToSection("section-3", exteriorBgRef), 55000);
         s2Observer.disconnect();
       });
@@ -368,7 +368,7 @@ export default function NabariPage() {
                   川の瀬音を聞きながら、乱歩はぼんやりと夜空を見上げていた。
                 </p>
                 <p className="text-3xl leading-[2.8] tracking-wider text-white/40">そこに、客があった。</p>
-                <blockquote className="text-4xl font-light tracking-widest text-white/90 leading-[2.4]">
+                <blockquote className="text-4xl font-light tracking-widest text-white/90 leading-[2.5]">
                   「先生の生まれた家を、<br />私が知っているのです」
                 </blockquote>
                 <p className="text-2xl tracking-wider" style={{ color: "#c04444" }}>本町の書店主　岡村繁次郎</p>
@@ -469,14 +469,14 @@ export default function NabariPage() {
             <div id="masuda-scroll" className="absolute w-full text-center px-8" style={{ transform: "translateY(100vh)" }}>
               <div className="py-16 flex flex-col items-center gap-6">
                 <p className="text-xl tracking-[0.5em]" style={{ color: "#c04444" }}>九月二十七日　朝</p>
-                <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.4]">
+                <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.5]">
                   <span className="block">岡村繁次郎と富森高太郎に案内されて、</span>
                   <span className="block">乱歩は桝田医院を訪ねた。</span>
                 </div>
                 <p className="text-xl md:text-3xl font-light tracking-widest text-[#f0ebe0]">
                   自分が生まれた借家は、もうそこにはなかった。
                 </p>
-                <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.4]">
+                <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.5]">
                   <span className="block">昭和二十六年——</span>
                   <span className="block">この建物は横山家から桝田医師の手に渡っていた。</span>
                   <span className="block">乱歩は、建て替えられた本宅の二階に案内された。</span>
@@ -514,18 +514,18 @@ export default function NabariPage() {
             <div id="river-scroll" className="absolute w-full text-center px-8" style={{ transform: "translateY(100vh)" }}>
               <div className="py-16 flex flex-col items-center gap-6">
                 <p className="text-xl tracking-[0.5em]" style={{ color: "#c04444" }}>九月二十七日　午後</p>
-                <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.4]">
+                <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.5]">
                   <span className="block">桝田医院から辻酒店に向かう前に、</span>
                   <span className="block">乱歩は河原に出てみた。</span>
                 </div>
-                <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.4]">
+                <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.5]">
                   <span className="block">川までの石組みがしてあって、</span>
                   <span className="block">洗濯ができるようになっている。</span>
                 </div>
                 <p className="text-xl md:text-3xl font-light tracking-widest text-[#f0ebe0]">
                   母は毎日ここにきて洗濯していたのだ。
                 </p>
-                <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/60 leading-[2.4]">
+                <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/60 leading-[2.5]">
                   <span className="block">乱歩は当時の母の様子を思いながら、</span>
                   <span className="block text-xl md:text-3xl font-light tracking-widest mt-4" style={{ color: "#c04444" }}>故郷の空を見上げた。</span>
                 </div>
@@ -562,15 +562,15 @@ export default function NabariPage() {
             <div id="tsuji-scroll" className="absolute w-full text-center px-8" style={{ transform: "translateY(100vh)" }}>
               <div className="py-20 flex flex-col items-center gap-5">
                 <p className="text-xl tracking-[0.5em]" style={{ color: "#c04444" }}>九月二十七日　午後</p>
-                <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/80 leading-[2.4]">
+                <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/80 leading-[2.5]">
                   <span className="block">乱歩は辻酒店を訪れた。</span>
                   <span className="block">辻せきとの、五十七年ぶりの再会である。</span>
                 </div>
-                <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/60 leading-[3] my-4">
+                <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/60 leading-[2.5] my-4">
                   <span className="block">「これが横山にいた平井さんの息子さんだ」</span>
                   <span className="block mt-2 text-2xl md:text-3xl text-[#f0ebe0]/90">「まあ。大きくおなりなさって」</span>
                 </div>
-                <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.4]">
+                <div className="text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70 leading-[2.5]">
                   <span className="block">乱歩に会ったせきの、第一声だった。</span>
                   <span className="block">前にみたのは、赤ん坊の乱歩だったのだから。</span>
                 </div>
@@ -578,7 +578,7 @@ export default function NabariPage() {
                 <p className="text-base tracking-[0.5em] text-[#f0ebe0]/60">せきの日記より</p>
                 <div className="h-4" />
                 <p className="text-base tracking-[0.3em] text-[#f0ebe0]/70">昭和二十七年　九月二十七日</p>
-                <div className="text-xl md:text-3xl font-light tracking-widest leading-[2] text-[#f0ebe0]/80">
+                <div className="text-xl md:text-3xl font-light tracking-widest leading-[2.5] text-[#f0ebe0]/80">
                   <span className="block">本名平井太郎君　江戸川乱歩さん、</span>
                   <span className="block">お母さんの乳房にすがる姿</span>
                 </div>
