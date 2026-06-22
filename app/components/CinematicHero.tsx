@@ -42,6 +42,7 @@ const phrases = [
     img: "/images/intro/IMG_3887.jpeg",   // 人々の宴・笑顔
     imgOpacity: 0.25,
     imgPosition: "[object-position:40%_top] md:[object-position:50%_top]",
+    imgFilter: "brightness(1.5)",
   },
 ];
 
@@ -132,7 +133,7 @@ export default function CinematicHero() {
               transition: imgVisible
                 ? "opacity 2.0s ease-out"
                 : "opacity 1.0s ease-in",
-              filter: "sepia(30%) brightness(1.5)",
+              filter: p.imgFilter ?? "sepia(30%) brightness(1.5)",
             }}
           >
             <Image
