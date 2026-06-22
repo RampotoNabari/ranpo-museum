@@ -27,7 +27,7 @@ const phrases = [
     cls: "text-3xl md:text-4xl text-white/80 tracking-widest font-light",
     img: "/images/intro/IMG_3885.jpeg",   // 花束を受ける乱歩
     imgOpacity: 0.22,
-    imgPosition: "object-top md:[object-position:50%_30%]",
+    imgPosition: "object-top md:[object-position:50%_50%]",
   },
   {
     text: "江戸川乱歩を巡る",
