@@ -120,18 +120,18 @@ export default function NabariPage() {
         clearTimeout(t2);
         cancelNext();
         const credits = document.getElementById("seifutei-credits");
-        if (credits) credits.style.animation = "scrollUp 30s linear forwards";
-        setTimeout(() => {
+        if (credits) credits.style.animation = "scrollUp 50s linear forwards";
+        addTimer(() => {
           const finale = document.getElementById("seifutei-finale");
           if (finale) finale.style.opacity = "1";
           const l1 = document.getElementById("seifutei-finale-1");
           if (l1) { l1.style.transition = "opacity 2.5s ease-in"; l1.style.opacity = "1"; }
-          setTimeout(() => {
+          addTimer(() => {
             const l2 = document.getElementById("seifutei-finale-2");
             if (l2) { l2.style.transition = "opacity 2.5s ease-in"; l2.style.opacity = "1"; }
           }, 3000);
-        }, 25000);
-        scheduleNext(() => transitionToSection("section-3", exteriorBgRef), 34000);
+        }, 15000);
+        scheduleNext(() => transitionToSection("section-3", exteriorBgRef), 55000);
         s2Observer.disconnect();
       });
     }, observerOpts);
@@ -362,17 +362,17 @@ export default function NabariPage() {
             </div>
             <div id="seifutei-credits" style={{ transform: "translateY(100vh)" }} className="absolute left-0 right-0 px-8 text-white text-center">
               <div className="max-w-lg mx-auto space-y-16 py-8">
-                <p className="text-xl tracking-[0.4em]" style={{ color: "#c04444" }}>九月二十六日　夜　清風亭</p>
-                <p className="text-xl leading-[2.8] tracking-wider text-white/60">
+                <p className="text-2xl tracking-[0.4em]" style={{ color: "#c04444" }}>九月二十六日　夜　清風亭</p>
+                <p className="text-2xl leading-[2.8] tracking-wider text-white/60">
                   名張川に面した旅館の欄干にもたれかかり、<br />
                   川の瀬音を聞きながら、乱歩はぼんやりと夜空を見上げていた。
                 </p>
-                <p className="text-2xl leading-[2.8] tracking-wider text-white/40">そこに、客があった。</p>
-                <blockquote className="text-3xl font-light tracking-widest text-white/90 leading-[2.4]">
+                <p className="text-3xl leading-[2.8] tracking-wider text-white/40">そこに、客があった。</p>
+                <blockquote className="text-4xl font-light tracking-widest text-white/90 leading-[2.4]">
                   「先生の生まれた家を、<br />私が知っているのです」
                 </blockquote>
-                <p className="text-xl tracking-wider" style={{ color: "#c04444" }}>本町の書店主　岡村繁次郎</p>
-                <div className="text-lg leading-[2.8] text-white/50 text-left space-y-8">
+                <p className="text-2xl tracking-wider" style={{ color: "#c04444" }}>本町の書店主　岡村繁次郎</p>
+                <div className="text-2xl leading-[2.8] text-white/50 text-left space-y-8">
                   <p>乱歩の顔に、一瞬、ただごとでない色がはしった。</p>
                   <p>昭和十二年、旅の途中に名張駅で降りて、生家を求めてさまよったことがある。そのときは見つけられなかった。幻のように脳裡につきまとっていた生家が、翌朝ついに姿を現そうとしていた。</p>
                 </div>
