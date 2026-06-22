@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 // 1ページずつの配列（表紙→seki-01〜10）
 const pages = [
@@ -20,19 +20,41 @@ export default function SekiPage() {
   const [diaryOpen, setDiaryOpen] = useState(false);
   const [pageIdx, setPageIdx] = useState(0);
   const touchStartX = useRef<number | null>(null);
+  const swipeRef = useRef<HTMLDivElement>(null);
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
+  useEffect(() => {
+    const el = swipeRef.current;
+    if (!el) return;
 
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX.current === null) return;
-    const diff = touchStartX.current - e.changedTouches[0].clientX;
-    if (Math.abs(diff) < 40) return;
-    if (diff > 0) setPageIdx(p => Math.min(pages.length - 1, p + 1)); // 左スワイプ→次
-    else setPageIdx(p => Math.max(0, p - 1));                          // 右スワイプ→前
-    touchStartX.current = null;
-  };
+    const onTouchStart = (e: TouchEvent) => {
+      touchStartX.current = e.touches[0].clientX;
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (touchStartX.current === null) return;
+      const diff = Math.abs(touchStartX.current - e.touches[0].clientX);
+      if (diff > 10) e.preventDefault(); // 横スワイプ中はページスクロールを止める
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
+      if (touchStartX.current === null) return;
+      const diff = touchStartX.current - e.changedTouches[0].clientX;
+      if (Math.abs(diff) >= 40) {
+        if (diff > 0) setPageIdx(p => Math.min(pages.length - 1, p + 1));
+        else setPageIdx(p => Math.max(0, p - 1));
+      }
+      touchStartX.current = null;
+    };
+
+    el.addEventListener("touchstart", onTouchStart, { passive: true });
+    el.addEventListener("touchmove", onTouchMove, { passive: false });
+    el.addEventListener("touchend", onTouchEnd, { passive: true });
+    return () => {
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchmove", onTouchMove);
+      el.removeEventListener("touchend", onTouchEnd);
+    };
+  }, [diaryOpen]);
 
   // 全画面：1ページずつ表示
   if (diaryOpen) {
@@ -40,7 +62,7 @@ export default function SekiPage() {
       <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center select-none py-8">
 
         {/* 画像＋左右ボタン */}
-        <div className="flex items-center gap-4 px-2 w-full max-w-2xl" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+        <div ref={swipeRef} className="flex items-center gap-4 px-2 w-full max-w-2xl">
           <button
             onClick={() => setPageIdx(p => Math.max(0, p - 1))}
             disabled={pageIdx === 0}
