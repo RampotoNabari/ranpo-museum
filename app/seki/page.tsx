@@ -11,15 +11,38 @@ const spreads = [
   { right: "/images/seki/seki-09.jpg", left: "/images/seki/seki-10.jpg" },
 ];
 
+// スマホ用：1ページずつの配列（右開き順）
+const pages = [
+  "/images/seki/seki-01.jpg",
+  "/images/seki/seki-02.jpg",
+  "/images/seki/seki-03.jpg",
+  "/images/seki/seki-04.jpg",
+  "/images/seki/seki-05.jpg",
+  "/images/seki/seki-06.jpg",
+  "/images/seki/seki-07.jpg",
+  "/images/seki/seki-08.jpg",
+  "/images/seki/seki-09.jpg",
+  "/images/seki/seki-10.jpg",
+];
+
 export default function SekiPage() {
   const [diaryOpen, setDiaryOpen] = useState(false);
   const [spreadIdx, setSpreadIdx] = useState(0);
   const [flipping, setFlipping] = useState(false);
   const [flipDir, setFlipDir] = useState<1 | -1>(1);
   const [pending, setPending] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [pageIdx, setPageIdx] = useState(0);
   const snapRef = useRef<HTMLDivElement>(null);
   const coverBgRef = useRef<HTMLDivElement>(null);
   const coverPhotoRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   useEffect(() => {
     const container = snapRef.current;
@@ -88,18 +111,53 @@ export default function SekiPage() {
     }, 750);
   };
 
+  if (diaryOpen && isMobile) {
+    return (
+      <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center select-none px-4 py-8">
+        <div className="pb-4 text-center">
+          <p className="text-xs tracking-[0.5em] text-white/30">せきの日記</p>
+          <p className="text-xs text-white/15 tracking-wider mt-1">{pageIdx + 1} / {pages.length} ページ</p>
+        </div>
+
+        {/* 1ページ表示 */}
+        <div className="w-full max-w-sm">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={pages[pageIdx]} alt={`${pageIdx + 1}ページ`} className="w-full h-auto block" style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.8)" }} />
+        </div>
+
+        {/* ナビゲーション */}
+        <div className="flex items-center gap-8 mt-8">
+          <button onClick={() => setPageIdx(p => Math.max(0, p - 1))} disabled={pageIdx === 0}
+            className="text-xs tracking-[0.4em] text-white/40 hover:text-white/80 disabled:opacity-15 disabled:cursor-not-allowed transition-colors duration-300">前 →</button>
+          <div className="flex gap-1.5 flex-wrap justify-center max-w-[120px]">
+            {pages.map((_, i) => (
+              <span key={i} className={`block w-1.5 h-1.5 rounded-full transition-colors ${i === pageIdx ? "bg-white/60" : "bg-white/15"}`} />
+            ))}
+          </div>
+          <button onClick={() => setPageIdx(p => Math.min(pages.length - 1, p + 1))} disabled={pageIdx === pages.length - 1}
+            className="text-xs tracking-[0.4em] text-white/40 hover:text-white/80 disabled:opacity-15 disabled:cursor-not-allowed transition-colors duration-300">← 次</button>
+        </div>
+        <button onClick={() => { setDiaryOpen(false); setPageIdx(0); }}
+          className="mt-8 text-xs tracking-[0.3em] text-white/20 hover:text-white/40 transition-colors duration-300">← 表紙へ</button>
+      </div>
+    );
+  }
+
   if (diaryOpen) {
-    const pageW = typeof window !== "undefined" ? Math.min(Math.floor((window.innerWidth - 48) / 2), 480) : 360;
-    const pageH = pageW; // 画像は正方形（886×886）
+    // 画面の高さと幅の両方を考慮してページサイズを決定
+    const availH = typeof window !== "undefined" ? window.innerHeight - 180 : 600;
+    const availW = typeof window !== "undefined" ? Math.floor((window.innerWidth - 32) / 2) : 400;
+    const pageW = Math.min(availW, availH); // 正方形画像なので短い方に合わせる
+    const pageH = pageW;
     const cur = spreads[spreadIdx];
     const nxt = spreads[pending] ?? cur;
     const isLast = spreadIdx === spreads.length - 1;
 
     return (
-      <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-start select-none">
-        <div className="pt-16 pb-4">
+      <div className="h-screen bg-[#0a0a0a] flex flex-col items-center justify-center select-none overflow-hidden">
+        <div className="pb-3">
           <p className="text-xs tracking-[0.5em] text-white/30 text-center">せきの日記</p>
-          <p className="text-xs text-white/15 tracking-wider mt-2 text-center">
+          <p className="text-xs text-white/15 tracking-wider mt-1 text-center">
             {spreadIdx * 2 + 1} · {spreadIdx * 2 + 2} ページ
           </p>
         </div>
