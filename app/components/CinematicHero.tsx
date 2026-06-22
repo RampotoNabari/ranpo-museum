@@ -34,7 +34,7 @@ const phrases = [
     cls: "text-xl md:text-2xl text-white/40 tracking-[0.55em] font-light",
     img: "/images/intro/IMG_3879.jpeg",   // 乱歩と仲間
     imgOpacity: 0.15,
-    imgPosition: "object-top",
+    imgPosition: "[object-position:65%_top] md:[object-position:50%_top]",
   },
   {
     text: "運命のバトン",
