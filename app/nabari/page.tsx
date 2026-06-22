@@ -164,14 +164,14 @@ export default function NabariPage() {
         // テキストスクロール（30秒）
         const scroll = document.getElementById("masuda-scroll");
         if (scroll) scroll.style.animation = "scrollUp 30s linear forwards";
-        // 写真：8秒後に背景から浮き出す
+        // 写真：テキストが消える直前（25秒後）に中央でフェードイン
         setTimeout(() => {
           const photo = document.getElementById("masuda-photo");
           if (photo) {
-            photo.style.transition = "opacity 3s ease-in";
+            photo.style.transition = "opacity 4s ease-in";
             photo.style.opacity = "1";
           }
-        }, 8000);
+        }, 25000);
         scheduleNext(() => transitionToSection("section-6", riverBgRef), 28000);
         s5Observer.disconnect();
       });
@@ -192,14 +192,14 @@ export default function NabariPage() {
         // テキストスクロール（30秒）
         const scroll = document.getElementById("river-scroll");
         if (scroll) scroll.style.animation = "scrollUp 30s linear forwards";
-        // 写真：8秒後に背景から浮き出す
+        // 写真：テキストが消える直前（25秒後）に中央でフェードイン
         setTimeout(() => {
           const photo = document.getElementById("river-photo");
           if (photo) {
-            photo.style.transition = "opacity 3s ease-in";
+            photo.style.transition = "opacity 4s ease-in";
             photo.style.opacity = "1";
           }
-        }, 8000);
+        }, 25000);
         scheduleNext(() => transitionToSection("section-7", tsujiRef), 28000);
         s6Observer.disconnect();
       });
@@ -239,14 +239,14 @@ export default function NabariPage() {
         }
         const scroll = document.getElementById("tsuji-scroll");
         if (scroll) scroll.style.animation = "scrollUp 30s linear forwards";
-        // 写真：8秒後に背景から浮き出す
+        // 写真：テキストが消える直前（25秒後）に中央でフェードイン
         setTimeout(() => {
           const photo = document.getElementById("tsuji-photo");
           if (photo) {
-            photo.style.transition = "opacity 3s ease-in";
+            photo.style.transition = "opacity 4s ease-in";
             photo.style.opacity = "1";
           }
-        }, 8000);
+        }, 25000);
         s7Observer.disconnect();
       });
     }, fullViewOpts);
@@ -474,7 +474,7 @@ export default function NabariPage() {
               </div>
             </div>
             {/* 写真：背景から浮き出す */}
-            <div id="masuda-photo" className="absolute bottom-4 left-1/2 flex flex-col gap-1" style={{ transform: "translateX(-50%)", width: "min(432px, 88vw)", opacity: 0 }}>
+            <div id="masuda-photo" className="absolute top-1/2 left-1/2 flex flex-col gap-1" style={{ transform: "translateX(-50%) translateY(-50%)", width: "min(432px, 88vw)", opacity: 0 }}>
               <div className="relative w-full aspect-[4/3] overflow-hidden">
                 <Image src="/images/masuda-with-rampo.jpg" alt="桝田医師と乱歩" fill className="object-cover object-center" loading="lazy" style={{ filter: "brightness(0.6)", transform: "scale(1.08)", transformOrigin: "center" }} />
                 <p className="absolute bottom-0 left-0 right-0 text-center text-sm tracking-wider py-1 bg-black/60" style={{ color: "rgba(255,255,255,0.9)" }}>昭和二十七年　桝田医師と乱歩</p>
@@ -522,7 +522,7 @@ export default function NabariPage() {
               </div>
             </div>
             {/* 写真：背景から浮き出す */}
-            <div id="river-photo" className="absolute bottom-4 left-1/2 aspect-[4/3] overflow-hidden" style={{ transform: "translateX(-50%)", width: "min(432px, 88vw)", opacity: 0 }}>
+            <div id="river-photo" className="absolute top-1/2 left-1/2 aspect-[4/3] overflow-hidden" style={{ transform: "translateX(-50%) translateY(-50%)", width: "min(432px, 88vw)", opacity: 0 }}>
               <Image src="/images/rampo-river.jpg" alt="河原に立つ乱歩" fill className="object-cover object-center" loading="lazy" style={{ filter: "brightness(0.6)", transform: "scale(1.18)" }} />
               <p className="absolute bottom-0 left-0 right-0 text-center text-sm tracking-wider py-1 bg-black/60" style={{ color: "rgba(255,255,255,0.9)" }}>昭和二十七年　名張川にて</p>
             </div>
@@ -543,7 +543,7 @@ export default function NabariPage() {
           <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 55% 50% at 50% 50%, transparent 0%, rgba(0,0,0,0.65) 100%)" }} />
           <div className="absolute left-0 right-0 bottom-0 top-14 overflow-hidden">
             {/* 日記写真：背景から浮き出す */}
-            <div id="tsuji-photo" className="flex flex-col" style={{ position: "absolute", bottom: 4, left: "50%", transform: "translateX(-50%)", width: "min(432px, 88vw)", opacity: 0 }}>
+            <div id="tsuji-photo" className="flex flex-col" style={{ position: "absolute", top: "50%", left: "50%", transform: "translateX(-50%) translateY(-50%)", width: "min(432px, 88vw)", opacity: 0 }}>
               <div className="relative w-full aspect-[4/3] overflow-hidden">
                 <Image src="/images/seki-diary.jpeg" alt="辻せきの日記" fill className="object-cover object-top" loading="lazy" style={{ filter: "brightness(0.75) sepia(0.2)" }} />
               </div>
