@@ -27,12 +27,14 @@ const phrases = [
     cls: "text-3xl md:text-4xl text-white/80 tracking-widest font-light",
     img: "/images/intro/IMG_3885.jpeg",   // 花束を受ける乱歩
     imgOpacity: 0.22,
+    imgPosition: "object-top",
   },
   {
     text: "江戸川乱歩を巡る",
     cls: "text-xl md:text-2xl text-white/40 tracking-[0.55em] font-light",
     img: "/images/intro/IMG_3879.jpeg",   // 乱歩と仲間
     imgOpacity: 0.15,
+    imgPosition: "object-top",
   },
   {
     text: "運命のバトン",
