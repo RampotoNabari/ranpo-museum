@@ -97,10 +97,19 @@ export default function NabariPage() {
     // t=30s: 2枚目へ
     const t2 = setTimeout(() => transitionToSection("section-2", seifuteiBgRef), 30000);
 
+    // タイマー管理（遷移用・写真用をまとめてキャンセルできるよう配列で管理）
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    const addTimer = (fn: () => void, ms: number) => {
+      const id = setTimeout(fn, ms);
+      timers.push(id);
+      return id;
+    };
+    const cancelAll = () => timers.forEach(clearTimeout);
+
     // 次の自動遷移タイマー（どのObserverからもキャンセル・再スケジュール可能）
     let nextAutoTimer: ReturnType<typeof setTimeout> | undefined;
     const cancelNext = () => { if (nextAutoTimer) clearTimeout(nextAutoTimer); };
-    const scheduleNext = (fn: () => void, ms: number) => { cancelNext(); nextAutoTimer = setTimeout(fn, ms); };
+    const scheduleNext = (fn: () => void, ms: number) => { cancelNext(); nextAutoTimer = addTimer(fn, ms); };
 
     const observerOpts = { root: container, threshold: 0.1 };
 
@@ -149,7 +158,7 @@ export default function NabariPage() {
     const s3el = document.getElementById("section-3");
     if (s3el) s3Observer.observe(s3el);
 
-    const fullViewOpts = { root: container, threshold: 0.9 };
+    const fullViewOpts = { root: container, threshold: 0.5 };
 
     // ─── 5枚目：背景上昇 + テキストスクロール + 写真が同速で中央まで上がって止まる ───
     const s5Observer = new IntersectionObserver((entries) => {
@@ -165,14 +174,14 @@ export default function NabariPage() {
         const scroll = document.getElementById("masuda-scroll");
         if (scroll) scroll.style.animation = "scrollUp 30s linear forwards";
         // 写真：テキストが消える直前（25秒後）に中央でフェードイン
-        setTimeout(() => {
+        addTimer(() => {
           const photo = document.getElementById("masuda-photo");
           if (photo) {
             photo.style.transition = "opacity 4s ease-in";
             photo.style.opacity = "1";
           }
         }, 25000);
-        scheduleNext(() => transitionToSection("section-6", riverBgRef), 28000);
+        scheduleNext(() => transitionToSection("section-6", riverBgRef), 35000);
         s5Observer.disconnect();
       });
     }, fullViewOpts);
@@ -193,14 +202,14 @@ export default function NabariPage() {
         const scroll = document.getElementById("river-scroll");
         if (scroll) scroll.style.animation = "scrollUp 30s linear forwards";
         // 写真：テキストが消える直前（25秒後）に中央でフェードイン
-        setTimeout(() => {
+        addTimer(() => {
           const photo = document.getElementById("river-photo");
           if (photo) {
             photo.style.transition = "opacity 4s ease-in";
             photo.style.opacity = "1";
           }
         }, 25000);
-        scheduleNext(() => transitionToSection("section-7", tsujiRef), 28000);
+        scheduleNext(() => transitionToSection("section-7", tsujiRef), 35000);
         s6Observer.disconnect();
       });
     }, fullViewOpts);
@@ -240,7 +249,7 @@ export default function NabariPage() {
         const scroll = document.getElementById("tsuji-scroll");
         if (scroll) scroll.style.animation = "scrollUp 30s linear forwards";
         // 写真：テキストが消える直前（25秒後）に中央でフェードイン
-        setTimeout(() => {
+        addTimer(() => {
           const photo = document.getElementById("tsuji-photo");
           if (photo) {
             photo.style.transition = "opacity 4s ease-in";
@@ -256,6 +265,7 @@ export default function NabariPage() {
     return () => {
       clearTimeout(t2);
       cancelNext();
+      cancelAll();
       s2Observer.disconnect();
       s3Observer.disconnect();
       s4Observer.disconnect();
