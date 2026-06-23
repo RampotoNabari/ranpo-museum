@@ -18,11 +18,13 @@ export default function SekiPage() {
   const [diaryOpen, setDiaryOpen] = useState(false);
   const [pageIdx, setPageIdx] = useState(0);
   const [textRevealed, setTextRevealed] = useState(false);
-  const [adjScale] = useState(1.10);
-  const [adjX] = useState(21);
-  const [adjY] = useState(14);
-  const [adjOpacity] = useState(0.65);
+  const [adjScale, setAdjScale] = useState(1.10);
+  const [adjX, setAdjX] = useState(21);
+  const [adjY, setAdjY] = useState(14);
+  const [adjOpacity, setAdjOpacity] = useState(0.70);
   const [showAdj, setShowAdj] = useState(false);
+
+  const setAdj = (set: (v: number) => void) => (v: number) => set(v);
   const revealTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const touchStartX = useRef<number | null>(null);
   const swipeRef = useRef<HTMLDivElement>(null);
@@ -93,7 +95,7 @@ export default function SekiPage() {
             />
             {pages[pageIdx].text && (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={pages[pageIdx].text} alt="活字" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", transform: `scale(${adjScale}) translateX(${adjX}px) translateY(${adjY}px)`, transformOrigin: "center center", opacity: textRevealed ? adjOpacity : 0, transition: "opacity 1.5s ease-in", pointerEvents: "none", mixBlendMode: "multiply" }} />
+              <img src={pages[pageIdx].text} alt="活字" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", transform: `scale(${adjScale}) translateX(${adjX}px) translateY(${adjY}px)`, transformOrigin: "center center", opacity: textRevealed ? adjOpacity : 0, transition: "opacity 1.5s ease-in", pointerEvents: "none", mixBlendMode: "normal" }} />
             )}
           </div>
 
@@ -122,10 +124,10 @@ export default function SekiPage() {
         {showAdj && (
           <div style={{ position: "fixed", bottom: 50, right: 16, zIndex: 100, background: "rgba(0,0,0,0.85)", color: "white", padding: 16, borderRadius: 8, fontSize: 12, minWidth: 260, display: "flex", flexDirection: "column", gap: 10 }}>
             {([
-              { label: "拡大率", value: adjScale, set: setAdj("adj_scale", setAdjScale), min: 0.80, max: 1.50, step: 0.01, fix: 2 },
-              { label: "左右(px)", value: adjX, set: setAdj("adj_x", setAdjX), min: -200, max: 200, step: 1, fix: 0 },
-              { label: "上下(px)", value: adjY, set: setAdj("adj_y", setAdjY), min: -200, max: 200, step: 1, fix: 0 },
-              { label: "透明度", value: adjOpacity, set: setAdj("adj_opacity", setAdjOpacity), min: 0.1, max: 1.0, step: 0.05, fix: 2 },
+              { label: "拡大率", value: adjScale, set: setAdj(setAdjScale), min: 0.80, max: 1.50, step: 0.01, fix: 2 },
+              { label: "左右(px)", value: adjX, set: setAdj(setAdjX), min: -200, max: 200, step: 1, fix: 0 },
+              { label: "上下(px)", value: adjY, set: setAdj(setAdjY), min: -200, max: 200, step: 1, fix: 0 },
+              { label: "透明度", value: adjOpacity, set: setAdj(setAdjOpacity), min: 0.1, max: 1.0, step: 0.05, fix: 2 },
             ] as { label: string; value: number; set: (v: number) => void; min: number; max: number; step: number; fix: number }[]).map(({ label, value, set, min, max, step, fix }) => (
               <label key={label} style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                 <span>{label}</span>
