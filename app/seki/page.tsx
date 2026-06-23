@@ -15,9 +15,12 @@ const pages: { photo: string; text?: string }[] = [
 ];
 
 export default function SekiPage() {
-  const [diaryOpen, setDiaryOpen] = useState(false);
-  const [pageIdx, setPageIdx] = useState(0);
-  const [textRevealed, setTextRevealed] = useState(false);
+  const initPage = typeof window !== "undefined" ? Number(new URLSearchParams(window.location.search).get("page") ?? 0) : 0;
+  const [diaryOpen, setDiaryOpen] = useState(initPage > 0);
+  const [pageIdx, setPageIdx] = useState(initPage > 0 ? initPage : 0);
+  const [textRevealed, setTextRevealed] = useState(initPage > 0);
+  const [photoRatio, setPhotoRatio] = useState<number | null>(null);
+  const frameRatio = 1.37;
   const pageAdj: Record<number, [number, number, number]> = {
     1: [1.12, 21, 14],
     2: [1.34, 15, 7],
@@ -38,6 +41,7 @@ export default function SekiPage() {
     set(v);
   };
   useEffect(() => {
+    setPhotoRatio(null);
     if (pageIdx === 0) return;
     const d = getAdj(pageIdx);
     setAdjScale(ls(`adj_scale_${pageIdx}`, d[0]));
@@ -112,6 +116,7 @@ export default function SekiPage() {
             <img
               src={pages[pageIdx].photo}
               alt={`${pageIdx}ページ`}
+              onLoad={(e) => { const i = e.currentTarget; setPhotoRatio(i.naturalWidth / i.naturalHeight); }}
               style={{ display: "block", width: "100%", height: "100%", objectFit: "contain", boxShadow: "0 4px 24px rgba(0,0,0,0.8)" }}
             />
             {pages[pageIdx].text && (pageIdx === 0 ? (
@@ -119,10 +124,17 @@ export default function SekiPage() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={pages[pageIdx].text} alt="活字" style={{ width: "100%", height: "100%", objectFit: "contain", transform: `scale(${adj0Scale}) translateX(${adj0X}px) translateY(${adj0Y}px)`, transformOrigin: "center center" }} />
               </div>
-            ) : (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={pages[pageIdx].text} alt="活字" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", transform: `scale(${adjScale}) translateX(${adjX}px) translateY(${adjY}px)`, transformOrigin: "center center", opacity: textRevealed ? adjOpacity : 0, transition: "opacity 1.5s ease-in", pointerEvents: "none", mixBlendMode: "normal" }} />
-            ))}
+            ) : (() => {
+              const pr = photoRatio ?? frameRatio;
+              const tb = pr > frameRatio ? `${((1 - frameRatio / pr) / 2 * 100).toFixed(3)}%` : "0";
+              const lr = pr < frameRatio ? `${((1 - pr / frameRatio) / 2 * 100).toFixed(3)}%` : "0";
+              return (
+                <div style={{ position: "absolute", top: tb, bottom: tb, left: lr, right: lr, overflow: "hidden", opacity: textRevealed ? adjOpacity : 0, transition: "opacity 1.5s ease-in", pointerEvents: "none" }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={pages[pageIdx].text} alt="活字" style={{ width: "100%", height: "100%", objectFit: "fill", transform: `scale(${adjScale}) translateX(${adjX}px) translateY(${adjY}px)`, transformOrigin: "center center", mixBlendMode: "normal" }} />
+                </div>
+              );
+            })())}
           </div>
 
           <button
