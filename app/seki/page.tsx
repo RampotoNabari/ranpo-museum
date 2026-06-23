@@ -19,13 +19,13 @@ export default function SekiPage() {
   const [pageIdx, setPageIdx] = useState(0);
   const [textRevealed, setTextRevealed] = useState(false);
   const ls = (key: string, def: number) => typeof window !== "undefined" ? Number(localStorage.getItem(key) || def) : def;
-  const [adjScale, setAdjScale] = useState(() => ls("adj_scale", 1.10));
+  const [adjScale, setAdjScale] = useState(() => ls("adj_scale", 1.12));
   const [adjX, setAdjX] = useState(() => ls("adj_x", 21));
   const [adjY, setAdjY] = useState(() => ls("adj_y", 14));
   const [adj0Scale, setAdj0Scale] = useState(() => ls("adj0_scale", 1.22));
   const [adj0X, setAdj0X] = useState(() => ls("adj0_x", -14));
   const [adj0Y, setAdj0Y] = useState(() => ls("adj0_y", 20));
-  const [adjOpacity, setAdjOpacity] = useState(() => ls("adj_opacity", 1.0));
+  const [adjOpacity, setAdjOpacity] = useState(() => ls("adj_opacity", 0.60));
   const [showAdj, setShowAdj] = useState(false);
 
   const setAdj = (set: (v: number) => void, key?: string) => (v: number) => {
