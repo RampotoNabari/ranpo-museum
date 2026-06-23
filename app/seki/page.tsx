@@ -18,17 +18,18 @@ export default function SekiPage() {
   const [diaryOpen, setDiaryOpen] = useState(false);
   const [pageIdx, setPageIdx] = useState(0);
   const [textRevealed, setTextRevealed] = useState(false);
-  const [adjScale, setAdjScale] = useState(() => Number(localStorage.getItem("adj_scale") || 1.10));
-  const [adjX, setAdjX] = useState(() => Number(localStorage.getItem("adj_x") || 21));
-  const [adjY, setAdjY] = useState(() => Number(localStorage.getItem("adj_y") || 14));
-  const [adj0Scale, setAdj0Scale] = useState(() => Number(localStorage.getItem("adj0_scale") || 1.22));
-  const [adj0X, setAdj0X] = useState(() => Number(localStorage.getItem("adj0_x") || -14));
-  const [adj0Y, setAdj0Y] = useState(() => Number(localStorage.getItem("adj0_y") || 20));
-  const [adjOpacity, setAdjOpacity] = useState(() => Number(localStorage.getItem("adj_opacity") || 1.0));
+  const ls = (key: string, def: number) => typeof window !== "undefined" ? Number(localStorage.getItem(key) || def) : def;
+  const [adjScale, setAdjScale] = useState(() => ls("adj_scale", 1.10));
+  const [adjX, setAdjX] = useState(() => ls("adj_x", 21));
+  const [adjY, setAdjY] = useState(() => ls("adj_y", 14));
+  const [adj0Scale, setAdj0Scale] = useState(() => ls("adj0_scale", 1.22));
+  const [adj0X, setAdj0X] = useState(() => ls("adj0_x", -14));
+  const [adj0Y, setAdj0Y] = useState(() => ls("adj0_y", 20));
+  const [adjOpacity, setAdjOpacity] = useState(() => ls("adj_opacity", 1.0));
   const [showAdj, setShowAdj] = useState(false);
 
   const setAdj = (set: (v: number) => void, key?: string) => (v: number) => {
-    if (key) localStorage.setItem(key, String(v));
+    if (key && typeof window !== "undefined") localStorage.setItem(key, String(v));
     set(v);
   };
   const revealTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -92,6 +93,7 @@ export default function SekiPage() {
             justifyContent: "center",
             flexShrink: 0,
             overflow: "hidden",
+            clipPath: "inset(0)",
           }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -101,7 +103,7 @@ export default function SekiPage() {
             />
             {pages[pageIdx].text && (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={pages[pageIdx].text} alt="活字" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "contain", transform: pageIdx === 0 ? `scale(${adj0Scale}) translateX(${adj0X}px) translateY(${adj0Y}px)` : `scale(${adjScale}) translateX(${adjX}px) translateY(${adjY}px)`, transformOrigin: "center center", opacity: textRevealed ? (pageIdx === 0 ? 0.70 : adjOpacity) : 0, transition: "opacity 1.5s ease-in", pointerEvents: "none", mixBlendMode: pageIdx === 0 ? "normal" : "multiply" }} />
+              <img src={pages[pageIdx].text} alt="活字" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: pageIdx === 0 ? "contain" : "fill", transform: pageIdx === 0 ? `scale(${adj0Scale}) translateX(${adj0X}px) translateY(${adj0Y}px)` : `scale(${adjScale}) translateX(${adjX}px) translateY(${adjY}px)`, transformOrigin: "center center", opacity: textRevealed ? adjOpacity : 0, transition: "opacity 1.5s ease-in", pointerEvents: "none", mixBlendMode: "multiply" }} />
             )}
           </div>
 
