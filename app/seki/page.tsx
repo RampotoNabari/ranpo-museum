@@ -93,7 +93,7 @@ export default function SekiPage() {
             />
             {pages[pageIdx].text && (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={pages[pageIdx].text} alt="活字" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", transform: `scale(${adjScale}) translateX(${adjX}px) translateY(${adjY}px)`, transformOrigin: "center center", opacity: textRevealed ? adjOpacity : 0, transition: "opacity 1.5s ease-in", pointerEvents: "none" }} />
+              <img src={pages[pageIdx].text} alt="活字" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", transform: `scale(${adjScale}) translateX(${adjX}px) translateY(${adjY}px)`, transformOrigin: "center center", opacity: textRevealed ? adjOpacity : 0, transition: "opacity 1.5s ease-in", pointerEvents: "none", mixBlendMode: "multiply" }} />
             )}
           </div>
 
