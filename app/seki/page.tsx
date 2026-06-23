@@ -177,7 +177,7 @@ export default function SekiPage() {
 
         <button
           onClick={() => setDiaryOpen(true)}
-          className="mt-4 text-xs tracking-[0.5em] text-white/50 border border-white/20 px-10 py-3 hover:text-white hover:border-white/50 transition-colors duration-300 whitespace-nowrap"
+          className="mt-4 text-xs tracking-[0.35em] text-white/50 border border-white/20 px-10 py-3 hover:text-white hover:border-white/50 transition-colors duration-300 whitespace-nowrap"
           style={fi(4.5)}
         >
           日記を読む
