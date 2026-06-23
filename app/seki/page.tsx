@@ -108,7 +108,7 @@ export default function SekiPage() {
             {/* 活字オーバーレイ：2層で赤文字を実現 */}
             {pages[pageIdx].text && (
 // eslint-disable-next-line @next/next/no-img-element
-              <img src={pages[pageIdx].text} alt="活字" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", opacity: textRevealed ? 0.65 : 0, transition: "opacity 1.5s ease-in", pointerEvents: "none" }} />
+              <img src={pages[pageIdx].text} alt="活字" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", transform: "scale(1.03) translateY(3px)", transformOrigin: "center top", opacity: textRevealed ? 0.65 : 0, transition: "opacity 1.5s ease-in", pointerEvents: "none" }} />
             )}
           </div>
 
