@@ -23,7 +23,7 @@ export default function Header() {
     } ${available ? "hover:opacity-60" : "opacity-30 pointer-events-none"}`;
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 px-8 py-5 flex justify-between items-center transition-colors duration-500 ${isDark ? "bg-black/30 backdrop-blur-sm" : "bg-[var(--background)] border-b border-[#d4c9b0]"}`}>
+    <header className={`fixed top-0 left-0 right-0 z-50 px-8 py-5 flex justify-between items-center transition-colors duration-500 ${isDark ? "bg-transparent" : "bg-[var(--background)] border-b border-[#d4c9b0]"}`}>
       <Link href="/" className={`text-xs tracking-[0.3em] hover:opacity-60 transition-opacity ${isDark ? "text-white/70" : "text-[var(--muted)]"}`}>
         乱歩と名張
       </Link>
