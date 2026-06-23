@@ -72,22 +72,26 @@ export default function SekiPage() {
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center select-none py-8">
 
-        {/* 画像＋左右ボタン */}
-        <div ref={swipeRef} className="flex items-center justify-center gap-6 px-4 w-full">
+        {/* 画像エリア：ボタン固定＋黒枠 */}
+        <div ref={swipeRef} style={{ position: "relative", width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+
+          {/* 左ボタン：固定位置 */}
           <button
             onClick={() => setPageIdx(p => Math.max(0, p - 1))}
             disabled={pageIdx === 0}
-            className="text-2xl text-white/40 hover:text-white/80 disabled:opacity-15 disabled:cursor-not-allowed transition-colors duration-300 flex-shrink-0"
+            style={{ position: "absolute", left: "16px", top: "50%", transform: "translateY(-50%)", zIndex: 10 }}
+            className="text-2xl text-white/40 hover:text-white/80 disabled:opacity-15 disabled:cursor-not-allowed transition-colors duration-300"
           >◀</button>
 
-          {/* 写真＋活字オーバーレイ：全画像を同じサイズ枠に統一 */}
+          {/* 黒枠：横長ページ基準（1.37:1）の固定枠、縦長は両脇に黒が入る */}
           <div style={{
             position: "relative",
-            height: "calc(100vh - 140px)",
-            flexShrink: 0,
-            lineHeight: 0,
+            width: "min(680px, calc(100vw - 120px))",
+            aspectRatio: "1.37",
             display: "flex",
             alignItems: "center",
+            justifyContent: "center",
+            flexShrink: 0,
           }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -95,9 +99,8 @@ export default function SekiPage() {
               alt={`${pageIdx}ページ`}
               style={{
                 display: "block",
+                width: "100%",
                 height: "100%",
-                width: "auto",
-                maxWidth: "calc(100vw - 120px)",
                 objectFit: "contain",
                 boxShadow: "0 4px 24px rgba(0,0,0,0.8)",
               }}
@@ -113,6 +116,7 @@ export default function SekiPage() {
                   inset: 0,
                   width: "100%",
                   height: "100%",
+                  objectFit: "contain",
                   opacity: textRevealed ? 1 : 0,
                   transition: "opacity 1.5s ease-in",
                   pointerEvents: "none",
@@ -121,10 +125,12 @@ export default function SekiPage() {
             )}
           </div>
 
+          {/* 右ボタン：固定位置 */}
           <button
             onClick={() => setPageIdx(p => Math.min(pages.length - 1, p + 1))}
             disabled={pageIdx === pages.length - 1}
-            className="text-2xl text-white/40 hover:text-white/80 disabled:opacity-15 disabled:cursor-not-allowed transition-colors duration-300 flex-shrink-0"
+            style={{ position: "absolute", right: "16px", top: "50%", transform: "translateY(-50%)", zIndex: 10 }}
+            className="text-2xl text-white/40 hover:text-white/80 disabled:opacity-15 disabled:cursor-not-allowed transition-colors duration-300"
           >▶</button>
         </div>
 
