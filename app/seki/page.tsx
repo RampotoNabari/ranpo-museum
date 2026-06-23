@@ -180,6 +180,24 @@ export default function SekiPage() {
               ))}
             </>)}
             <div style={{ color: "#aaa", fontSize: 11 }}>{pageIdx === 0 ? `scale(${adj0Scale.toFixed(2)}) X(${adj0X}px) Y(${adj0Y}px)` : `scale(${adjScale.toFixed(2)}) X(${adjX}px) Y(${adjY}px) opacity(${adjOpacity.toFixed(2)})`}</div>
+            <button onClick={() => {
+              if (typeof window === "undefined") return;
+              const entries: string[] = [];
+              for (let i = 1; i <= 64; i++) {
+                const s = localStorage.getItem(`adj_scale_${i}`);
+                const x = localStorage.getItem(`adj_x_${i}`);
+                const y = localStorage.getItem(`adj_y_${i}`);
+                if (s || x || y) {
+                  const sv = s ? Number(s) : getAdj(i)[0];
+                  const xv = x ? Number(x) : getAdj(i)[1];
+                  const yv = y ? Number(y) : getAdj(i)[2];
+                  entries.push(`    ${i}: [${sv}, ${xv}, ${yv}],`);
+                }
+              }
+              navigator.clipboard.writeText(`{\n${entries.join("\n")}\n}`);
+            }} style={{ marginTop: 4, background: "rgba(255,255,255,0.2)", color: "white", border: "none", borderRadius: 4, padding: "4px 8px", fontSize: 11, cursor: "pointer" }}>
+              📋 全ページの値をコピー
+            </button>
           </div>
         )}
       </div>
