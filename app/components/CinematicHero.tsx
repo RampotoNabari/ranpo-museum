@@ -31,14 +31,14 @@ const phrases = [
   },
   {
     text: "江戸川乱歩を巡る",
-    cls: "text-xl md:text-2xl text-white/40 tracking-[0.55em] font-light",
+    cls: "text-2xl md:text-3xl text-white/40 tracking-[0.55em] font-light",
     img: "/images/intro/IMG_3879.jpeg",   // 乱歩と仲間
     imgOpacity: 0.15,
     imgPosition: "[object-position:75%_top] md:[object-position:50%_top]",
   },
   {
     text: "運命のバトン",
-    cls: "text-5xl md:text-7xl text-white/90 tracking-[0.35em] font-light",
+    cls: "text-4xl md:text-6xl text-[#c0392b] tracking-[0.35em] font-light",
     img: "/images/intro/IMG_3887.jpeg",   // 人々の宴・笑顔
     imgOpacity: 0.25,
     imgPosition: "[object-position:40%_top] md:[object-position:50%_top]",

@@ -94,178 +94,204 @@ export default function NabariPage() {
     };
 
     // ─── 背景タイマー（ページロードからの絶対時間） ───
-    // t=30s: 2枚目へ
     const t2 = setTimeout(() => transitionToSection("section-2", seifuteiBgRef), 30000);
 
-    // タイマー管理（遷移用・写真用をまとめてキャンセルできるよう配列で管理）
-    const timers: ReturnType<typeof setTimeout>[] = [];
-    const addTimer = (fn: () => void, ms: number) => {
-      const id = setTimeout(fn, ms);
-      timers.push(id);
-      return id;
+    // セクションごとのタイマー管理
+    const sectionTimers: Record<string, ReturnType<typeof setTimeout>[]> = {};
+    const cancelSection = (id: string) => {
+      (sectionTimers[id] || []).forEach(clearTimeout);
+      sectionTimers[id] = [];
     };
-    const cancelAll = () => timers.forEach(clearTimeout);
+    const addSectionTimer = (id: string, fn: () => void, ms: number) => {
+      const t = setTimeout(fn, ms);
+      sectionTimers[id] = [...(sectionTimers[id] || []), t];
+      return t;
+    };
 
-    // 次の自動遷移タイマー（どのObserverからもキャンセル・再スケジュール可能）
-    let nextAutoTimer: ReturnType<typeof setTimeout> | undefined;
-    const cancelNext = () => { if (nextAutoTimer) clearTimeout(nextAutoTimer); };
-    const scheduleNext = (fn: () => void, ms: number) => { cancelNext(); nextAutoTimer = addTimer(fn, ms); };
+    // 自動遷移タイマー（手動移動時にキャンセル）
+    let transitionTimer: ReturnType<typeof setTimeout> | undefined;
+    const cancelTransition = () => { if (transitionTimer) clearTimeout(transitionTimer); };
+    const scheduleNext = (fn: () => void, ms: number) => {
+      cancelTransition();
+      transitionTimer = setTimeout(fn, ms);
+    };
+
+    // リセットヘルパー
+    const resetScroll = (scrollId: string) => {
+      const el = document.getElementById(scrollId);
+      if (el) { el.style.animation = "none"; el.style.transform = "translateY(100vh)"; }
+    };
+    const resetPhoto = (photoId: string) => {
+      const el = document.getElementById(photoId);
+      if (el) { el.style.transition = "none"; el.style.opacity = "0"; }
+    };
+    const resetBg = (ref: React.RefObject<HTMLDivElement | null>) => {
+      if (ref.current) { ref.current.style.transition = "none"; ref.current.style.transform = "scale(1.12) translateY(140px)"; }
+    };
 
     const observerOpts = { root: container, threshold: 0.1 };
+    const fullViewOpts = { root: container, threshold: 0.5 };
 
-    // ─── 2枚目：クレジット + フィナーレ（テキスト演出） ───
+    // ─── 2枚目：クレジット + フィナーレ ───
     const s2Observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        clearTimeout(t2);
-        cancelNext();
-        const credits = document.getElementById("seifutei-credits");
-        if (credits) credits.style.animation = "scrollUp 50s linear forwards";
-        addTimer(() => {
+        if (entry.isIntersecting) {
+          clearTimeout(t2); cancelTransition(); cancelSection("s2");
+          const credits = document.getElementById("seifutei-credits");
+          if (credits) credits.style.animation = "scrollUp 50s linear forwards";
+          addSectionTimer("s2", () => {
+            const finale = document.getElementById("seifutei-finale");
+            if (finale) finale.style.opacity = "1";
+            const l1 = document.getElementById("seifutei-finale-1");
+            if (l1) { l1.style.transition = "opacity 2.5s ease-in"; l1.style.opacity = "1"; }
+            addSectionTimer("s2", () => {
+              const l2 = document.getElementById("seifutei-finale-2");
+              if (l2) { l2.style.transition = "opacity 2.5s ease-in"; l2.style.opacity = "1"; }
+            }, 2000);
+          }, 30000);
+          scheduleNext(() => transitionToSection("section-3", exteriorBgRef), 35000);
+        } else {
+          cancelSection("s2");
+          const credits = document.getElementById("seifutei-credits");
+          if (credits) { credits.style.animation = "none"; credits.style.transform = "translateY(100vh)"; }
           const finale = document.getElementById("seifutei-finale");
-          if (finale) finale.style.opacity = "1";
+          if (finale) finale.style.opacity = "0";
           const l1 = document.getElementById("seifutei-finale-1");
-          if (l1) { l1.style.transition = "opacity 2.5s ease-in"; l1.style.opacity = "1"; }
-          addTimer(() => {
-            const l2 = document.getElementById("seifutei-finale-2");
-            if (l2) { l2.style.transition = "opacity 2.5s ease-in"; l2.style.opacity = "1"; }
-          }, 2000);
-        }, 30000);
-        scheduleNext(() => transitionToSection("section-3", exteriorBgRef), 35000);
-        s2Observer.disconnect();
+          if (l1) { l1.style.transition = "none"; l1.style.opacity = "0"; }
+          const l2 = document.getElementById("seifutei-finale-2");
+          if (l2) { l2.style.transition = "none"; l2.style.opacity = "0"; }
+        }
       });
     }, observerOpts);
-    const s2el = document.getElementById("section-2");
-    if (s2el) s2Observer.observe(s2el);
 
     // ─── 3枚目：テキストフェードイン ───
     const s3Observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        clearTimeout(t2);
-        cancelNext();
-        document.querySelectorAll<HTMLElement>(".dawn-fade").forEach((el, i) => {
-          setTimeout(() => {
-            el.style.transition = "opacity 2.5s ease-out, transform 3s ease-out";
-            el.style.opacity = "1";
-            el.style.transform = "translateY(0)";
-          }, i * 1000);
-        });
-        scheduleNext(() => transitionToSection("section-4", hiawaiiBgRef), 10000);
-        s3Observer.disconnect();
+        if (entry.isIntersecting) {
+          clearTimeout(t2); cancelTransition(); cancelSection("s3");
+          document.querySelectorAll<HTMLElement>(".dawn-fade").forEach((el, i) => {
+            addSectionTimer("s3", () => {
+              el.style.transition = "opacity 2.5s ease-out, transform 3s ease-out";
+              el.style.opacity = "1"; el.style.transform = "translateY(0)";
+            }, i * 1000);
+          });
+          scheduleNext(() => transitionToSection("section-4", hiawaiiBgRef), 10000);
+        } else {
+          cancelSection("s3");
+          document.querySelectorAll<HTMLElement>(".dawn-fade").forEach((el) => {
+            el.style.transition = "none"; el.style.opacity = "0"; el.style.transform = "translateY(20px)";
+          });
+        }
       });
     }, observerOpts);
-    const s3el = document.getElementById("section-3");
-    if (s3el) s3Observer.observe(s3el);
-
-    const fullViewOpts = { root: container, threshold: 0.5 };
-
-    // ─── 5枚目：背景上昇 + テキストスクロール + 写真が同速で中央まで上がって止まる ───
-    const s5Observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        clearTimeout(t2);
-        cancelNext();
-        if (masudaBgRef.current) {
-          masudaBgRef.current.style.transition = "transform 10s ease-out";
-          masudaBgRef.current.style.transform = "scale(1.12) translateY(0px)";
-        }
-        // テキストスクロール（30秒）
-        const scroll = document.getElementById("masuda-scroll");
-        if (scroll) scroll.style.animation = "scrollUp 30s linear forwards";
-        // 写真：テキストが消える直前（25秒後）に中央でフェードイン
-        addTimer(() => {
-          const photo = document.getElementById("masuda-photo");
-          if (photo) {
-            photo.style.transition = "opacity 4s ease-in";
-            photo.style.opacity = "1";
-          }
-        }, 25000);
-        scheduleNext(() => transitionToSection("section-6", riverBgRef), 35000);
-        s5Observer.disconnect();
-      });
-    }, fullViewOpts);
-    const s5el = document.getElementById("section-5");
-    if (s5el) s5Observer.observe(s5el);
-
-    // ─── 6枚目：背景上昇 + テキストスクロール + 写真が同速で中央まで上がって止まる ───
-    const s6Observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        clearTimeout(t2);
-        cancelNext();
-        if (riverBgRef.current) {
-          riverBgRef.current.style.transition = "transform 10s ease-out";
-          riverBgRef.current.style.transform = "scale(1.12) translateY(0px)";
-        }
-        // テキストスクロール（30秒）
-        const scroll = document.getElementById("river-scroll");
-        if (scroll) scroll.style.animation = "scrollUp 30s linear forwards";
-        // 写真：テキストが消える直前（25秒後）に中央でフェードイン
-        addTimer(() => {
-          const photo = document.getElementById("river-photo");
-          if (photo) {
-            photo.style.transition = "opacity 4s ease-in";
-            photo.style.opacity = "1";
-          }
-        }, 25000);
-        scheduleNext(() => transitionToSection("section-7", tsujiRef), 35000);
-        s6Observer.disconnect();
-      });
-    }, fullViewOpts);
-    const s6el = document.getElementById("section-6");
-    if (s6el) s6Observer.observe(s6el);
 
     // ─── 4枚目：テキストフェードイン ───
     const s4Observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        clearTimeout(t2);
-        cancelNext();
-        document.querySelectorAll<HTMLElement>(".hiawai-fade").forEach((el, i) => {
-          setTimeout(() => {
-            el.style.transition = "opacity 2.5s ease-out, transform 3s ease-out";
-            el.style.opacity = "1";
-            el.style.transform = "translateY(0)";
-          }, i * 1000);
-        });
-        scheduleNext(() => transitionToSection("section-5", masudaBgRef), 10000);
-        s4Observer.disconnect();
+        if (entry.isIntersecting) {
+          clearTimeout(t2); cancelTransition(); cancelSection("s4");
+          document.querySelectorAll<HTMLElement>(".hiawai-fade").forEach((el, i) => {
+            addSectionTimer("s4", () => {
+              el.style.transition = "opacity 2.5s ease-out, transform 3s ease-out";
+              el.style.opacity = "1"; el.style.transform = "translateY(0)";
+            }, i * 1000);
+          });
+          scheduleNext(() => transitionToSection("section-5", masudaBgRef), 10000);
+        } else {
+          cancelSection("s4");
+          document.querySelectorAll<HTMLElement>(".hiawai-fade").forEach((el) => {
+            el.style.transition = "none"; el.style.opacity = "0"; el.style.transform = "translateY(20px)";
+          });
+        }
       });
     }, observerOpts);
-    const s4el = document.getElementById("section-4");
-    if (s4el) s4Observer.observe(s4el);
 
-    // ─── 7枚目：背景上昇 + テキストスクロール（結び） ───
-    const s7Observer = new IntersectionObserver((entries) => {
+    // ─── 5枚目：桝田医院 ───
+    const s5Observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        clearTimeout(t2);
-        cancelNext();
-        if (tsujiRef.current) {
-          tsujiRef.current.style.transition = "transform 10s ease-out";
-          tsujiRef.current.style.transform = "scale(1.12) translateY(0px)";
-        }
-        const scroll = document.getElementById("tsuji-scroll");
-        if (scroll) scroll.style.animation = "scrollUp 30s linear forwards";
-        // 写真：テキストが消える直前（25秒後）に中央でフェードイン
-        addTimer(() => {
-          const photo = document.getElementById("tsuji-photo");
-          if (photo) {
-            photo.style.transition = "opacity 4s ease-in";
-            photo.style.opacity = "1";
+        if (entry.isIntersecting) {
+          clearTimeout(t2); cancelTransition(); cancelSection("s5");
+          if (masudaBgRef.current) {
+            masudaBgRef.current.style.transition = "transform 10s ease-out";
+            masudaBgRef.current.style.transform = "scale(1.12) translateY(0px)";
           }
-        }, 25000);
-        s7Observer.disconnect();
+          const scroll = document.getElementById("masuda-scroll");
+          if (scroll) scroll.style.animation = "scrollUp 30s linear forwards";
+          addSectionTimer("s5", () => {
+            const photo = document.getElementById("masuda-photo");
+            if (photo) { photo.style.transition = "opacity 4s ease-in"; photo.style.opacity = "1"; }
+          }, 20000);
+          scheduleNext(() => transitionToSection("section-6", riverBgRef), 27000);
+        } else {
+          cancelSection("s5");
+          resetScroll("masuda-scroll"); resetPhoto("masuda-photo"); resetBg(masudaBgRef);
+        }
       });
     }, fullViewOpts);
+
+    // ─── 6枚目：河原 ───
+    const s6Observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          clearTimeout(t2); cancelTransition(); cancelSection("s6");
+          if (riverBgRef.current) {
+            riverBgRef.current.style.transition = "transform 10s ease-out";
+            riverBgRef.current.style.transform = "scale(1.12) translateY(0px)";
+          }
+          const scroll = document.getElementById("river-scroll");
+          if (scroll) scroll.style.animation = "scrollUp 30s linear forwards";
+          addSectionTimer("s6", () => {
+            const photo = document.getElementById("river-photo");
+            if (photo) { photo.style.transition = "opacity 4s ease-in"; photo.style.opacity = "1"; }
+          }, 20000);
+          scheduleNext(() => transitionToSection("section-7", tsujiRef), 27000);
+        } else {
+          cancelSection("s6");
+          resetScroll("river-scroll"); resetPhoto("river-photo"); resetBg(riverBgRef);
+        }
+      });
+    }, fullViewOpts);
+
+    // ─── 7枚目：辻酒店・結び ───
+    const s7Observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          clearTimeout(t2); cancelTransition(); cancelSection("s7");
+          if (tsujiRef.current) {
+            tsujiRef.current.style.transition = "transform 10s ease-out";
+            tsujiRef.current.style.transform = "scale(1.12) translateY(0px)";
+          }
+          const scroll = document.getElementById("tsuji-scroll");
+          if (scroll) scroll.style.animation = "scrollUp 42s linear forwards";
+          addSectionTimer("s7", () => {
+            const photo = document.getElementById("tsuji-photo");
+            if (photo) { photo.style.transition = "opacity 4s ease-in"; photo.style.opacity = "1"; }
+          }, 25000);
+        } else {
+          cancelSection("s7");
+          resetScroll("tsuji-scroll"); resetPhoto("tsuji-photo");
+          if (tsujiRef.current) { tsujiRef.current.style.transition = "none"; tsujiRef.current.style.transform = "scale(1.0) translateY(0px)"; }
+        }
+      });
+    }, fullViewOpts);
+
+    const s2el = document.getElementById("section-2");
+    if (s2el) s2Observer.observe(s2el);
+    const s3el = document.getElementById("section-3");
+    if (s3el) s3Observer.observe(s3el);
+    const s4el = document.getElementById("section-4");
+    if (s4el) s4Observer.observe(s4el);
+    const s5el = document.getElementById("section-5");
+    if (s5el) s5Observer.observe(s5el);
+    const s6el = document.getElementById("section-6");
+    if (s6el) s6Observer.observe(s6el);
     const s7el = document.getElementById("section-7");
     if (s7el) s7Observer.observe(s7el);
 
     return () => {
       clearTimeout(t2);
-      cancelNext();
-      cancelAll();
+      cancelTransition();
+      Object.values(sectionTimers).flat().forEach(clearTimeout);
       s2Observer.disconnect();
       s3Observer.disconnect();
       s4Observer.disconnect();
@@ -469,14 +495,14 @@ export default function NabariPage() {
             <div id="masuda-scroll" className="absolute w-full text-center px-8" style={{ transform: "translateY(100vh)" }}>
               <div className="py-16 flex flex-col items-center gap-8">
                 <p className="text-xl tracking-[0.5em]" style={{ color: "#c04444" }}>九月二十七日　朝</p>
-                <div className="flex flex-col items-center gap-[1.5em] text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70">
+                <div className="flex flex-col items-center gap-[2.5em] text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70">
                   <span>岡村繁次郎と富森高太郎に案内されて、</span>
                   <span>乱歩は桝田医院を訪ねた。</span>
                 </div>
                 <p className="text-xl md:text-3xl font-light tracking-widest text-[#f0ebe0]">
                   自分が生まれた借家は、もうそこにはなかった。
                 </p>
-                <div className="flex flex-col items-center gap-[1.5em] text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70">
+                <div className="flex flex-col items-center gap-[2.5em] text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70">
                   <span>昭和二十六年——</span>
                   <span>この建物は横山家から桝田医師の手に渡っていた。</span>
                   <span>乱歩は、建て替えられた本宅の二階に案内された。</span>
@@ -514,18 +540,18 @@ export default function NabariPage() {
             <div id="river-scroll" className="absolute w-full text-center px-8" style={{ transform: "translateY(100vh)" }}>
               <div className="py-16 flex flex-col items-center gap-8">
                 <p className="text-xl tracking-[0.5em]" style={{ color: "#c04444" }}>九月二十七日　午後</p>
-                <div className="flex flex-col items-center gap-[1.5em] text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70">
+                <div className="flex flex-col items-center gap-[2.5em] text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70">
                   <span>桝田医院から辻酒店に向かう前に、</span>
                   <span>乱歩は河原に出てみた。</span>
                 </div>
-                <div className="flex flex-col items-center gap-[1.5em] text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70">
+                <div className="flex flex-col items-center gap-[2.5em] text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70">
                   <span>川までの石組みがしてあって、</span>
                   <span>洗濯ができるようになっている。</span>
                 </div>
                 <p className="text-xl md:text-3xl font-light tracking-widest text-[#f0ebe0]">
                   母は毎日ここにきて洗濯していたのだ。
                 </p>
-                <div className="flex flex-col items-center gap-[1.5em] text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/60">
+                <div className="flex flex-col items-center gap-[2.5em] text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/60">
                   <span>乱歩は当時の母の様子を思いながら、</span>
                   <span className="text-xl md:text-3xl font-light tracking-widest" style={{ color: "#c04444" }}>故郷の空を見上げた。</span>
                 </div>
@@ -562,15 +588,15 @@ export default function NabariPage() {
             <div id="tsuji-scroll" className="absolute w-full text-center px-8" style={{ transform: "translateY(100vh)" }}>
               <div className="py-20 flex flex-col items-center gap-8">
                 <p className="text-xl tracking-[0.5em]" style={{ color: "#c04444" }}>九月二十七日　午後</p>
-                <div className="flex flex-col items-center gap-[1.5em] text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/80">
+                <div className="flex flex-col items-center gap-[2.5em] text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/80">
                   <span>乱歩は辻酒店を訪れた。</span>
                   <span>辻せきとの、五十七年ぶりの再会である。</span>
                 </div>
-                <div className="flex flex-col items-center gap-[1.5em] text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/60 my-4">
-                  <span>「これが横山にいた平井さんの息子さんだ」</span>
+                <div className="flex flex-col items-center gap-[2.5em] text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/60 my-4">
+                  <span>「こちらは横山にいた平井さんの息子さんだ」</span>
                   <span className="text-2xl md:text-3xl text-[#f0ebe0]/90">「まあ。大きくおなりなさって」</span>
                 </div>
-                <div className="flex flex-col items-center gap-[1.5em] text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70">
+                <div className="flex flex-col items-center gap-[2.5em] text-base md:text-xl font-light tracking-wider text-[#f0ebe0]/70">
                   <span>乱歩に会ったせきの、第一声だった。</span>
                   <span>前にみたのは、赤ん坊の乱歩だったのだから。</span>
                 </div>
@@ -578,11 +604,15 @@ export default function NabariPage() {
                 <p className="text-base tracking-[0.5em] text-[#f0ebe0]/60">せきの日記より</p>
                 <div className="h-4" />
                 <p className="text-base tracking-[0.3em] text-[#f0ebe0]/70">昭和二十七年　九月二十七日</p>
-                <div className="flex flex-col items-center gap-[1.5em] text-xl md:text-3xl font-light tracking-widest text-[#f0ebe0]/80">
-                  <span>本名平井太郎君　江戸川乱歩さん、</span>
+                <div className="flex flex-col items-center gap-[2.5em] text-xl md:text-3xl font-light tracking-widest text-[#f0ebe0]/80">
+                  <span>本名平井太郎君　江戸川らん歩さん、</span>
                   <span>お母さんの乳房にすがる姿</span>
                 </div>
                 <p className="text-xl md:text-3xl font-light tracking-widest mt-4" style={{ color: "#c04444" }}>目に浮かぶ。</p>
+                <div className="flex flex-col items-center gap-[2.5em] text-lg md:text-2xl font-light tracking-wider text-[#f0ebe0]/60 mt-6">
+                  <span>今は五十九才</span>
+                  <span>さすが有名の人物と見受けた</span>
+                </div>
               </div>
             </div>
           </div>
