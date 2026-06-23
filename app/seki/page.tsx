@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 
 // 表紙 + 本文64枚
 const pages: { photo: string; text?: string }[] = [
-  { photo: "/images/seki/seki-diary01.png" }, // 表紙
+  { photo: "/images/seki/seki-diary01.png", text: "/images/seki/seki-00L.png" }, // 表紙
   ...Array.from({ length: 64 }, (_, i) => {
     const n = String(i + 1).padStart(2, "0");
     return {
@@ -18,13 +18,19 @@ export default function SekiPage() {
   const [diaryOpen, setDiaryOpen] = useState(false);
   const [pageIdx, setPageIdx] = useState(0);
   const [textRevealed, setTextRevealed] = useState(false);
-  const [adjScale, setAdjScale] = useState(1.10);
-  const [adjX, setAdjX] = useState(21);
-  const [adjY, setAdjY] = useState(14);
-  const [adjOpacity, setAdjOpacity] = useState(1.0);
+  const [adjScale, setAdjScale] = useState(() => Number(localStorage.getItem("adj_scale") || 1.10));
+  const [adjX, setAdjX] = useState(() => Number(localStorage.getItem("adj_x") || 21));
+  const [adjY, setAdjY] = useState(() => Number(localStorage.getItem("adj_y") || 14));
+  const [adj0Scale, setAdj0Scale] = useState(() => Number(localStorage.getItem("adj0_scale") || 1.22));
+  const [adj0X, setAdj0X] = useState(() => Number(localStorage.getItem("adj0_x") || -14));
+  const [adj0Y, setAdj0Y] = useState(() => Number(localStorage.getItem("adj0_y") || 20));
+  const [adjOpacity, setAdjOpacity] = useState(() => Number(localStorage.getItem("adj_opacity") || 1.0));
   const [showAdj, setShowAdj] = useState(false);
 
-  const setAdj = (set: (v: number) => void) => (v: number) => set(v);
+  const setAdj = (set: (v: number) => void, key?: string) => (v: number) => {
+    if (key) localStorage.setItem(key, String(v));
+    set(v);
+  };
   const revealTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const touchStartX = useRef<number | null>(null);
   const swipeRef = useRef<HTMLDivElement>(null);
@@ -95,7 +101,7 @@ export default function SekiPage() {
             />
             {pages[pageIdx].text && (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={pages[pageIdx].text} alt="活字" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", transform: `scale(${adjScale}) translateX(${adjX}px) translateY(${adjY}px)`, transformOrigin: "center center", opacity: textRevealed ? adjOpacity : 0, transition: "opacity 1.5s ease-in", pointerEvents: "none", mixBlendMode: "multiply" }} />
+              <img src={pages[pageIdx].text} alt="活字" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "contain", transform: pageIdx === 0 ? `scale(${adj0Scale}) translateX(${adj0X}px) translateY(${adj0Y}px)` : `scale(${adjScale}) translateX(${adjX}px) translateY(${adjY}px)`, transformOrigin: "center center", opacity: textRevealed ? (pageIdx === 0 ? 0.70 : adjOpacity) : 0, transition: "opacity 1.5s ease-in", pointerEvents: "none", mixBlendMode: pageIdx === 0 ? "normal" : "multiply" }} />
             )}
           </div>
 
@@ -123,12 +129,19 @@ export default function SekiPage() {
         <button onClick={() => setShowAdj(v => !v)} style={{ position: "fixed", bottom: 16, right: 16, zIndex: 100, background: "rgba(255,255,255,0.15)", color: "white", border: "none", borderRadius: 6, padding: "6px 12px", fontSize: 12, cursor: "pointer" }}>調整</button>
         {showAdj && (
           <div style={{ position: "fixed", bottom: 50, right: 16, zIndex: 100, background: "rgba(0,0,0,0.85)", color: "white", padding: 16, borderRadius: 8, fontSize: 12, minWidth: 260, display: "flex", flexDirection: "column", gap: 10 }}>
-            {([
-              { label: "拡大率", value: adjScale, set: setAdj(setAdjScale), min: 0.80, max: 1.50, step: 0.01, fix: 2 },
-              { label: "左右(px)", value: adjX, set: setAdj(setAdjX), min: -200, max: 200, step: 1, fix: 0 },
-              { label: "上下(px)", value: adjY, set: setAdj(setAdjY), min: -200, max: 200, step: 1, fix: 0 },
-              { label: "透明度", value: adjOpacity, set: setAdj(setAdjOpacity), min: 0.1, max: 1.0, step: 0.05, fix: 2 },
-            ] as { label: string; value: number; set: (v: number) => void; min: number; max: number; step: number; fix: number }[]).map(({ label, value, set, min, max, step, fix }) => (
+            {(pageIdx === 0
+              ? ([
+                  { label: "拡大率", value: adj0Scale, set: setAdj(setAdj0Scale, "adj0_scale"), min: 0.50, max: 1.50, step: 0.01, fix: 2 },
+                  { label: "左右(px)", value: adj0X, set: setAdj(setAdj0X, "adj0_x"), min: -200, max: 200, step: 1, fix: 0 },
+                  { label: "上下(px)", value: adj0Y, set: setAdj(setAdj0Y, "adj0_y"), min: -200, max: 200, step: 1, fix: 0 },
+                ] as { label: string; value: number; set: (v: number) => void; min: number; max: number; step: number; fix: number }[])
+              : ([
+                  { label: "拡大率", value: adjScale, set: setAdj(setAdjScale, "adj_scale"), min: 0.80, max: 1.50, step: 0.01, fix: 2 },
+                  { label: "左右(px)", value: adjX, set: setAdj(setAdjX, "adj_x"), min: -200, max: 200, step: 1, fix: 0 },
+                  { label: "上下(px)", value: adjY, set: setAdj(setAdjY, "adj_y"), min: -200, max: 200, step: 1, fix: 0 },
+                  { label: "透明度", value: adjOpacity, set: setAdj(setAdjOpacity, "adj_opacity"), min: 0.1, max: 1.0, step: 0.05, fix: 2 },
+                ] as { label: string; value: number; set: (v: number) => void; min: number; max: number; step: number; fix: number }[])
+            ).map(({ label, value, set, min, max, step, fix }) => (
               <label key={label} style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                 <span>{label}</span>
                 <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
@@ -137,7 +150,7 @@ export default function SekiPage() {
                 </div>
               </label>
             ))}
-            <div style={{ color: "#aaa", fontSize: 11 }}>scale({adjScale.toFixed(2)}) X({adjX}px) Y({adjY}px) opacity({adjOpacity.toFixed(2)})</div>
+            <div style={{ color: "#aaa", fontSize: 11 }}>{pageIdx === 0 ? `scale(${adj0Scale.toFixed(2)}) X(${adj0X}px) Y(${adj0Y}px)` : `scale(${adjScale.toFixed(2)}) X(${adjX}px) Y(${adjY}px) opacity(${adjOpacity.toFixed(2)})`}</div>
           </div>
         )}
       </div>
