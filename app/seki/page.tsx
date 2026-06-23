@@ -9,7 +9,7 @@ const pages: { photo: string; text?: string }[] = [
     const n = String(i + 1).padStart(2, "0");
     return {
       photo: `/images/seki/seki-${n}.jpg`,
-      // text: `/images/seki/seki-${n}-text.png`, // 活字オーバーレイ（準備でき次第コメントアウト解除）
+      text: i === 0 ? `/images/seki/seki-001L.png` : undefined,
     };
   }),
 ];
@@ -105,23 +105,10 @@ export default function SekiPage() {
                 boxShadow: "0 4px 24px rgba(0,0,0,0.8)",
               }}
             />
-            {/* 活字オーバーレイ：textファイルがある場合のみ、2秒後にフェードイン */}
+            {/* 活字オーバーレイ：2層で赤文字を実現 */}
             {pages[pageIdx].text && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={pages[pageIdx].text}
-                alt="活字"
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "contain",
-                  opacity: textRevealed ? 1 : 0,
-                  transition: "opacity 1.5s ease-in",
-                  pointerEvents: "none",
-                }}
-              />
+// eslint-disable-next-line @next/next/no-img-element
+              <img src={pages[pageIdx].text} alt="活字" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", opacity: textRevealed ? 0.65 : 0, transition: "opacity 1.5s ease-in", pointerEvents: "none" }} />
             )}
           </div>
 
