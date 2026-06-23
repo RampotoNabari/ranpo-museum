@@ -21,7 +21,7 @@ export default function SekiPage() {
   const [adjScale, setAdjScale] = useState(1.10);
   const [adjX, setAdjX] = useState(21);
   const [adjY, setAdjY] = useState(14);
-  const [adjOpacity, setAdjOpacity] = useState(0.70);
+  const [adjOpacity, setAdjOpacity] = useState(1.0);
   const [showAdj, setShowAdj] = useState(false);
 
   const setAdj = (set: (v: number) => void) => (v: number) => set(v);
@@ -95,7 +95,7 @@ export default function SekiPage() {
             />
             {pages[pageIdx].text && (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={pages[pageIdx].text} alt="活字" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", transform: `scale(${adjScale}) translateX(${adjX}px) translateY(${adjY}px)`, transformOrigin: "center center", opacity: textRevealed ? adjOpacity : 0, transition: "opacity 1.5s ease-in", pointerEvents: "none", mixBlendMode: "normal" }} />
+              <img src={pages[pageIdx].text} alt="活字" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", transform: `scale(${adjScale}) translateX(${adjX}px) translateY(${adjY}px)`, transformOrigin: "center center", opacity: textRevealed ? adjOpacity : 0, transition: "opacity 1.5s ease-in", pointerEvents: "none", mixBlendMode: "multiply" }} />
             )}
           </div>
 
