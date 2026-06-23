@@ -146,14 +146,14 @@ export default function SekiPage() {
 
   const fi = (delay: number): React.CSSProperties => ({
     opacity: 0,
-    animation: "fadeIn 1.2s ease-out forwards",
-    animationDelay: `${delay}s`,
+    animation: "fadeIn 0.72s ease-out forwards",
+    animationDelay: `${delay * 0.6}s`,
   });
 
   return (
     <main className="min-h-screen bg-black flex items-center justify-center">
-      <div className="flex flex-col items-center gap-12 px-8 text-center">
-        <div className="flex flex-col items-center gap-6">
+      <div className="flex flex-col items-center gap-7 px-8 text-center">
+        <div className="flex flex-col items-center gap-3">
           <p className="text-xl md:text-2xl font-light tracking-widest text-white/50 leading-loose" style={fi(0)}>八十八の手習の</p>
           <p className="text-xl md:text-2xl font-light tracking-widest text-white/50 leading-loose" style={fi(0.5)}>日記のさまを</p>
           <p className="text-xl md:text-2xl font-light tracking-widest text-white/50 leading-loose" style={fi(1.0)}>誰か読むべき</p>
@@ -161,7 +161,7 @@ export default function SekiPage() {
 
         <p className="text-3xl md:text-4xl tracking-[0.4em] text-white/85" style={fi(1.5)}>辻せき</p>
 
-        <div className="flex flex-col items-center gap-3 text-[#c0392b] tracking-[0.25em]">
+        <div className="flex flex-col items-center gap-2 text-[#c0392b] tracking-[0.25em]">
           <p className="text-base md:text-lg" style={fi(2.0)}>慶応三年十二月二十一日</p>
           <p className="text-2xl leading-none" style={fi(2.5)}>|</p>
           <p className="text-base md:text-lg" style={fi(3.0)}>昭和三十二年八月二十四日</p>
@@ -169,12 +169,12 @@ export default function SekiPage() {
 
         <div className="text-white/50 text-base md:text-lg tracking-[0.4em]">
           <p style={fi(3.5)}>慶応三年（1867年）</p>
-          <p className="mt-2" style={fi(4.0)}>三重県名張　横山家に生まれる</p>
+          <p className="mt-1" style={fi(4.0)}>三重県名張　横山家に生まれる</p>
         </div>
 
         <button
           onClick={() => setDiaryOpen(true)}
-          className="mt-4 text-xs tracking-[0.35em] text-white/50 border border-white/20 px-10 py-3 hover:text-white hover:border-white/50 transition-colors duration-300 whitespace-nowrap"
+          className="mt-2 text-xs tracking-[0.35em] text-white/50 border border-white/20 px-10 py-3 hover:text-white hover:border-white/50 transition-colors duration-300 whitespace-nowrap"
           style={fi(4.5)}
         >
           日記を読む
