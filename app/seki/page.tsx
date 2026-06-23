@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 
 // 表紙 + 本文64枚
 const pages: { photo: string; text?: string }[] = [
-  { photo: "/images/seki/seki-diary01.png", text: "/images/seki/seki-00L.png" }, // 表紙
+  { photo: "/images/seki/seki-diary01.png" }, // 表紙
   ...Array.from({ length: 64 }, (_, i) => {
     const n = String(i + 1).padStart(2, "0");
     return {
