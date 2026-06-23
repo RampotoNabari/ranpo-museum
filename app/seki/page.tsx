@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 
 // 表紙 + 本文64枚
 const pages: { photo: string; text?: string }[] = [
-  { photo: "/images/seki/seki-diary01.png" }, // 表紙
+  { photo: "/images/seki/seki-diary01.png", text: "/images/seki/seki-00L.png" }, // 表紙
   ...Array.from({ length: 64 }, (_, i) => {
     const n = String(i + 1).padStart(2, "0");
     return {
@@ -101,10 +101,15 @@ export default function SekiPage() {
               alt={`${pageIdx}ページ`}
               style={{ display: "block", width: "100%", height: "100%", objectFit: "contain", boxShadow: "0 4px 24px rgba(0,0,0,0.8)" }}
             />
-            {pages[pageIdx].text && (
+            {pages[pageIdx].text && (pageIdx === 0 ? (
+              <div style={{ position: "absolute", top: 0, bottom: 0, left: "23.36%", right: "23.36%", overflow: "hidden", opacity: textRevealed ? 0.70 : 0, transition: "opacity 1.5s ease-in", pointerEvents: "none" }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={pages[pageIdx].text} alt="活字" style={{ width: "100%", height: "100%", objectFit: "contain", transform: `scale(${adj0Scale}) translateX(${adj0X}px) translateY(${adj0Y}px)`, transformOrigin: "center center" }} />
+              </div>
+            ) : (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={pages[pageIdx].text} alt="活字" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: pageIdx === 0 ? "contain" : "fill", transform: pageIdx === 0 ? `scale(${adj0Scale}) translateX(${adj0X}px) translateY(${adj0Y}px)` : `scale(${adjScale}) translateX(${adjX}px) translateY(${adjY}px)`, transformOrigin: "center center", opacity: textRevealed ? adjOpacity : 0, transition: "opacity 1.5s ease-in", pointerEvents: "none", mixBlendMode: "multiply" }} />
-            )}
+              <img src={pages[pageIdx].text} alt="活字" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", transform: `scale(${adjScale}) translateX(${adjX}px) translateY(${adjY}px)`, transformOrigin: "center center", opacity: textRevealed ? adjOpacity : 0, transition: "opacity 1.5s ease-in", pointerEvents: "none", mixBlendMode: "normal" }} />
+            ))}
           </div>
 
           <button
@@ -131,27 +136,36 @@ export default function SekiPage() {
         <button onClick={() => setShowAdj(v => !v)} style={{ position: "fixed", bottom: 16, right: 16, zIndex: 100, background: "rgba(255,255,255,0.15)", color: "white", border: "none", borderRadius: 6, padding: "6px 12px", fontSize: 12, cursor: "pointer" }}>調整</button>
         {showAdj && (
           <div style={{ position: "fixed", bottom: 50, right: 16, zIndex: 100, background: "rgba(0,0,0,0.85)", color: "white", padding: 16, borderRadius: 8, fontSize: 12, minWidth: 260, display: "flex", flexDirection: "column", gap: 10 }}>
-            {(pageIdx === 0
-              ? ([
-                  { label: "拡大率", value: adj0Scale, set: setAdj(setAdj0Scale, "adj0_scale"), min: 0.50, max: 1.50, step: 0.01, fix: 2 },
-                  { label: "左右(px)", value: adj0X, set: setAdj(setAdj0X, "adj0_x"), min: -200, max: 200, step: 1, fix: 0 },
-                  { label: "上下(px)", value: adj0Y, set: setAdj(setAdj0Y, "adj0_y"), min: -200, max: 200, step: 1, fix: 0 },
-                ] as { label: string; value: number; set: (v: number) => void; min: number; max: number; step: number; fix: number }[])
-              : ([
-                  { label: "拡大率", value: adjScale, set: setAdj(setAdjScale, "adj_scale"), min: 0.80, max: 1.50, step: 0.01, fix: 2 },
-                  { label: "左右(px)", value: adjX, set: setAdj(setAdjX, "adj_x"), min: -200, max: 200, step: 1, fix: 0 },
-                  { label: "上下(px)", value: adjY, set: setAdj(setAdjY, "adj_y"), min: -200, max: 200, step: 1, fix: 0 },
-                  { label: "透明度", value: adjOpacity, set: setAdj(setAdjOpacity, "adj_opacity"), min: 0.1, max: 1.0, step: 0.05, fix: 2 },
-                ] as { label: string; value: number; set: (v: number) => void; min: number; max: number; step: number; fix: number }[])
-            ).map(({ label, value, set, min, max, step, fix }) => (
-              <label key={label} style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                <span>{label}</span>
-                <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-                  <input type="range" min={min} max={max} step={step} value={value} onChange={e => set(Number(e.target.value))} style={{ flex: 1 }} />
-                  <input type="number" min={min} max={max} step={step} value={Number(value.toFixed(fix))} onChange={e => set(Number(e.target.value))} style={{ width: 60, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.3)", color: "white", borderRadius: 4, padding: "2px 4px", fontSize: 12 }} />
-                </div>
-              </label>
-            ))}
+            {pageIdx === 0 ? (<>
+              {[
+                { label: "拡大率", value: adj0Scale, onChange: (v: number) => { setAdj0Scale(v); if (typeof window !== "undefined") localStorage.setItem("adj0_scale", String(v)); }, min: 0.50, max: 1.50, step: 0.01, fix: 2 },
+                { label: "左右(px)", value: adj0X, onChange: (v: number) => { setAdj0X(v); if (typeof window !== "undefined") localStorage.setItem("adj0_x", String(v)); }, min: -200, max: 200, step: 1, fix: 0 },
+                { label: "上下(px)", value: adj0Y, onChange: (v: number) => { setAdj0Y(v); if (typeof window !== "undefined") localStorage.setItem("adj0_y", String(v)); }, min: -200, max: 200, step: 1, fix: 0 },
+              ].map(({ label, value, onChange, min, max, step, fix }) => (
+                <label key={label} style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                  <span>{label}</span>
+                  <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                    <input type="range" min={min} max={max} step={step} value={value} onChange={e => onChange(Number(e.target.value))} style={{ flex: 1 }} />
+                    <input type="number" min={min} max={max} step={step} value={Number(value.toFixed(fix))} onChange={e => onChange(Number(e.target.value))} style={{ width: 60, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.3)", color: "white", borderRadius: 4, padding: "2px 4px", fontSize: 12 }} />
+                  </div>
+                </label>
+              ))}
+            </>) : (<>
+              {[
+                { label: "拡大率", value: adjScale, onChange: (v: number) => { setAdjScale(v); if (typeof window !== "undefined") localStorage.setItem("adj_scale", String(v)); }, min: 0.80, max: 1.50, step: 0.01, fix: 2 },
+                { label: "左右(px)", value: adjX, onChange: (v: number) => { setAdjX(v); if (typeof window !== "undefined") localStorage.setItem("adj_x", String(v)); }, min: -200, max: 200, step: 1, fix: 0 },
+                { label: "上下(px)", value: adjY, onChange: (v: number) => { setAdjY(v); if (typeof window !== "undefined") localStorage.setItem("adj_y", String(v)); }, min: -200, max: 200, step: 1, fix: 0 },
+                { label: "透明度", value: adjOpacity, onChange: (v: number) => { setAdjOpacity(v); if (typeof window !== "undefined") localStorage.setItem("adj_opacity", String(v)); }, min: 0.1, max: 1.0, step: 0.05, fix: 2 },
+              ].map(({ label, value, onChange, min, max, step, fix }) => (
+                <label key={label} style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                  <span>{label}</span>
+                  <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                    <input type="range" min={min} max={max} step={step} value={value} onChange={e => onChange(Number(e.target.value))} style={{ flex: 1 }} />
+                    <input type="number" min={min} max={max} step={step} value={Number(value.toFixed(fix))} onChange={e => onChange(Number(e.target.value))} style={{ width: 60, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.3)", color: "white", borderRadius: 4, padding: "2px 4px", fontSize: 12 }} />
+                  </div>
+                </label>
+              ))}
+            </>)}
             <div style={{ color: "#aaa", fontSize: 11 }}>{pageIdx === 0 ? `scale(${adj0Scale.toFixed(2)}) X(${adj0X}px) Y(${adj0Y}px)` : `scale(${adjScale.toFixed(2)}) X(${adjX}px) Y(${adjY}px) opacity(${adjOpacity.toFixed(2)})`}</div>
           </div>
         )}
