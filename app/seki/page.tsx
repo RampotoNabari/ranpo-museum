@@ -18,20 +18,33 @@ export default function SekiPage() {
   const [diaryOpen, setDiaryOpen] = useState(false);
   const [pageIdx, setPageIdx] = useState(0);
   const [textRevealed, setTextRevealed] = useState(false);
+  const pageAdj: Record<number, [number, number, number]> = {
+    1: [1.12, 21, 14],
+    2: [1.34, 15, 7],
+  };
   const ls = (key: string, def: number) => typeof window !== "undefined" ? Number(localStorage.getItem(key) || def) : def;
-  const [adjScale, setAdjScale] = useState(() => ls("adj_scale", 1.12));
-  const [adjX, setAdjX] = useState(() => ls("adj_x", 21));
-  const [adjY, setAdjY] = useState(() => ls("adj_y", 14));
+  const getAdj = (idx: number) => pageAdj[idx] ?? pageAdj[1] ?? [1.12, 21, 14];
+  const [adjScale, setAdjScale] = useState(() => { const d = getAdj(1); return ls("adj_scale_1", d[0]); });
+  const [adjX, setAdjX] = useState(() => { const d = getAdj(1); return ls("adj_x_1", d[1]); });
+  const [adjY, setAdjY] = useState(() => { const d = getAdj(1); return ls("adj_y_1", d[2]); });
   const [adj0Scale, setAdj0Scale] = useState(() => ls("adj0_scale", 1.22));
   const [adj0X, setAdj0X] = useState(() => ls("adj0_x", -14));
   const [adj0Y, setAdj0Y] = useState(() => ls("adj0_y", 20));
-  const [adjOpacity, setAdjOpacity] = useState(() => ls("adj_opacity", 0.60));
+  const [adjOpacity, setAdjOpacity] = useState(0.60);
   const [showAdj, setShowAdj] = useState(false);
 
   const setAdj = (set: (v: number) => void, key?: string) => (v: number) => {
     if (key && typeof window !== "undefined") localStorage.setItem(key, String(v));
     set(v);
   };
+  useEffect(() => {
+    if (pageIdx === 0) return;
+    const d = getAdj(pageIdx);
+    setAdjScale(ls(`adj_scale_${pageIdx}`, d[0]));
+    setAdjX(ls(`adj_x_${pageIdx}`, d[1]));
+    setAdjY(ls(`adj_y_${pageIdx}`, d[2]));
+  }, [pageIdx]);
+
   const revealTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const touchStartX = useRef<number | null>(null);
   const swipeRef = useRef<HTMLDivElement>(null);
@@ -152,9 +165,9 @@ export default function SekiPage() {
               ))}
             </>) : (<>
               {[
-                { label: "拡大率", value: adjScale, onChange: (v: number) => { setAdjScale(v); if (typeof window !== "undefined") localStorage.setItem("adj_scale", String(v)); }, min: 0.80, max: 1.50, step: 0.01, fix: 2 },
-                { label: "左右(px)", value: adjX, onChange: (v: number) => { setAdjX(v); if (typeof window !== "undefined") localStorage.setItem("adj_x", String(v)); }, min: -200, max: 200, step: 1, fix: 0 },
-                { label: "上下(px)", value: adjY, onChange: (v: number) => { setAdjY(v); if (typeof window !== "undefined") localStorage.setItem("adj_y", String(v)); }, min: -200, max: 200, step: 1, fix: 0 },
+                { label: "拡大率", value: adjScale, onChange: (v: number) => { setAdjScale(v); if (typeof window !== "undefined") localStorage.setItem(`adj_scale_${pageIdx}`, String(v)); }, min: 0.80, max: 1.50, step: 0.01, fix: 2 },
+                { label: "左右(px)", value: adjX, onChange: (v: number) => { setAdjX(v); if (typeof window !== "undefined") localStorage.setItem(`adj_x_${pageIdx}`, String(v)); }, min: -200, max: 200, step: 1, fix: 0 },
+                { label: "上下(px)", value: adjY, onChange: (v: number) => { setAdjY(v); if (typeof window !== "undefined") localStorage.setItem(`adj_y_${pageIdx}`, String(v)); }, min: -200, max: 200, step: 1, fix: 0 },
                 { label: "透明度", value: adjOpacity, onChange: (v: number) => { setAdjOpacity(v); if (typeof window !== "undefined") localStorage.setItem("adj_opacity", String(v)); }, min: 0.1, max: 1.0, step: 0.05, fix: 2 },
               ].map(({ label, value, onChange, min, max, step, fix }) => (
                 <label key={label} style={{ display: "flex", flexDirection: "column", gap: 4 }}>
