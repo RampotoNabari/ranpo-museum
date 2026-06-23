@@ -18,16 +18,19 @@ export default function SekiPage() {
   const [diaryOpen, setDiaryOpen] = useState(false);
   const [pageIdx, setPageIdx] = useState(0);
   const [textRevealed, setTextRevealed] = useState(false);
+  const [adjScale] = useState(1.10);
+  const [adjX] = useState(21);
+  const [adjY] = useState(14);
+  const [adjOpacity] = useState(0.65);
+  const [showAdj, setShowAdj] = useState(false);
   const revealTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const touchStartX = useRef<number | null>(null);
   const swipeRef = useRef<HTMLDivElement>(null);
 
-  // ページが変わったらスキャンのみ表示→2秒後に活字を展開
   useEffect(() => {
     if (!diaryOpen) return;
     setTextRevealed(false);
     if (revealTimer.current) clearTimeout(revealTimer.current);
-    // 表紙（0ページ目）は分割不要なのですぐ全表示
     if (pageIdx === 0) { setTextRevealed(true); return; }
     revealTimer.current = setTimeout(() => setTextRevealed(true), 2000);
     return () => { if (revealTimer.current) clearTimeout(revealTimer.current); };
@@ -36,17 +39,11 @@ export default function SekiPage() {
   useEffect(() => {
     const el = swipeRef.current;
     if (!el) return;
-
-    const onTouchStart = (e: TouchEvent) => {
-      touchStartX.current = e.touches[0].clientX;
-    };
-
+    const onTouchStart = (e: TouchEvent) => { touchStartX.current = e.touches[0].clientX; };
     const onTouchMove = (e: TouchEvent) => {
       if (touchStartX.current === null) return;
-      const diff = Math.abs(touchStartX.current - e.touches[0].clientX);
-      if (diff > 10) e.preventDefault(); // 横スワイプ中はページスクロールを止める
+      if (Math.abs(touchStartX.current - e.touches[0].clientX) > 10) e.preventDefault();
     };
-
     const onTouchEnd = (e: TouchEvent) => {
       if (touchStartX.current === null) return;
       const diff = touchStartX.current - e.changedTouches[0].clientX;
@@ -56,7 +53,6 @@ export default function SekiPage() {
       }
       touchStartX.current = null;
     };
-
     el.addEventListener("touchstart", onTouchStart, { passive: true });
     el.addEventListener("touchmove", onTouchMove, { passive: false });
     el.addEventListener("touchend", onTouchEnd, { passive: true });
@@ -67,15 +63,11 @@ export default function SekiPage() {
     };
   }, [diaryOpen]);
 
-  // 全画面：1ページずつ表示
   if (diaryOpen) {
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center select-none py-8">
 
-        {/* 画像エリア：ボタン固定＋黒枠 */}
         <div ref={swipeRef} style={{ position: "relative", width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
-
-          {/* 左ボタン：固定位置 */}
           <button
             onClick={() => setPageIdx(p => Math.max(0, p - 1))}
             disabled={pageIdx === 0}
@@ -83,7 +75,6 @@ export default function SekiPage() {
             className="text-2xl text-white/40 hover:text-white/80 disabled:opacity-15 disabled:cursor-not-allowed transition-colors duration-300"
           >◀</button>
 
-          {/* 黒枠：横長ページ基準（1.37:1）の固定枠、縦長は両脇に黒が入る */}
           <div style={{
             position: "relative",
             width: "min(680px, calc(100vw - 120px))",
@@ -92,27 +83,20 @@ export default function SekiPage() {
             alignItems: "center",
             justifyContent: "center",
             flexShrink: 0,
+            overflow: "hidden",
           }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={pages[pageIdx].photo}
               alt={`${pageIdx}ページ`}
-              style={{
-                display: "block",
-                width: "100%",
-                height: "100%",
-                objectFit: "contain",
-                boxShadow: "0 4px 24px rgba(0,0,0,0.8)",
-              }}
+              style={{ display: "block", width: "100%", height: "100%", objectFit: "contain", boxShadow: "0 4px 24px rgba(0,0,0,0.8)" }}
             />
-            {/* 活字オーバーレイ：2層で赤文字を実現 */}
             {pages[pageIdx].text && (
-// eslint-disable-next-line @next/next/no-img-element
-              <img src={pages[pageIdx].text} alt="活字" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", transform: "scale(1.03) translateY(3px)", transformOrigin: "center top", opacity: textRevealed ? 0.65 : 0, transition: "opacity 1.5s ease-in", pointerEvents: "none" }} />
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={pages[pageIdx].text} alt="活字" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "fill", transform: `scale(${adjScale}) translateX(${adjX}px) translateY(${adjY}px)`, transformOrigin: "center center", opacity: textRevealed ? adjOpacity : 0, transition: "opacity 1.5s ease-in", pointerEvents: "none" }} />
             )}
           </div>
 
-          {/* 右ボタン：固定位置 */}
           <button
             onClick={() => setPageIdx(p => Math.min(pages.length - 1, p + 1))}
             disabled={pageIdx === pages.length - 1}
@@ -121,7 +105,6 @@ export default function SekiPage() {
           >▶</button>
         </div>
 
-        {/* ページ情報（下） */}
         <div className="mt-6 text-center">
           <p className="text-xs tracking-[0.5em] text-white/30">せきの日記</p>
           <div className="flex gap-1.5 flex-wrap justify-center mt-3 max-w-[160px] mx-auto">
@@ -134,10 +117,30 @@ export default function SekiPage() {
 
         <button onClick={() => { setDiaryOpen(false); setPageIdx(0); }}
           className="mt-6 text-xs tracking-[0.3em] text-white/20 hover:text-white/40 transition-colors duration-300">← 表紙へ</button>
+
+        <button onClick={() => setShowAdj(v => !v)} style={{ position: "fixed", bottom: 16, right: 16, zIndex: 100, background: "rgba(255,255,255,0.15)", color: "white", border: "none", borderRadius: 6, padding: "6px 12px", fontSize: 12, cursor: "pointer" }}>調整</button>
+        {showAdj && (
+          <div style={{ position: "fixed", bottom: 50, right: 16, zIndex: 100, background: "rgba(0,0,0,0.85)", color: "white", padding: 16, borderRadius: 8, fontSize: 12, minWidth: 260, display: "flex", flexDirection: "column", gap: 10 }}>
+            {([
+              { label: "拡大率", value: adjScale, set: setAdj("adj_scale", setAdjScale), min: 0.80, max: 1.50, step: 0.01, fix: 2 },
+              { label: "左右(px)", value: adjX, set: setAdj("adj_x", setAdjX), min: -200, max: 200, step: 1, fix: 0 },
+              { label: "上下(px)", value: adjY, set: setAdj("adj_y", setAdjY), min: -200, max: 200, step: 1, fix: 0 },
+              { label: "透明度", value: adjOpacity, set: setAdj("adj_opacity", setAdjOpacity), min: 0.1, max: 1.0, step: 0.05, fix: 2 },
+            ] as { label: string; value: number; set: (v: number) => void; min: number; max: number; step: number; fix: number }[]).map(({ label, value, set, min, max, step, fix }) => (
+              <label key={label} style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                <span>{label}</span>
+                <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                  <input type="range" min={min} max={max} step={step} value={value} onChange={e => set(Number(e.target.value))} style={{ flex: 1 }} />
+                  <input type="number" min={min} max={max} step={step} value={Number(value.toFixed(fix))} onChange={e => set(Number(e.target.value))} style={{ width: 60, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.3)", color: "white", borderRadius: 4, padding: "2px 4px", fontSize: 12 }} />
+                </div>
+              </label>
+            ))}
+            <div style={{ color: "#aaa", fontSize: 11 }}>scale({adjScale.toFixed(2)}) X({adjX}px) Y({adjY}px) opacity({adjOpacity.toFixed(2)})</div>
+          </div>
+        )}
       </div>
     );
   }
-
 
   const fi = (delay: number): React.CSSProperties => ({
     opacity: 0,
@@ -145,7 +148,6 @@ export default function SekiPage() {
     animationDelay: `${delay}s`,
   });
 
-  // オープニング：詩文＋「日記を読む」ボタン
   return (
     <main className="min-h-screen bg-black flex items-center justify-center">
       <div className="flex flex-col items-center gap-12 px-8 text-center">
