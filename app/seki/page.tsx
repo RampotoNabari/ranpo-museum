@@ -6,10 +6,10 @@ import { useState, useRef, useEffect } from "react";
 const pages: { photo: string; text?: string }[] = [
   { photo: "/images/seki/seki-diary01.png" }, // 表紙
   ...Array.from({ length: 64 }, (_, i) => {
-    const n = String(i + 1).padStart(2, "0");
+    const n = String(i + 1).padStart(3, "0");
     return {
-      photo: `/images/seki/seki-${n}.jpg`,
-      text: i === 0 ? `/images/seki/seki-001L.png` : undefined,
+      photo: `/images/seki/seki-${String(i + 1).padStart(2, "0")}.jpg`,
+      text: `/images/seki/seki-${n}L.png`,
     };
   }),
 ];
