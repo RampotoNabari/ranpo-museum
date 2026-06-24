@@ -13,7 +13,39 @@ export default function NabariPage() {
   const riverBgRef = useRef<HTMLDivElement>(null);
   const tsujiRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
   const [videoBlocked, setVideoBlocked] = useState(false);
+
+  // BGM: フェードアウト開始時刻（秒）と長さ（秒）
+  const BGM_FADE_START = 200; // 3分20秒から
+  const BGM_FADE_DURATION = 20; // 20秒かけてフェード
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.volume = 0.6;
+    audio.play().catch(() => {});
+
+    let fadeInterval: ReturnType<typeof setInterval> | null = null;
+    const onTimeUpdate = () => {
+      if (audio.currentTime >= BGM_FADE_START && !fadeInterval) {
+        fadeInterval = setInterval(() => {
+          const elapsed = audio.currentTime - BGM_FADE_START;
+          const newVol = Math.max(0, 0.6 * (1 - elapsed / BGM_FADE_DURATION));
+          audio.volume = newVol;
+          if (newVol <= 0) {
+            audio.pause();
+            if (fadeInterval) clearInterval(fadeInterval);
+          }
+        }, 200);
+      }
+    };
+    audio.addEventListener("timeupdate", onTimeUpdate);
+    return () => {
+      audio.removeEventListener("timeupdate", onTimeUpdate);
+      if (fadeInterval) clearInterval(fadeInterval);
+    };
+  }, []);
 
   // 動画の自動再生（canplayを待ってから実行）
   useEffect(() => {
@@ -303,6 +335,8 @@ export default function NabariPage() {
 
   return (
     <main className="min-h-screen">
+      {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+      <audio ref={audioRef} src="/audio/kokyounosora.m4a" preload="auto" />
 
       {/* ===== スナップコンテナ（4枚の全画面セクション） ===== */}
       <div
