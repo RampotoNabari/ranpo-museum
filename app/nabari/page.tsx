@@ -14,7 +14,6 @@ export default function NabariPage() {
   const tsujiRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
-  const [videoBlocked, setVideoBlocked] = useState(false);
 
   // BGM: フェードアウト開始時刻（秒）と長さ（秒）
   const BGM_FADE_START = 220; // 3分40秒から
@@ -94,36 +93,6 @@ export default function NabariPage() {
     };
   }, []);
 
-  // 動画の自動再生（canplayを待ってから実行）
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.muted = true;
-
-    const attemptPlay = () => {
-      video.play().catch(() => {
-        // autoplayがブロックされたら再生ボタンを表示
-        setVideoBlocked(true);
-      });
-    };
-
-    // すでに再生可能な状態なら即実行、そうでなければcanplayを待つ
-    if (video.readyState >= 2) {
-      attemptPlay();
-    } else {
-      video.addEventListener("canplay", attemptPlay, { once: true });
-      video.addEventListener("loadeddata", attemptPlay, { once: true });
-    }
-
-    // Safariでイベントが発火しない場合のフォールバック
-    const fallback = setTimeout(attemptPlay, 1000);
-
-    return () => {
-      clearTimeout(fallback);
-      video.removeEventListener("canplay", attemptPlay);
-      video.removeEventListener("loadeddata", attemptPlay);
-    };
-  }, []);
 
   useEffect(() => {
     // 再レンダリング時にJSで変更した値がReactに上書きされないよう初期状態を明示的にセット
@@ -391,21 +360,6 @@ export default function NabariPage() {
       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
       <audio ref={audioRef} src="/audio/kokyounosora.m4a" preload="auto" />
 
-      {videoBlocked && (
-        <button
-          onClick={() => {
-            videoRef.current?.play().then(() => setVideoBlocked(false)).catch(() => {});
-          }}
-          style={{ position: "fixed", inset: 0, zIndex: 50, background: "transparent", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16 }}
-        >
-          <div style={{ width: 64, height: 64, borderRadius: "50%", border: "1px solid rgba(255,255,255,0.4)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="white" style={{ opacity: 0.7, marginLeft: 3 }}>
-              <polygon points="4,2 18,10 4,18" />
-            </svg>
-          </div>
-          <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, letterSpacing: "0.3em" }}>タップして再生</p>
-        </button>
-      )}
 
       {/* ===== スナップコンテナ（4枚の全画面セクション） ===== */}
       <div
