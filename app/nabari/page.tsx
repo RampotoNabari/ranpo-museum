@@ -108,14 +108,20 @@ export default function NabariPage() {
     };
 
     // すでに再生可能な状態なら即実行、そうでなければcanplayを待つ
-    if (video.readyState >= 3) {
+    if (video.readyState >= 2) {
       attemptPlay();
     } else {
       video.addEventListener("canplay", attemptPlay, { once: true });
+      video.addEventListener("loadeddata", attemptPlay, { once: true });
     }
 
+    // Safariでイベントが発火しない場合のフォールバック
+    const fallback = setTimeout(attemptPlay, 1000);
+
     return () => {
+      clearTimeout(fallback);
       video.removeEventListener("canplay", attemptPlay);
+      video.removeEventListener("loadeddata", attemptPlay);
     };
   }, []);
 
