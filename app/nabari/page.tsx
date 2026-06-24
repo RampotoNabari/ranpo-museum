@@ -15,6 +15,13 @@ export default function NabariPage() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
 
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = true;
+    video.play().catch(() => {});
+  }, []);
+
   // BGM: フェードアウト開始時刻（秒）と長さ（秒）
   const BGM_FADE_START = 220; // 3分40秒から
   const BGM_FADE_DURATION = 10; // 10秒かけてフェード
