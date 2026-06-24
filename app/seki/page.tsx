@@ -7,9 +7,10 @@ const pages: { photo: string; text?: string }[] = [
   { photo: "/images/seki/seki-diary01.png", text: "/images/seki/seki-00L.png" }, // 表紙
   ...Array.from({ length: 64 }, (_, i) => {
     const n = String(i + 1).padStart(2, "0");
+    const hasText = i + 1 <= 5; // 活字PNGが存在するページ数（増えたら更新）
     return {
       photo: `/images/seki/seki-${n}.jpg`,
-      text: `/images/seki/seki-${n}L.png`,
+      ...(hasText ? { text: `/images/seki/seki-${n}L.png` } : {}),
     };
   }),
 ];
@@ -24,6 +25,9 @@ export default function SekiPage() {
   const pageAdj: Record<number, [number, number, number]> = {
     1: [1.12, 21, 14],
     2: [1.34, 15, 7],
+    3: [1.37, -20, 31],
+    4: [1.16, -5, 4],
+    5: [1.1, 26, 6],
   };
   const ls = (key: string, def: number) => typeof window !== "undefined" ? Number(localStorage.getItem(key) || def) : def;
   const getAdj = (idx: number) => pageAdj[idx] ?? pageAdj[1] ?? [1.12, 21, 14];
@@ -129,7 +133,7 @@ export default function SekiPage() {
               const tb = pr > frameRatio ? `${((1 - frameRatio / pr) / 2 * 100).toFixed(3)}%` : "0";
               const lr = pr < frameRatio ? `${((1 - pr / frameRatio) / 2 * 100).toFixed(3)}%` : "0";
               return (
-                <div style={{ position: "absolute", top: tb, bottom: tb, left: lr, right: lr, overflow: "hidden", opacity: textRevealed ? adjOpacity : 0, transition: "opacity 1.5s ease-in", pointerEvents: "none" }}>
+                <div style={{ position: "absolute", top: tb, bottom: tb, left: lr, right: lr, overflow: "hidden", background: "white", opacity: textRevealed ? adjOpacity : 0, transition: "opacity 1.5s ease-in", pointerEvents: "none" }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={pages[pageIdx].text} alt="活字" style={{ width: "100%", height: "100%", objectFit: "fill", transform: `scale(${adjScale}) translateX(${adjX}px) translateY(${adjY}px)`, transformOrigin: "center center", mixBlendMode: "normal" }} />
                 </div>
@@ -192,7 +196,7 @@ export default function SekiPage() {
               ))}
             </>)}
             <div style={{ color: "#aaa", fontSize: 11 }}>{pageIdx === 0 ? `scale(${adj0Scale.toFixed(2)}) X(${adj0X}px) Y(${adj0Y}px)` : `scale(${adjScale.toFixed(2)}) X(${adjX}px) Y(${adjY}px) opacity(${adjOpacity.toFixed(2)})`}</div>
-            <button onClick={() => {
+            <button onClick={(e) => {
               if (typeof window === "undefined") return;
               const entries: string[] = [];
               for (let i = 1; i <= 64; i++) {
@@ -206,7 +210,8 @@ export default function SekiPage() {
                   entries.push(`    ${i}: [${sv}, ${xv}, ${yv}],`);
                 }
               }
-              navigator.clipboard.writeText(`{\n${entries.join("\n")}\n}`);
+              const text = `{\n${entries.join("\n")}\n}`;
+              alert(text);
             }} style={{ marginTop: 4, background: "rgba(255,255,255,0.2)", color: "white", border: "none", borderRadius: 4, padding: "4px 8px", fontSize: 11, cursor: "pointer" }}>
               📋 全ページの値をコピー
             </button>
