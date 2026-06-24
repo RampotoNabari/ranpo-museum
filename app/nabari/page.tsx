@@ -17,30 +17,25 @@ export default function NabariPage() {
   const [videoBlocked, setVideoBlocked] = useState(false);
 
   // BGM: フェードアウト開始時刻（秒）と長さ（秒）
-  const BGM_FADE_START = 200; // 3分20秒から
-  const BGM_FADE_DURATION = 20; // 20秒かけてフェード
+  const BGM_FADE_START = 220; // 3分40秒から
+  const BGM_FADE_DURATION = 10; // 10秒かけてフェード
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
     audio.volume = 0.6;
 
-    let started = false;
+    const video = videoRef.current;
     const startAudio = () => {
-      if (started) return;
-      started = true;
       audio.play().catch(() => {});
-      document.removeEventListener("scroll", startAudio, true);
-      document.removeEventListener("touchstart", startAudio, true);
-      document.removeEventListener("click", startAudio, true);
-      document.removeEventListener("wheel", startAudio, true);
-      document.removeEventListener("keydown", startAudio, true);
     };
-    document.addEventListener("scroll", startAudio, true);
-    document.addEventListener("touchstart", startAudio, true);
-    document.addEventListener("click", startAudio, true);
-    document.addEventListener("wheel", startAudio, true);
-    document.addEventListener("keydown", startAudio, true);
+    if (video) {
+      if (!video.paused) {
+        startAudio();
+      } else {
+        video.addEventListener("playing", startAudio, { once: true });
+      }
+    }
 
     let fadeInterval: ReturnType<typeof setInterval> | null = null;
     const onTimeUpdate = () => {
@@ -60,11 +55,6 @@ export default function NabariPage() {
     return () => {
       audio.removeEventListener("timeupdate", onTimeUpdate);
       if (fadeInterval) clearInterval(fadeInterval);
-      document.removeEventListener("scroll", startAudio, true);
-      document.removeEventListener("touchstart", startAudio, true);
-      document.removeEventListener("click", startAudio, true);
-      document.removeEventListener("wheel", startAudio, true);
-      document.removeEventListener("keydown", startAudio, true);
     };
   }, []);
 
@@ -147,7 +137,7 @@ export default function NabariPage() {
     };
 
     // ─── 背景タイマー（ページロードからの絶対時間） ───
-    const t2 = setTimeout(() => transitionToSection("section-2", seifuteiBgRef), 30000);
+    const t2 = setTimeout(() => transitionToSection("section-2", seifuteiBgRef), 35000);
 
     // セクションごとのタイマー管理
     const sectionTimers: Record<string, ReturnType<typeof setTimeout>[]> = {};
@@ -202,7 +192,7 @@ export default function NabariPage() {
               if (l2) { l2.style.transition = "opacity 2.5s ease-in"; l2.style.opacity = "1"; }
             }, 2000);
           }, 30000);
-          scheduleNext(() => transitionToSection("section-3", exteriorBgRef), 35000);
+          scheduleNext(() => transitionToSection("section-3", exteriorBgRef), 40000);
         } else {
           cancelSection("s2");
           const credits = document.getElementById("seifutei-credits");
@@ -228,7 +218,7 @@ export default function NabariPage() {
               el.style.opacity = "1"; el.style.transform = "translateY(0)";
             }, i * 1000);
           });
-          scheduleNext(() => transitionToSection("section-4", hiawaiiBgRef), 10000);
+          scheduleNext(() => transitionToSection("section-4", hiawaiiBgRef), 15000);
         } else {
           cancelSection("s3");
           document.querySelectorAll<HTMLElement>(".dawn-fade").forEach((el) => {
@@ -249,7 +239,7 @@ export default function NabariPage() {
               el.style.opacity = "1"; el.style.transform = "translateY(0)";
             }, i * 1000);
           });
-          scheduleNext(() => transitionToSection("section-5", masudaBgRef), 10000);
+          scheduleNext(() => transitionToSection("section-5", masudaBgRef), 15000);
         } else {
           cancelSection("s4");
           document.querySelectorAll<HTMLElement>(".hiawai-fade").forEach((el) => {
@@ -274,7 +264,7 @@ export default function NabariPage() {
             const photo = document.getElementById("masuda-photo");
             if (photo) { photo.style.transition = "opacity 4s ease-in"; photo.style.opacity = "1"; }
           }, 20000);
-          scheduleNext(() => transitionToSection("section-6", riverBgRef), 27000);
+          scheduleNext(() => transitionToSection("section-6", riverBgRef), 32000);
         } else {
           cancelSection("s5");
           resetScroll("masuda-scroll"); resetPhoto("masuda-photo"); resetBg(masudaBgRef);
@@ -297,7 +287,7 @@ export default function NabariPage() {
             const photo = document.getElementById("river-photo");
             if (photo) { photo.style.transition = "opacity 4s ease-in"; photo.style.opacity = "1"; }
           }, 20000);
-          scheduleNext(() => transitionToSection("section-7", tsujiRef), 27000);
+          scheduleNext(() => transitionToSection("section-7", tsujiRef), 32000);
         } else {
           cancelSection("s6");
           resetScroll("river-scroll"); resetPhoto("river-photo"); resetBg(riverBgRef);
