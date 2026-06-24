@@ -382,7 +382,11 @@ export default function NabariPage() {
           <video
             ref={videoRef}
             src="/videos/nabari-shrine-small.mp4"
-            autoPlay muted loop playsInline preload="auto"
+            autoPlay={true}
+            muted={true}
+            loop={true}
+            playsInline={true}
+            preload="auto"
             className="absolute inset-0 w-full h-full object-cover object-center"
           />
           <div className="absolute inset-0 bg-black/65" />
