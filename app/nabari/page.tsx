@@ -26,7 +26,17 @@ export default function NabariPage() {
     audio.volume = 0.6;
 
     const timer = setTimeout(() => {
-      audio.play().catch(() => {});
+      audio.volume = 0;
+      audio.play().then(() => {
+        const FADE_IN_DURATION = 3000;
+        const target = 0.6;
+        const step = 50;
+        const inc = target / (FADE_IN_DURATION / step);
+        const fadeIn = setInterval(() => {
+          audio.volume = Math.min(target, audio.volume + inc);
+          if (audio.volume >= target) clearInterval(fadeIn);
+        }, step);
+      }).catch(() => {});
     }, 3000);
 
     let fadeInterval: ReturnType<typeof setInterval> | null = null;
