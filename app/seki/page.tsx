@@ -99,6 +99,8 @@ export default function SekiPage() {
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center select-none py-8">
 
+        <p className="text-xs tracking-[0.5em] text-white/30 mb-4">せきの日記</p>
+
         <div ref={swipeRef} style={{ position: "relative", width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
           <button
             onClick={() => setPageIdx(p => Math.max(0, p - 1))}
@@ -152,15 +154,14 @@ export default function SekiPage() {
           >▶</button>
         </div>
 
-        <div className="mt-6 text-center">
-          <p className="text-xs tracking-[0.5em] text-white/30">せきの日記</p>
-          <p className="text-sm text-white/50 tracking-widest mt-3">{pageIdx + 1} <span className="text-white/20">／</span> {pages.length}</p>
-          <div className="flex flex-wrap justify-center gap-x-2 gap-y-1 mt-3 max-w-xs mx-auto">
+        <div className="mt-6 w-full px-4">
+          <div className="flex flex-wrap justify-center gap-x-1 gap-y-1">
             {pages.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setPageIdx(i)}
-                className={`text-xs w-6 text-center transition-colors ${i === pageIdx ? "text-white/80" : "text-white/25 hover:text-white/60"}`}
+                className={`text-xs transition-colors ${i === pageIdx ? "text-white/80" : "text-white/25 hover:text-white/60"}`}
+                style={{ width: "calc(100% / 17)" }}
               >{i + 1}</button>
             ))}
           </div>
