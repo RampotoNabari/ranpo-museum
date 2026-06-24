@@ -25,17 +25,9 @@ export default function NabariPage() {
     if (!audio) return;
     audio.volume = 0.6;
 
-    const video = videoRef.current;
-    const startAudio = () => {
+    const timer = setTimeout(() => {
       audio.play().catch(() => {});
-    };
-    if (video) {
-      if (!video.paused) {
-        startAudio();
-      } else {
-        video.addEventListener("playing", startAudio, { once: true });
-      }
-    }
+    }, 3000);
 
     let fadeInterval: ReturnType<typeof setInterval> | null = null;
     const onTimeUpdate = () => {
@@ -53,6 +45,7 @@ export default function NabariPage() {
     };
     audio.addEventListener("timeupdate", onTimeUpdate);
     return () => {
+      clearTimeout(timer);
       audio.removeEventListener("timeupdate", onTimeUpdate);
       if (fadeInterval) clearInterval(fadeInterval);
     };
