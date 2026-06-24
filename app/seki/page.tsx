@@ -123,7 +123,7 @@ export default function SekiPage() {
               onLoad={(e) => { const i = e.currentTarget; setPhotoRatio(i.naturalWidth / i.naturalHeight); }}
               style={{ display: "block", width: "100%", height: "100%", objectFit: "contain", boxShadow: "0 4px 24px rgba(0,0,0,0.8)" }}
             />
-            {pages[pageIdx].text && (pageIdx === 0 ? (
+            {pages[pageIdx].text && (photoRatio !== null || pageIdx === 0) && (pageIdx === 0 ? (
               <div style={{ position: "absolute", top: 0, bottom: 0, left: "23.36%", right: "23.36%", overflow: "hidden", opacity: textRevealed ? 0.70 : 0, transition: "opacity 1.5s ease-in", pointerEvents: "none" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={pages[pageIdx].text} alt="活字" style={{ width: "100%", height: "100%", objectFit: "contain", transform: `scale(${adj0Scale}) translateX(${adj0X}px) translateY(${adj0Y}px)`, transformOrigin: "center center" }} />
