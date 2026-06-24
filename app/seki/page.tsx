@@ -155,13 +155,12 @@ export default function SekiPage() {
         </div>
 
         <div className="mt-6 flex justify-center">
-          <div className="flex flex-wrap gap-x-1 gap-y-1" style={{ width: "min(680px, calc(100vw - 120px))" }}>
+          <div style={{ width: "min(680px, calc(100vw - 120px))", display: "grid", gridTemplateColumns: "repeat(16, 1fr)", gap: "2px 0" }}>
             {pages.slice(1).map((_, i) => (
               <button
                 key={i + 1}
                 onClick={() => setPageIdx(i + 1)}
-                className={`text-xs transition-colors ${i + 1 === pageIdx ? "text-white/80" : "text-white/25 hover:text-white/60"}`}
-                style={{ width: "calc(100% / 16)" }}
+                className={`text-xs text-center transition-colors ${i + 1 === pageIdx ? "text-white/80" : "text-white/25 hover:text-white/60"}`}
               >{i + 1}</button>
             ))}
           </div>
