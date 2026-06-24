@@ -152,12 +152,7 @@ export default function SekiPage() {
 
         <div className="mt-6 text-center">
           <p className="text-xs tracking-[0.5em] text-white/30">せきの日記</p>
-          <div className="flex gap-1.5 flex-wrap justify-center mt-3 max-w-[160px] mx-auto">
-            {pages.map((_, i) => (
-              <span key={i} className={`block w-1.5 h-1.5 rounded-full transition-colors ${i === pageIdx ? "bg-white/60" : "bg-white/15"}`} />
-            ))}
-          </div>
-          <p className="text-xs text-white/20 tracking-wider mt-2">{pageIdx + 1} / {pages.length} ページ</p>
+          <p className="text-sm text-white/50 tracking-widest mt-3">{pageIdx + 1} <span className="text-white/20">／</span> {pages.length}</p>
         </div>
 
         <button onClick={() => { setDiaryOpen(false); setPageIdx(0); }}
