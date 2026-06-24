@@ -24,7 +24,23 @@ export default function NabariPage() {
     const audio = audioRef.current;
     if (!audio) return;
     audio.volume = 0.6;
-    audio.play().catch(() => {});
+
+    let started = false;
+    const startAudio = () => {
+      if (started) return;
+      started = true;
+      audio.play().catch(() => {});
+      document.removeEventListener("scroll", startAudio, true);
+      document.removeEventListener("touchstart", startAudio, true);
+      document.removeEventListener("click", startAudio, true);
+      document.removeEventListener("wheel", startAudio, true);
+      document.removeEventListener("keydown", startAudio, true);
+    };
+    document.addEventListener("scroll", startAudio, true);
+    document.addEventListener("touchstart", startAudio, true);
+    document.addEventListener("click", startAudio, true);
+    document.addEventListener("wheel", startAudio, true);
+    document.addEventListener("keydown", startAudio, true);
 
     let fadeInterval: ReturnType<typeof setInterval> | null = null;
     const onTimeUpdate = () => {
@@ -44,6 +60,11 @@ export default function NabariPage() {
     return () => {
       audio.removeEventListener("timeupdate", onTimeUpdate);
       if (fadeInterval) clearInterval(fadeInterval);
+      document.removeEventListener("scroll", startAudio, true);
+      document.removeEventListener("touchstart", startAudio, true);
+      document.removeEventListener("click", startAudio, true);
+      document.removeEventListener("wheel", startAudio, true);
+      document.removeEventListener("keydown", startAudio, true);
     };
   }, []);
 
