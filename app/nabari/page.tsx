@@ -373,7 +373,7 @@ export default function NabariPage() {
           <div className="absolute inset-0" style={{ backgroundImage: "url('/images/nabari-shrine-festival.jpeg')", backgroundSize: "cover", backgroundPosition: "center" }} />
           <div
             className="absolute inset-0 w-full h-full"
-            dangerouslySetInnerHTML={{ __html: '<video src="/videos/nabari-shrine-small.mp4" autoplay muted playsinline loop preload="auto" style="width:100%;height:100%;object-fit:cover;object-position:center;"></video>' }}
+            dangerouslySetInnerHTML={{ __html: '<video src="/videos/nabari-shrine.mp4" autoplay muted playsinline loop preload="auto" style="width:100%;height:100%;object-fit:cover;object-position:center;"></video>' }}
           />
           <div className="absolute inset-0 bg-black/65" />
           <div className="scroll-credits absolute left-0 right-0 px-8 text-white text-center">
