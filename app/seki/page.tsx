@@ -154,32 +154,16 @@ export default function SekiPage() {
 
         <div className="mt-6 text-center">
           <p className="text-xs tracking-[0.5em] text-white/30">せきの日記</p>
-          {pageInput ? (
-            <input
-              autoFocus
-              type="number"
-              min={1}
-              max={pages.length}
-              value={pageInputVal}
-              onChange={e => setPageInputVal(e.target.value)}
-              onKeyDown={e => {
-                if (e.key === "Enter") {
-                  const n = Math.min(Math.max(1, Number(pageInputVal)), pages.length);
-                  if (!isNaN(n)) setPageIdx(n - 1);
-                  setPageInput(false);
-                } else if (e.key === "Escape") {
-                  setPageInput(false);
-                }
-              }}
-              onBlur={() => setPageInput(false)}
-              className="mt-3 w-16 text-center bg-transparent border-b border-white/30 text-white/60 text-sm tracking-widest outline-none"
-            />
-          ) : (
-            <p
-              className="text-sm text-white/50 tracking-widest mt-3 cursor-pointer hover:text-white/80 transition-colors"
-              onClick={() => { setPageInputVal(String(pageIdx + 1)); setPageInput(true); }}
-            >{pageIdx + 1} <span className="text-white/20">／</span> {pages.length}</p>
-          )}
+          <p className="text-sm text-white/50 tracking-widest mt-3">{pageIdx + 1} <span className="text-white/20">／</span> {pages.length}</p>
+          <div className="flex flex-wrap justify-center gap-x-2 gap-y-1 mt-3 max-w-xs mx-auto">
+            {pages.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setPageIdx(i)}
+                className={`text-xs w-6 text-center transition-colors ${i === pageIdx ? "text-white/80" : "text-white/25 hover:text-white/60"}`}
+              >{i + 1}</button>
+            ))}
+          </div>
         </div>
 
         <button onClick={() => { setDiaryOpen(false); setPageIdx(0); }}
