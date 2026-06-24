@@ -29,8 +29,7 @@ export default function NabariPage() {
     const startAudio = () => {
       if (started) return;
       started = true;
-      document.removeEventListener("scroll", startAudio, true);
-      document.removeEventListener("wheel", startAudio, true);
+      document.removeEventListener("mousemove", startAudio, true);
       document.removeEventListener("touchstart", startAudio, true);
       audio.volume = 0;
       audio.play().then(() => {
@@ -44,8 +43,7 @@ export default function NabariPage() {
         }, step);
       }).catch(() => {});
     };
-    document.addEventListener("scroll", startAudio, true);
-    document.addEventListener("wheel", startAudio, true);
+    document.addEventListener("mousemove", startAudio, true);
     document.addEventListener("touchstart", startAudio, true);
 
     let fadeInterval: ReturnType<typeof setInterval> | null = null;
