@@ -118,6 +118,7 @@ export default function SekiPage() {
           }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
+              key={pageIdx}
               src={pages[pageIdx].photo}
               alt={`${pageIdx}ページ`}
               onLoad={(e) => { const i = e.currentTarget; setPhotoRatio(i.naturalWidth / i.naturalHeight); }}
