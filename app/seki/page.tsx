@@ -21,6 +21,8 @@ export default function SekiPage() {
   const [pageIdx, setPageIdx] = useState(initPage > 0 ? initPage : 0);
   const [textRevealed, setTextRevealed] = useState(initPage > 0);
   const [photoRatio, setPhotoRatio] = useState<number | null>(null);
+  const [pageInput, setPageInput] = useState(false);
+  const [pageInputVal, setPageInputVal] = useState("");
   const frameRatio = 1.37;
   const pageAdj: Record<number, [number, number, number]> = {
     1: [1.12, 21, 14],
@@ -152,7 +154,32 @@ export default function SekiPage() {
 
         <div className="mt-6 text-center">
           <p className="text-xs tracking-[0.5em] text-white/30">せきの日記</p>
-          <p className="text-sm text-white/50 tracking-widest mt-3">{pageIdx + 1} <span className="text-white/20">／</span> {pages.length}</p>
+          {pageInput ? (
+            <input
+              autoFocus
+              type="number"
+              min={1}
+              max={pages.length}
+              value={pageInputVal}
+              onChange={e => setPageInputVal(e.target.value)}
+              onKeyDown={e => {
+                if (e.key === "Enter") {
+                  const n = Math.min(Math.max(1, Number(pageInputVal)), pages.length);
+                  if (!isNaN(n)) setPageIdx(n - 1);
+                  setPageInput(false);
+                } else if (e.key === "Escape") {
+                  setPageInput(false);
+                }
+              }}
+              onBlur={() => setPageInput(false)}
+              className="mt-3 w-16 text-center bg-transparent border-b border-white/30 text-white/60 text-sm tracking-widest outline-none"
+            />
+          ) : (
+            <p
+              className="text-sm text-white/50 tracking-widest mt-3 cursor-pointer hover:text-white/80 transition-colors"
+              onClick={() => { setPageInputVal(String(pageIdx + 1)); setPageInput(true); }}
+            >{pageIdx + 1} <span className="text-white/20">／</span> {pages.length}</p>
+          )}
         </div>
 
         <button onClick={() => { setDiaryOpen(false); setPageIdx(0); }}
