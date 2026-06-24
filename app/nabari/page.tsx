@@ -12,15 +12,7 @@ export default function NabariPage() {
   const masudaBgRef = useRef<HTMLDivElement>(null);
   const riverBgRef = useRef<HTMLDivElement>(null);
   const tsujiRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.muted = true;
-    video.play().catch(() => {});
-  }, []);
 
   // BGM: フェードアウト開始時刻（秒）と長さ（秒）
   const BGM_FADE_START = 220; // 3分40秒から
@@ -379,15 +371,9 @@ export default function NabariPage() {
         <div id="section-1" className="relative h-screen w-full snap-start overflow-hidden" style={{ backgroundColor: "#1a1a1a" }}>
           {/* 動画が再生されない場合のフォールバック背景画像 */}
           <div className="absolute inset-0" style={{ backgroundImage: "url('/images/nabari-shrine-festival.jpeg')", backgroundSize: "cover", backgroundPosition: "center" }} />
-          <video
-            ref={videoRef}
-            src="/videos/nabari-shrine-small.mp4"
-            autoPlay={true}
-            muted={true}
-            loop={true}
-            playsInline={true}
-            preload="auto"
-            className="absolute inset-0 w-full h-full object-cover object-center"
+          <div
+            className="absolute inset-0 w-full h-full"
+            dangerouslySetInnerHTML={{ __html: '<video src="/videos/nabari-shrine-small.mp4" autoplay muted playsinline loop preload="auto" style="width:100%;height:100%;object-fit:cover;object-position:center;"></video>' }}
           />
           <div className="absolute inset-0 bg-black/65" />
           <div className="scroll-credits absolute left-0 right-0 px-8 text-white text-center">
