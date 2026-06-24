@@ -121,7 +121,7 @@ export default function SekiPage() {
               src={pages[pageIdx].photo}
               alt={`${pageIdx}ページ`}
               onLoad={(e) => { const i = e.currentTarget; setPhotoRatio(i.naturalWidth / i.naturalHeight); }}
-              style={{ display: "block", width: "100%", height: "100%", objectFit: "contain", boxShadow: "0 4px 24px rgba(0,0,0,0.8)" }}
+              style={{ display: "block", width: "100%", height: "100%", objectFit: "contain", boxShadow: "0 4px 24px rgba(0,0,0,0.8)", opacity: photoRatio !== null || pageIdx === 0 ? 1 : 0, transition: "opacity 0.4s ease-in" }}
             />
             {pages[pageIdx].text && (photoRatio !== null || pageIdx === 0) && (pageIdx === 0 ? (
               <div style={{ position: "absolute", top: 0, bottom: 0, left: "23.36%", right: "23.36%", overflow: "hidden", opacity: textRevealed ? 0.70 : 0, transition: "opacity 1.5s ease-in", pointerEvents: "none" }}>
