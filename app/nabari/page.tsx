@@ -23,14 +23,14 @@ export default function NabariPage() {
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio.volume = 0.6;
+    let onInteract: (() => void) | null = null;
 
-    let started = false;
-    const startAudio = () => {
-      if (started) return;
-      started = true;
-      document.removeEventListener("mousemove", startAudio, true);
-      document.removeEventListener("touchstart", startAudio, true);
+    const playWithFade = () => {
+      if (onInteract) {
+        document.removeEventListener("mousemove", onInteract, true);
+        document.removeEventListener("touchstart", onInteract, true);
+        onInteract = null;
+      }
       audio.volume = 0;
       audio.play().then(() => {
         const FADE_IN_DURATION = 3000;
@@ -43,8 +43,30 @@ export default function NabariPage() {
         }, step);
       }).catch(() => {});
     };
-    document.addEventListener("mousemove", startAudio, true);
-    document.addEventListener("touchstart", startAudio, true);
+
+    // 3秒後に再生。ブロックされた場合は最初のインタラクションで再試行
+    const timer = setTimeout(() => {
+      audio.volume = 0;
+      audio.play().then(() => {
+        const FADE_IN_DURATION = 3000;
+        const target = 0.6;
+        const step = 50;
+        const inc = target / (FADE_IN_DURATION / step);
+        const fadeIn = setInterval(() => {
+          audio.volume = Math.min(target, audio.volume + inc);
+          if (audio.volume >= target) clearInterval(fadeIn);
+        }, step);
+      }).catch(() => {
+        let started = false;
+        onInteract = () => {
+          if (started) return;
+          started = true;
+          playWithFade();
+        };
+        document.addEventListener("mousemove", onInteract, true);
+        document.addEventListener("touchstart", onInteract, true);
+      });
+    }, 3000);
 
     let fadeInterval: ReturnType<typeof setInterval> | null = null;
     const onTimeUpdate = () => {
@@ -62,9 +84,11 @@ export default function NabariPage() {
     };
     audio.addEventListener("timeupdate", onTimeUpdate);
     return () => {
-      document.removeEventListener("scroll", startAudio, true);
-      document.removeEventListener("wheel", startAudio, true);
-      document.removeEventListener("touchstart", startAudio, true);
+      clearTimeout(timer);
+      if (onInteract) {
+        document.removeEventListener("mousemove", onInteract, true);
+        document.removeEventListener("touchstart", onInteract, true);
+      }
       audio.removeEventListener("timeupdate", onTimeUpdate);
       if (fadeInterval) clearInterval(fadeInterval);
     };
