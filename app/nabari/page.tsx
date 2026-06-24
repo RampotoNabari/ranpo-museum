@@ -411,8 +411,7 @@ export default function NabariPage() {
           {videoBlocked && (
             <button
               onClick={() => {
-                videoRef.current?.play().catch(() => {});
-                setVideoBlocked(false);
+                videoRef.current?.play().then(() => setVideoBlocked(false)).catch(() => {});
               }}
               className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-4 cursor-pointer bg-transparent border-none"
             >
