@@ -154,8 +154,8 @@ export default function SekiPage() {
           >▶</button>
         </div>
 
-        <div className="mt-6 w-full px-4">
-          <div className="flex flex-wrap justify-center gap-x-1 gap-y-1">
+        <div className="mt-6 flex justify-center">
+          <div className="flex flex-wrap gap-x-1 gap-y-1" style={{ width: "min(680px, calc(100vw - 120px))" }}>
             {pages.map((_, i) => (
               <button
                 key={i}
