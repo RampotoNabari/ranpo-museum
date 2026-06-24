@@ -391,6 +391,22 @@ export default function NabariPage() {
       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
       <audio ref={audioRef} src="/audio/kokyounosora.m4a" preload="auto" />
 
+      {videoBlocked && (
+        <button
+          onClick={() => {
+            videoRef.current?.play().then(() => setVideoBlocked(false)).catch(() => {});
+          }}
+          style={{ position: "fixed", inset: 0, zIndex: 50, background: "transparent", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16 }}
+        >
+          <div style={{ width: 64, height: 64, borderRadius: "50%", border: "1px solid rgba(255,255,255,0.4)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="white" style={{ opacity: 0.7, marginLeft: 3 }}>
+              <polygon points="4,2 18,10 4,18" />
+            </svg>
+          </div>
+          <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, letterSpacing: "0.3em" }}>タップして再生</p>
+        </button>
+      )}
+
       {/* ===== スナップコンテナ（4枚の全画面セクション） ===== */}
       <div
         ref={snapRef}
@@ -408,21 +424,6 @@ export default function NabariPage() {
             className="absolute inset-0 w-full h-full object-cover object-center"
           />
           <div className="absolute inset-0 bg-black/65" />
-          {videoBlocked && (
-            <button
-              onClick={() => {
-                videoRef.current?.play().then(() => setVideoBlocked(false)).catch(() => {});
-              }}
-              className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-4 cursor-pointer bg-transparent border-none"
-            >
-              <div className="w-16 h-16 rounded-full border border-white/40 flex items-center justify-center hover:border-white/80 transition-colors duration-300">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="white" style={{ opacity: 0.7, marginLeft: 3 }}>
-                  <polygon points="4,2 18,10 4,18" />
-                </svg>
-              </div>
-              <p className="text-white/40 text-xs tracking-[0.3em]">タップして再生</p>
-            </button>
-          )}
           <div className="scroll-credits absolute left-0 right-0 px-8 text-white text-center">
             <div className="max-w-md mx-auto space-y-20 py-8">
               <div className="space-y-6">
