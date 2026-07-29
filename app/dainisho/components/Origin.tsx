@@ -19,7 +19,7 @@ export default function Origin() {
             <div className="relative aspect-4/3 overflow-hidden">
               <Image
                 src="/images/dainisho/origin-old.jpg"
-                alt="かつての桝田医院の前に立つ人々。乱歩が生まれた家。"
+                alt="かつての桝田医院の前に立つ人々。ここが乱歩の生誕地。"
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 40rem"
@@ -39,7 +39,7 @@ export default function Origin() {
             CHAPTER I
           </span>
           <h3 className="serif-display mt-6 text-center text-xl tracking-[0.3em] text-washi md:text-2xl">
-            第一章　生家、よみがえる
+            第一章　生誕地、よみがえる
           </h3>
         </FadeIn>
         <RevealLines
@@ -47,7 +47,7 @@ export default function Origin() {
           lineClassName="text-base leading-loose text-kinari/85 md:text-lg"
           stagger={0.4}
           lines={[
-            "二〇二四年、冬。乱歩が生まれた家が、売りに出されました。",
+            "二〇二四年、冬。乱歩の生誕地が、売りに出されました。",
             "行政は、動けませんでした。",
             "ひとりの住人が、私費で買い取りました。",
             "そして全国から、物語の仲間が集まりました。",
