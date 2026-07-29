@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { FadeIn } from "./motion";
 
 // TODO: クラウドファンディング公開時に実URLへ差し替え
@@ -15,8 +15,8 @@ export default function Ending() {
     target: ref,
     offset: ["start end", "end end"],
   });
-  // spring経由でScrollTimeline最適化を避ける
-  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 28, restDelta: 0.001 });
+  // コールバック形式のuseTransformでScrollTimeline最適化を避ける（useSpringと違い遅延を持たない）
+  const progress = useTransform(scrollYProgress, (v) => v);
   const bgOpacity = useTransform(progress, [0, 0.6], [0, 0.35]);
 
   return (

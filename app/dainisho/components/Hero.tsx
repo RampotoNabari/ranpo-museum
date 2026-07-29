@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 /**
  * 冒頭 300vh のスクロール。
@@ -15,9 +15,9 @@ export default function Hero() {
     target: ref,
     offset: ["start start", "end end"],
   });
-  // useSpringを通すことでネイティブScrollTimeline最適化を避ける
-  // （sticky配下では計測が狂う）。滑らかな追従も兼ねる。
-  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 28, restDelta: 0.001 });
+  // コールバック形式のuseTransformを挟むことでネイティブScrollTimeline最適化を避ける
+  // （sticky配下では計測が狂う）。useSpringと違い遅延を持たず、スクロール位置に1:1で追従する。
+  const progress = useTransform(scrollYProgress, (v) => v);
 
   const townScale = useTransform(progress, [0, 1], [1.08, 1.22]);
   const townOpacity = useTransform(progress, [0.55, 0.8], [1, 0]);

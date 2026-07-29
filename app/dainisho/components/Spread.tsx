@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 /** 「乱歩の世界は、町へ広がる。」路地の奥へ引き込まれる。 */
 export default function Spread() {
@@ -11,8 +11,9 @@ export default function Spread() {
     target: ref,
     offset: ["start end", "end start"],
   });
-  // spring経由でScrollTimeline最適化を避ける（sticky配下の計測ずれ対策）
-  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 28, restDelta: 0.001 });
+  // コールバック形式のuseTransformでScrollTimeline最適化を避ける
+  // （sticky配下の計測ずれ対策）。useSpringと違い遅延を持たない。
+  const progress = useTransform(scrollYProgress, (v) => v);
   const scale = useTransform(progress, [0, 1], [1, 1.25]);
   const textOpacity = useTransform(progress, [0.3, 0.45, 0.65, 0.8], [0, 1, 1, 0]);
 
