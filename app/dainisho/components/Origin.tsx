@@ -47,7 +47,7 @@ export default function Origin() {
           lineClassName="text-base leading-loose text-kinari/85 md:text-lg"
           stagger={0.4}
           lines={[
-            "二〇二四年、冬。乱歩の生誕地が、売りに出されました。",
+            "二〇二四年、春。乱歩の生誕地が、売りに出されました。",
             "行政は、動けませんでした。",
             "ひとりの住人が、私費で買い取りました。",
             "そして全国から、物語の仲間が集まりました。",
