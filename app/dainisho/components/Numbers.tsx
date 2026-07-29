@@ -111,7 +111,7 @@ function JapanMap() {
 /** 第一章がのこした数字。 */
 export default function Numbers() {
   const stats = [
-    { to: 430, suffix: "人", label: "全国から集まった支援者" },
+    { to: 434, suffix: "人", label: "全国から集まった支援者" },
     { to: 500, suffix: "人", label: "開館から迎えた来館者" },
     { to: 80, suffix: "%", label: "名張の外から訪れた人" },
   ];
