@@ -8,7 +8,7 @@ const chapters = [
   { label: "ふるさと発見", href: "/nabari", available: true },
   { label: "せきの日記", href: "/seki", available: true },
   { label: "生誕碑除幕式", href: "/unveiling", available: false },
-  { label: "横山文圭・よしえ", href: "/yokoyama", available: false },
+  { label: "横山文圭・よしへ", href: "/yokoyama", available: false },
   { label: "生誕地ミュージアム", href: "/museum", available: false },
 ];
 
@@ -16,6 +16,9 @@ export default function Header() {
   const pathname = usePathname();
   const isDark = ["/" , "/nabari", "/stories", "/seki"].some(p => pathname === p || pathname.startsWith("/nabari") || pathname.startsWith("/seki"));
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // 第二章は全画面の物語体験のためヘッダーを出さない
+  if (pathname.startsWith("/dainisho")) return null;
 
   const linkClass = (available: boolean) =>
     `text-xs tracking-[0.25em] transition-opacity ${

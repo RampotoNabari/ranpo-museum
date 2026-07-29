@@ -114,3 +114,100 @@ body {
 .page-unfold-in     { animation: pageUnfoldIn 0.28s ease-out forwards; transform-origin: left center; }
 .page-fold-out-back { animation: pageFoldOutBack 0.28s ease-in forwards; transform-origin: left center; }
 .page-unfold-in-back{ animation: pageUnfoldInBack 0.28s ease-out forwards; transform-origin: right center; }
+
+/* ===================== 乱歩と名張 第二章（/dainisho）===================== */
+
+@theme {
+  --color-sumi: #0c0b09;
+  --color-kinari: #e9e2d3;
+  --color-washi: #f4efe4;
+  --color-wood: #8a6a4f;
+  --color-fukamidori: #2e4034;
+  --color-copper: #ad7a52;
+  --color-aka: #9e2b25;
+}
+
+.dainisho-root {
+  --sumi: #0c0b09;
+  --kinari: #e9e2d3;
+  --washi: #f4efe4;
+  --wood: #8a6a4f;
+  --fukamidori: #2e4034;
+  --copper: #ad7a52;
+  --aka: #9e2b25;
+  background: var(--sumi);
+  color: var(--kinari);
+  font-family: var(--font-noto-serif-jp), "Noto Serif JP", serif;
+  font-feature-settings: "palt";
+  letter-spacing: 0.06em;
+  line-height: 2;
+  overflow-x: clip;
+}
+
+.dainisho-root ::selection {
+  background: rgba(158, 43, 37, 0.55);
+  color: var(--washi);
+}
+
+/* 縦書き */
+.tategaki {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  letter-spacing: 0.28em;
+}
+
+/* 映画字幕のような見出し */
+.serif-display {
+  font-family: var(--font-shippori), "Shippori Mincho", serif;
+  font-weight: 500;
+}
+
+.latin {
+  font-family: var(--font-cormorant), "Cormorant Garamond", serif;
+}
+
+/* 和紙の粒子（フィルムグレイン） */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: -100%;
+  z-index: 80;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  animation: grain-shift 1.6s steps(4) infinite;
+}
+
+@keyframes grain-shift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-2%, 3%); }
+  50% { transform: translate(3%, -2%); }
+  75% { transform: translate(-3%, -3%); }
+  100% { transform: translate(2%, 2%); }
+}
+
+/* ゆっくり明滅する灯 */
+@keyframes tomoshibi {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+
+.tomoshibi {
+  animation: tomoshibi 5s ease-in-out infinite;
+}
+
+/* 地図上の点 */
+@keyframes ripple {
+  0% { transform: scale(0.6); opacity: 0.9; }
+  100% { transform: scale(3.2); opacity: 0; }
+}
+
+.ripple {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: ripple 3.4s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain::after, .tomoshibi, .ripple { animation: none; }
+}

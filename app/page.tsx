@@ -29,7 +29,7 @@ const chapters = [
   {
     href: "/yokoyama",
     year: "明治二十七年以前",
-    title: "横山文圭・よしえ",
+    title: "横山文圭・よしへ",
     note: "この地の歴史を紐解く",
     image: "/images/nabari-shrine-day.jpeg",
     available: false,

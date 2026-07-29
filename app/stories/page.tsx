@@ -35,9 +35,9 @@ const chapters = [
   {
     number: "四",
     year: "明治二十七年以前",
-    title: "横山文圭・よしえ",
+    title: "横山文圭・よしへ",
     subtitle: "この地の歴史を紐解く",
-    description: "よしえは乱歩を取り上げた。\nその娘せきが、すべての物語をつないでいく。",
+    description: "よしへは乱歩を取り上げた。\nその娘せきが、すべての物語をつないでいく。",
     href: "/yokoyama",
     image: "/images/nabari-shrine-day.jpeg",
     available: false,
