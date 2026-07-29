@@ -6,7 +6,7 @@ import { FadeIn } from "./motion";
 
 const EVENTS = [
   { year: "明治二十七年", ad: "1894", text: "乱歩、名張に生まれる。" },
-  { year: "昭和二十七年", ad: "1952", text: "五十八年ぶりの帰郷。町は太鼓の音の中にあった。" },
+  { year: "昭和二十七年", ad: "1952", text: "五十七年ぶりの帰郷。町は太鼓の音の中にあった。" },
   { year: "昭和三十年", ad: "1955", text: "生誕地碑、除幕。文化の日、祭りの日。" },
   { year: "令和七年", ad: "2025", text: "生家が解体の危機を越え、ミュージアムとして開館。" },
   { year: "令和八年", ad: "2026", text: "第二章。空き家に、白梅軒の灯りがともる。" },
@@ -26,7 +26,7 @@ export default function Timeline() {
     <section ref={ref} className="bg-sumi py-40" aria-label="時間軸">
       <FadeIn>
         <p className="text-center text-sm tracking-[0.4em] text-kinari/60">
-          百三十年の堆積の上に、いまがあります。
+          百三十年の時間の堆積の上に、いまがあります。
         </p>
       </FadeIn>
       <div className="relative mx-auto mt-24 max-w-3xl px-6">
