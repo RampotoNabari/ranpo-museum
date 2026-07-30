@@ -53,13 +53,25 @@ export default function Hero() {
       >
         <Image
           src="/images/dainisho/fate.jpg"
-          alt="名張の路地に立つ江戸川乱歩。昭和二十七年。"
+          alt="生誕地跡に立つ江戸川乱歩。昭和二十七年、名張にて。"
           fill
           className="object-cover object-center grayscale"
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-linear-to-b from-sumi/60 via-transparent to-sumi" />
       </motion.div>
+
+      {/* 写真のキャプション——像が結び終わる頃に、静かに添える */}
+      <motion.p
+        className="absolute bottom-32 left-6 text-xs tracking-[0.25em] text-kinari/50 md:left-10"
+        initial={reduce ? false : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={
+          reduce ? { duration: 0 } : { duration: 1.8, delay: INTRO_DELAY + 10.6, ease: "easeInOut" }
+        }
+      >
+        生誕地跡に立つ乱歩　——　昭和二十七年
+      </motion.p>
 
       {/* 言葉 */}
       <div className="absolute inset-0 flex items-center justify-center">
