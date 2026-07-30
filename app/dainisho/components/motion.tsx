@@ -35,7 +35,12 @@ export function FadeIn({
   );
 }
 
-/** 一文字ずつ、静かに現れる見出し。 */
+/**
+ * 一行ずつ、上から順に静かに現れる見出し。
+ * 各行が個別に画面入りを判定すると、スクロール速度によって
+ * 出現順が乱れる（速く読める行が先に出る等）。親コンテナ1つの
+ * 表示判定を基準に、Framer MotionのstaggerChildrenで配る。
+ */
 export function RevealLines({
   lines,
   className,
@@ -48,21 +53,42 @@ export function RevealLines({
   stagger?: number;
 }) {
   const reduce = useReducedMotion();
+
+  if (reduce) {
+    return (
+      <div className={className}>
+        {lines.map((line, i) => (
+          <p key={i} className={lineClassName}>
+            {line}
+          </p>
+        ))}
+      </div>
+    );
+  }
+
+  const container = {
+    hidden: {},
+    show: { transition: { staggerChildren: stagger } },
+  };
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { duration: 1.8, ease: EASE } },
+  };
+
   return (
-    <div className={className}>
+    <motion.div
+      className={className}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, margin: "-20% 0px -20% 0px" }}
+      variants={container}
+    >
       {lines.map((line, i) => (
-        <motion.p
-          key={i}
-          className={lineClassName}
-          initial={reduce ? false : { opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-20% 0px -20% 0px" }}
-          transition={{ duration: 1.8, delay: i * stagger, ease: EASE }}
-        >
+        <motion.p key={i} className={lineClassName} variants={item}>
           {line}
         </motion.p>
       ))}
-    </div>
+    </motion.div>
   );
 }
 
