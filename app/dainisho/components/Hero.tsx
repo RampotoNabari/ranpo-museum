@@ -19,14 +19,20 @@ export default function Hero() {
   // （sticky配下では計測が狂う）。useSpringと違い遅延を持たず、スクロール位置に1:1で追従する。
   const progress = useTransform(scrollYProgress, (v) => v);
 
-  const townScale = useTransform(progress, [0, 1], [1.08, 1.22]);
-  const townOpacity = useTransform(progress, [0.55, 0.8], [1, 0]);
-  const alleyOpacity = useTransform(progress, [0.6, 0.85], [0, 1]);
+  const townScale = useTransform(progress, [0, 1], [1.08, 1.26]);
+  const townOpacity = useTransform(progress, [0.58, 0.92], [1, 0]);
+
+  // 2枚目の路地写真は、ぼやけて大きく → 焦点が合って等倍に収まる、という
+  // 「像を結んでいく」動きで現れる。字幕2行目の消滅と地続きの、一つの演出。
+  const alleyOpacity = useTransform(progress, [0.6, 0.92], [0, 1]);
+  const alleyScale = useTransform(progress, [0.6, 0.92], [1.16, 1]);
+  const alleyBlurValue = useTransform(progress, [0.6, 0.86], [10, 0]);
+  const alleyBlur = useTransform(alleyBlurValue, (v) => `blur(${v}px)`);
 
   const line1Opacity = useTransform(progress, [0, 0.24, 0.34], [1, 1, 0]);
   const line1Y = useTransform(progress, [0, 0.34], [0, -40]);
-  const line2Opacity = useTransform(progress, [0.36, 0.46, 0.6, 0.7], [0, 1, 1, 0]);
-  const line2Y = useTransform(progress, [0.36, 0.7], [30, -30]);
+  const line2Opacity = useTransform(progress, [0.36, 0.46, 0.56, 0.66], [0, 1, 1, 0]);
+  const line2Y = useTransform(progress, [0.36, 0.66], [30, -30]);
 
   const hintOpacity = useTransform(progress, [0, 0.05], [1, 0]);
 
@@ -47,7 +53,10 @@ export default function Hero() {
         </motion.div>
 
         {/* 乱歩の路地 */}
-        <motion.div className="absolute inset-0" style={{ opacity: alleyOpacity }}>
+        <motion.div
+          className="absolute inset-0"
+          style={{ opacity: alleyOpacity, scale: alleyScale, filter: alleyBlur }}
+        >
           <Image
             src="/images/dainisho/fate.jpg"
             alt="名張の路地に立つ江戸川乱歩。昭和二十七年。"
