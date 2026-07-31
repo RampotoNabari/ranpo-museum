@@ -63,7 +63,7 @@ export default function Hero() {
 
       {/* 写真のキャプション——像が結び終わる頃に、静かに添える */}
       <motion.p
-        className="absolute bottom-32 left-6 text-xs tracking-[0.25em] text-kinari/50 md:left-10"
+        className="absolute bottom-32 left-6 text-sm tracking-[0.25em] text-kinari/90 md:left-10 md:text-base"
         initial={reduce ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={
