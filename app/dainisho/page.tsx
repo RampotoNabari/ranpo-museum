@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Serif_JP, Shippori_Mincho, Cormorant_Garamond } from "next/font/google";
 import Opening from "./components/Opening";
+import CreditScroll from "./components/CreditScroll";
 import Hero from "./components/Hero";
 import Origin from "./components/Origin";
 import Numbers from "./components/Numbers";
@@ -59,6 +60,7 @@ export default function Page() {
       className={`${notoSerif.variable} ${shippori.variable} ${cormorant.variable} dainisho-root grain antialiased`}
     >
       <Opening />
+      <CreditScroll />
       <Hero />
       <Origin />
       <Numbers />
