@@ -97,7 +97,7 @@ export default function Hero() {
               : { duration: 3.6, times: [0, 0.2, 0.75, 1], delay: INTRO_DELAY + 4.4, ease: "easeInOut" }
           }
         >
-          それを人は<span className="text-copper">運命</span>と呼ぶ。
+          人はそれを<span className="text-copper">運命</span>と呼ぶ。
         </motion.h2>
       </div>
 
