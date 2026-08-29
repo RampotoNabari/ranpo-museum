@@ -3,13 +3,18 @@
 import { useEffect } from "react";
 
 /**
- * ページを開いて5秒後から、5秒ごとに1画面分ずつ自動で下へスクロールしていく。
+ * 冒頭の Hero（自動再生シークエンス）を最後まで見せてから、
+ * ゆっくりと1画面分ずつ下へ自動スクロールしていく。
  * 最下部に達したら停止。読み手が自分でスクロール・タッチ・キー操作をした時点で
  * 以降は自動送りを止め、操作を邪魔しない。
  * prefers-reduced-motion 指定時は自動送りを行わない。
  */
-const START_DELAY = 5000;
-const STEP_INTERVAL = 5000;
+// Hero.tsx の映画的シークエンスは、題字の退場からキャプション・SCROLL誘いが
+// 出そろうまでで約18秒（INTRO_DELAY 4.6 + 11.4 + フェード 1.6）。
+// それを見届け、路地に立つ乱歩の写真を数秒ながめる余白をとってから動き出す。
+const START_DELAY = 22000;
+// 1画面ごとの間隔。読みながら追える速さでゆっくり送る。
+const STEP_INTERVAL = 9000;
 
 export default function AutoScroll() {
   useEffect(() => {
