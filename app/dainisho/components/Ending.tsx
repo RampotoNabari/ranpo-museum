@@ -5,8 +5,8 @@ import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { FadeIn } from "./motion";
 
-// TODO: クラウドファンディング公開時に実URLへ差し替え
-const SUPPORT_URL = "https://www.ranpomuseum.com";
+const SUPPORT_URL =
+  "https://readyfor.jp/projects/rampo2026?sns_share_token=&utm_source=pj_share_url&utm_medium=social";
 
 /** 結——「あなたも、この物語の続きを歩きませんか。」 */
 export default function Ending() {
