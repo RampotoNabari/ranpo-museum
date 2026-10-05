@@ -54,6 +54,21 @@ export default function Hakubaiken() {
           </p>
         </FadeIn>
 
+        <FadeIn delay={0.3} className="mt-20">
+          <figure className="relative aspect-4/3 overflow-hidden">
+            <Image
+              src="/images/dainisho/hakubaiken-yosou.jpg"
+              alt="白梅軒の予想図。雨上がりの夜、古い家の窓に灯りがともり、「白梅軒」「珈琲」の看板が浮かぶ。"
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 64rem"
+            />
+          </figure>
+          <p className="mt-6 text-right text-[11px] tracking-[0.3em] text-kinari/40">
+            ——白梅軒　予想図（イメージ）
+          </p>
+        </FadeIn>
+
         <FadeIn delay={0.2} className="mt-16">
           <p className="text-center text-sm leading-loose text-kinari/70">
             珈琲を一杯たのむと、あなたは物語の登場人物になります。<br />
